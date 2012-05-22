@@ -72,7 +72,7 @@ class BZ_SDK_Barzahlen extends BZ_SDK_Request {
    */
   public function setLanguage($language = 'de') {
 
-    $this->_language = $langauge;
+    $this->_language = $language;
   }
 
   /**
