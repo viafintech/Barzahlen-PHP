@@ -1,5 +1,5 @@
 <?php
-  require_once('../zi_barzahlen.php');
+  require_once('../loader.php');
 
   define('ShopId', '10483');
   define('PaymentKey', 'de74310368a4718a48e0e244fbf3e22e2ae117f2');
