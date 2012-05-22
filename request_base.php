@@ -19,26 +19,40 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL-3.0)
  */
 
-class BZ_SDK_Response {
-  
+abstract class Barzahlen_Request_Base extends Barzahlen_Base {
+
+  protected $_type; //!< request type
   protected $_xmlObj; //!< SimpleXMLElement
-  protected $_responseArray; //!< array with parsed data
+  protected $_xmlAttributes = array(); //!< expected xml nodes
+  protected $_xmlData = array(); //!< array with parsed xml data
 
-  protected $_createXml = array('transaction-id', 'payment-slip-link', 'expiration-notice',
-                                'infotext-1', 'infotext-2', 'result', 'hash'); //!< create xml content
+  abstract public function __construct();
+  abstract public function buildRequestArray($shopId, $language, array $customVar, $paymentKey);
 
-  protected $_refundXml = array('origin-transaction-id', 'refund-transaction-id', 'result', 'hash'); //!< refund xml content
-  
-  protected $_resendXml = array('transaction-id', 'result', 'hash'); //!< resend xml content
-  
+  /**
+   * Returns request type.
+   *
+   * @return type of request
+   */
+  public function getRequestType() {
+    return $this->_type;
+  }
+
+  /**
+   * Shows received xml data. Only for testing purpose.
+   */
+  public function getXmlData() {
+    var_dump($this->_xmlData);
+  }
+
   /**
    * Function to get response data out of received xml string.
    *
    * @param array $xmlResponse array with the response from the server
-   * @param string $responseType type of the request that led to response
+   * @param string $paymentKey merchants payment key
    * @return array with parsed xml data
    */
-  protected function _parseResponse($xmlResponse, $responseType) {
+  public function parseXml($xmlResponse, $paymentKey) {
 
     if(!is_string($xmlResponse) || $xmlResponse == '') {
       throw new Exception('No valid xml response received.');
@@ -46,17 +60,15 @@ class BZ_SDK_Response {
 
     $this->_xmlObj = new SimpleXMLElement($xmlResponse);
 
-    $this->_checkForError();
-    $this->_getAttributes($responseType);
-    $this->_checkHash();
-    
-    return $this->_responseArray;
+    $this->_getXmlError();
+    $this->_getXmlAttributes();
+    $this->_checkXmlHash($paymentKey);
   }
 
   /**
    * Checks if an error occurred.
    */
-  protected function _checkForError() {
+  protected function _getXmlError() {
 
     if($this->_xmlObj->{'result'} != 0) {
       throw new Exception('XML response contains an error: ' . $this->_xmlObj->{'error-message'});
@@ -68,44 +80,31 @@ class BZ_SDK_Response {
    *
    * @param string $responseType type for xml response
    */
-  protected function _getAttributes($responseType) {
-    
-    $this->_responseArray = array();
-    
-    switch ($responseType) {
-      case 'create':
-        $xmlArray = $this->_createXml;
-        break;
-      case 'refund':
-        $xmlArray = $this->_refundXml;
-        break;
-      case 'resend':
-        $xmlArray = $this->_resendXml;
-        break;
-      default:
-        throw new Exception('response - unable to handle response type');
-        break;
-    }
-    
-    foreach ($xmlArray as $attribute) {
-      $this->_responseArray[$attribute] = (string)$this->_xmlObj->{$attribute};
+  protected function _getXmlAttributes() {
+
+    $this->_xmlData = array();
+
+    foreach ($this->_xmlAttributes as $attribute) {
+      $this->_xmlData[$attribute] = (string)$this->_xmlObj->{$attribute};
     }
   }
 
   /**
    * Checks if hash is valid.
+   *
+   * @param string $paymentKey merchants payment key
    */
-  protected function _checkHash() {
+  protected function _checkXmlHash($paymentKey) {
 
-    $receivedHash = $this->_responseArray['hash'];
-    unset($this->_responseArray['hash']);
-    $generatedHash = $this->_createHash($this->_responseArray);
+    $receivedHash = $this->_xmlData['hash'];
+    unset($this->_xmlData['hash']);
+    $generatedHash = $this->_createHash($this->_xmlData, $paymentKey);
 
     if($receivedHash != $generatedHash){
       throw new Exception('response - xml hash not valid');
     }
-    
-    unset($this->_responseArray['result']);
+
+    unset($this->_xmlData['result']);
   }
 }
 ?>
