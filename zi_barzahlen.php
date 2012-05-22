@@ -19,10 +19,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL-3.0)
  */
 
-class barzahlen {
+require_once('zi_request.php');
+
+class BZ_SDK_Barzahlen extends BZ_SDK_Request {
 
   const HashAlgo = 'sha512'; //!< hash algorithm
   const Separator = ';'; //!< separator character
+  const MaxAttemps = 2; //!< maximum of allowed connection attempts
+  protected $_madeAttempts = 0; //!< performed attempts
 
   protected $_shopId; //!< merchants shop id
   protected $_paymentKey; //!< merchants payment key
@@ -83,8 +87,8 @@ class barzahlen {
   public function create($customerEmail, $orderId, $amount, $currency = 'EUR') {
 
     $transactionArray = $this->_createTransactionArray($customerEmail, $orderId, $amount, $currency);
-    $xmlResponse = $this->_sendRequest($transactionArray, 'create', $this->_sandbox);
-    return $this->_parseResponse($xmlResponse);
+    $xmlResponse = $this->_connectToApi($transactionArray, 'create', $this->_sandbox);
+    return $this->_parseResponse($xmlResponse, 'create');
   }
 
   /**
@@ -124,8 +128,8 @@ class barzahlen {
   public function refund($transactionId, $amount, $currency = 'EUR') {
 
     $refundArray = $this->_createRefundArray($transactionId, $amount, $currency);
-    $xmlResponse = $this->_sendRequest($refundArray, 'refund', $this->_sandbox);
-    return $this->_parseResponse($xmlResponse);
+    $xmlResponse = $this->_connectToApi($refundArray, 'refund', $this->_sandbox);
+    return $this->_parseResponse($xmlResponse, 'refund');
   }
 
   /**
@@ -158,8 +162,8 @@ class barzahlen {
   public function resend($transactionId) {
 
     $resendArray = $this->_createResendArray($transactionId);
-    $xmlResponse = $this->_sendRequest($resendArray, 'refund_email', $this->_sandbox);
-    return $this->_parseResponse($xmlResponse);
+    $xmlResponse = $this->_connectToApi($resendArray, 'resend_email', $this->_sandbox);
+    return $this->_parseResponse($xmlResponse, 'resend');
   }
 
   /**
@@ -188,9 +192,31 @@ class barzahlen {
   protected function _createHash(array $requestArray) {
 
     $requestArray[] = $this->_paymentKey;
-    $hashString = implode(Separator, $requestArray);
-    return hash(HashAlgo, $hashString);
+    $hashString = implode(self::Separator, $requestArray);
+    return hash(self::HashAlgo, $hashString);
+  }
+  
+  /**
+   * Connects to Barzahlen Api as long as there's a xml response or maximum attempts are reached.
+   *
+   * @param array $requestArray array with the information which shall be send via POST
+   * @param string $requestType type for request
+   * @param boolean $sandbox Sandbox settings (On / Off)
+   * @return xml response from Barzahlen
+   */
+  protected function _connectToApi(array $requestArray, $requestType, $sandbox) {
+   
+    $this->_madeAttempts++;
+   
+    try {
+      return $this->_sendRequest($requestArray, $requestType, $sandbox);
+    }
+    catch (Exception $e) {
+      if ($this->_madeAttempts >= self::MaxAttemps) {
+        throw $e;
+      }
+      return $this->_connectToApi($requestArray, $requestType, $sandbox);
+    }
   }
 }
-
 ?>
