@@ -1,0 +1,71 @@
+/*! \mainpage Barzahlen Software Development Kit for PHP
+ *
+ *
+ * \section prep_sec 1. Vorbereitung
+ * 
+ * \subsection V1 1.1 Händlerdaten
+ *
+ * <p>Die benötigten Händlerdaten, um Zahlungen über Bar zahlen abwickeln zu können erhalten Sie im Händlerbereich auf http://www.barzahlen.de/merchant-area/. Nach erfolgter Registrierung wird Ihnen eine Shop ID sowie Zahlungs- und Benachrichtigungsschlüssel zugewiesen. Weiterhin können Sie an dieser Stelle neben ihrer Shop-URL die Benachrichtigungs-URL einstellen, die Bar zahlen nutzt um Statusänderungen bezüglich Transaktionen und Rückzahlungen an das Zahlungsmodul zu senden, damit diese automatisch in ihren Shop eingetragen werden.</p><br/>
+ * 
+ *
+ * \subsection V2 1.2 Installation
+ *
+ * <p>Laden Sie das Barzahlen PHP SDK aus dem Händlerbereich herunter und entpacken Sie es in einen Ordner ihrer Wahl in ihrem Webshopsystem.
+ * Binden Sie den Loader ein. Damit stehen Ihnen alle Barzahlen SDK Klassen zur Verfügung.</p>
+ * <pre>require_once('loader.php');</pre> <br/>
+ *
+ *
+ * \section usage_sec 2. Anwendung
+ *
+ * <p>Es empfiehlt sich, API-Anfragen und Benachrichtigungsverifizierung mittels try-catch-Blöcken zu umschließen, da Fehler als Barzahlen_Exceptions geworfen werden, damit Sie ihm eingesetzten Webshop softwarespezifisch geloggt werden können.</p><br/>
+ *
+ * \subsection A1 2.1 Requests an Barzahlen senden
+ *
+ * <p>Erstellen Sie eine neue API-Klassen, welche Sie mit ihrer Shop ID und dem Zahlungsschlüssel initiieren. Zu Testzwecken können Sie den dritten Parameter, welcher optional ist und die Sandboxeinstellung darstellt, auf <em>true</em> setzen. Dieser Werte ist standardmäßig für den Produktivbetrieb auf <em>false</em> gesetzt. Erstellen Sie weiterhin ein Request-Objekt ihrer Wahl, z.B. einen Bezahlaufruf (Payment-Request). Jedes Request-Objekt benötigt zusätzliche Informationen, die mitinitiiert. Übergeben Sie anschließend das Request-Objekt an die API mit der Anweisung, den Request auszuführen.</p>
+ * 
+ *<pre>$api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);
+ *$payment = new Barzahlen_Request_Payment('mail@example.com', '13', '24.95');
+
+try {
+ *  $api->handleRequest($payment);
+ *}
+catch (Barzahlen_Exception $e) {
+ *  // Möglichkeit zum Error-Logging
+ *}</pre>
+ *
+ * <p>Nach erfolgreicher Abfrage können Sie die übermittelten Informationen beim Request-Objekt abfragen. Wahlweise einzeln oder als komplettes Array.</p>
+ * <pre>$payment->getTransactionId();
+ *$payment->getPaymentSlipLink();
+ *$payment->getExpirationNotice();
+ *$payment->getInfotext1();
+ *$payment->getInfotext2();
+ *
+ *$payment->getXmlArray();</pre>
+ *
+ * <p>Abfragen für Rückzahlungen und den erneuten E-Mail-Versand für Zahlscheine bzw. Auszahlscheine erfolgen in gleicher Weise.</p>
+ * <pre>$refund = new Barzahlen_Request_Refund('7238492', '24.95');
+ *$resend = new Barzahlen_Request_Resend('7238492');</pre><br/>
+ *
+ *
+ * \subsection A2 2.2 Notifications von Barzahlen empfangen
+ *
+ * <p>Laden Sie die Benachrichtungsklasse unter Verwendung ihrer persönlichen Shop ID, dem Benachrichtungsschlüssel und dem erhalten GET-Array.</p>
+ * <pre>$notification = new Barzahlen_Notification('10483', 'e5354004de1001f86004090d01982a6e05da1c12', $_GET);
+ *
+try {
+  $notification->validate();
+ *}
+catch (Barzahlen_Exception $e) {
+ *  // Möglichkeit zum Error-Logging
+ *}</pre>
+ * 
+ * <p>Ob die Benachrichtung valide war, können Sie mit $notification->isValid(); prüfen. Anschließend besteht die Möglichkeit die Informationen der Benachrichtigung auszugeben und zu verarbeiten.</p>
+ * <pre>$notification->getNotificationType();
+ *$notification->getTransactionId();
+ *$notification->getCustomVar1();
+...</pre><br/>
+ *
+ *
+ * \section support_sec 3. Support 
+ * <p>Das Team von Bar zahlen steht Ihnen bei jeglichen Fragen gern zur Verfügung.</p> * <p>Sie können uns eine E-Mail an support@barzahlen.de senden oder das Kontaktformular auf http://www.barzahlen.de verwenden. Ihre E-Mail wird daraufhin in unserem Ticket-System direkt dem zuständigen Mitarbeiter zugeordnet und bearbeitet.</p>
+ */
