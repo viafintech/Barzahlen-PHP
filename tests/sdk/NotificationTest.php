@@ -37,6 +37,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
     $_GET = array();
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
   }
 
   /**
@@ -50,6 +51,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                   'transaction_id' => '5');
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
   }
 
   /**
@@ -73,6 +75,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                    );
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
   }
 
   /**
@@ -96,6 +99,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                    );
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
   }
 
   /**
@@ -119,6 +123,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                    );
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
   }
 
   /**
@@ -140,6 +145,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                    );
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
 
     $this->assertTrue($this->notification->isValid());
     $this->assertEquals('payment', $this->notification->getNotificationType());
@@ -150,9 +156,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('24.95', $this->notification->getAmount());
     $this->assertEquals('EUR', $this->notification->getCurrency());
     $this->assertEquals('1', $this->notification->getOrderId());
-    $this->assertEquals('PHP SDK', $this->notification->getCustomVar1());
-    $this->assertEquals('Euro 2012', $this->notification->getCustomVar2());
-    $this->assertEquals('Barzahlen v.1.3.3.7', $this->notification->getCustomVar3());
+    $this->assertEquals('PHP SDK', $this->notification->getCustomVar0());
+    $this->assertEquals('Euro 2012', $this->notification->getCustomVar1());
+    $this->assertEquals('Barzahlen v.1.3.3.7', $this->notification->getCustomVar2());
     $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $this->notification->getCustomVar());
 
     unset($_GET['hash']);
@@ -179,6 +185,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                    );
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
 
     $this->assertTrue($this->notification->isValid());
     $this->assertEquals('refund', $this->notification->getNotificationType());
@@ -192,9 +199,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('EUR', $this->notification->getCurrency());
     $this->assertEquals(null, $this->notification->getOrderId());
     $this->assertEquals('1', $this->notification->getOriginOrderId());
-    $this->assertEquals('PHP SDK', $this->notification->getCustomVar1());
-    $this->assertEquals('Euro 2012', $this->notification->getCustomVar2());
-    $this->assertEquals('Barzahlen v.1.3.3.7', $this->notification->getCustomVar3());
+    $this->assertEquals('PHP SDK', $this->notification->getCustomVar0());
+    $this->assertEquals('Euro 2012', $this->notification->getCustomVar1());
+    $this->assertEquals('Barzahlen v.1.3.3.7', $this->notification->getCustomVar2());
     $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $this->notification->getCustomVar());
 
     unset($_GET['hash']);
@@ -210,4 +217,3 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
   }
 }
 ?>
-  

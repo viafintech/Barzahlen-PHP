@@ -85,4 +85,3 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
   }
 }
 ?>
-  
