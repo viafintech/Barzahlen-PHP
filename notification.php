@@ -19,12 +19,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL-3.0)
  */
 
-require_once('base.php');
-require_once('api.php');
-require_once('request_base.php');
-require_once('request_payment.php');
-require_once('request_refund.php');
-require_once('request_resend.php');
-require_once('exception.php');
-require_once('notification.php');
+class Barzahlen_Notification extends Barzahlen_Base {
+  
+}
 ?>

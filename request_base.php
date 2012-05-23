@@ -39,10 +39,18 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
   }
 
   /**
-   * Shows received xml data. Only for testing purpose.
+   * Returns a single value from the xml array or the whole array.
+   *
+   * @param string $attribute single attribute, that shall be returned
+   * @return single value if exists (else: null) or whole array
    */
-  public function getXmlData() {
-    var_dump($this->_xmlData);
+  public function getXmlArray($attribute = '') {
+
+    if($attribute != '') {
+      return array_key_exists($attribute, $this->_xmlData) ? $this->_xmlData[$attribute] : null;
+    }
+
+    return $this->_xmlData;
   }
 
   /**
@@ -55,7 +63,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
   public function parseXml($xmlResponse, $paymentKey) {
 
     if(!is_string($xmlResponse) || $xmlResponse == '') {
-      throw new Exception('No valid xml response received.');
+      throw new Barzahlen_Exception('No valid xml response received.');
     }
 
     $this->_xmlObj = new SimpleXMLElement($xmlResponse);
@@ -71,7 +79,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
   protected function _getXmlError() {
 
     if($this->_xmlObj->{'result'} != 0) {
-      throw new Exception('XML response contains an error: ' . $this->_xmlObj->{'error-message'});
+      throw new Barzahlen_Exception('XML response contains an error: ' . $this->_xmlObj->{'error-message'}, (int)$this->_xmlObj->{'result'});
     }
   }
 
@@ -101,7 +109,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
     $generatedHash = $this->_createHash($this->_xmlData, $paymentKey);
 
     if($receivedHash != $generatedHash){
-      throw new Exception('response - xml hash not valid');
+      throw new Barzahlen_Exception('response - xml hash not valid');
     }
 
     unset($this->_xmlData['result']);

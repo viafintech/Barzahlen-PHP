@@ -25,8 +25,9 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
    * Set everything that is needed for the testing up.
    */
   public function setUp() {
-    
-    $this->object = $this->getMock('BZ_SDK_Barzahlen', array('_sendRequest'), array(ShopId, PaymentKey, NotificationKey));
+
+    $this->api = $this->getMock('Barzahlen_Api', array('_sendRequest'), array(SHOPID, PAYMENTKEY));
+    $this->resend = new Barzahlen_Request_Resend('7691945');
   }
 
   /**
@@ -40,12 +41,30 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
               <result>0</result>
               <hash>d6b01ae78c6a7d1b6895b0cf08040095b5bd66c4f589556cfa591b956fa94bedfe032de843b17d36b7f865cb6689797cafa40c53815609217fa210e1b0ee9ee8</hash>
             </response>';
-    
-    $this->object->expects($this->once())
-                 ->method('_sendRequest')
-                 ->will($this->returnValue($xml));
-                
-    $this->object->resend('7691945');
+
+    $this->api->expects($this->once())
+              ->method('_sendRequest')
+              ->will($this->returnValue($xml));
+
+    $this->api->handleRequest($this->resend);
+
+    $this->assertEquals('7691945', $this->resend->getTransactionId());
+  }
+
+  /**
+   * Receive empty xml response for a resend request.
+   *
+   * @expectedException Barzahlen_Exception
+   */
+  public function testEmptyXmlResendResponse() {
+
+    $xml = '';
+
+    $this->api->expects($this->once())
+              ->method('_sendRequest')
+              ->will($this->returnValue($xml));
+
+    $this->api->handleRequest($this->resend);
   }
 
   /**
@@ -53,7 +72,8 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
    */
   protected function tearDown() {
 
-    unset($this->object);
+    unset($this->api);
+    unset($this->resend);
   }
 }
 ?>

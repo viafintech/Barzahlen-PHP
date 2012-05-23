@@ -55,5 +55,14 @@ class Barzahlen_Request_Resend extends Barzahlen_Request_Base {
 
     return $requestArray;
   }
+
+  /**
+   * Returns transaction id from xml array.
+   *
+   * @return received transaction id
+   */
+  public function getTransactionId() {
+    return $this->getXmlArray('transaction-id');
+  }
 }
 ?>
