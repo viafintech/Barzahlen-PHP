@@ -44,6 +44,12 @@ class Barzahlen_Notification extends Barzahlen_Base {
     $this->_shopId = $shopId;
     $this->_notificationKey = $notificationKey;
     $this->_receivedData = $receivedData;
+  }
+
+  /**
+   * Validates the received data. Throws exception when an error occurrs.
+   */
+  public function validate() {
 
     $this->_checkExistence();
     $this->_checkValues();
@@ -233,12 +239,21 @@ class Barzahlen_Notification extends Barzahlen_Base {
   }
 
   /**
+   * Returns customer var 0.
+   *
+   * @return string with custom var
+   */
+  public function getCustomVar0() {
+    return $this->getNotificationArray('custom_var_0');
+  }
+
+  /**
    * Returns customer var 1.
    *
    * @return string with custom var
    */
   public function getCustomVar1() {
-    return $this->getNotificationArray('custom_var_0');
+    return $this->getNotificationArray('custom_var_1');
   }
 
   /**
@@ -247,15 +262,6 @@ class Barzahlen_Notification extends Barzahlen_Base {
    * @return string with custom var
    */
   public function getCustomVar2() {
-    return $this->getNotificationArray('custom_var_1');
-  }
-
-  /**
-   * Returns customer var 3.
-   *
-   * @return string with custom var
-   */
-  public function getCustomVar3() {
     return $this->getNotificationArray('custom_var_2');
   }
 
@@ -265,7 +271,7 @@ class Barzahlen_Notification extends Barzahlen_Base {
    * @return array with custom variables
    */
   public function getCustomVar() {
-    return array($this->getCustomVar1(), $this->getCustomVar2(), $this->getCustomVar3());
+    return array($this->getCustomVar0(), $this->getCustomVar1(), $this->getCustomVar2());
   }
 }
 ?>
