@@ -63,5 +63,23 @@ class Barzahlen_Request_Refund extends Barzahlen_Request_Base {
 
     return $requestArray;
   }
+
+  /**
+   * Returns origin transaction id from xml array.
+   *
+   * @return received origin transaction id
+   */
+  public function getOriginTransactionId() {
+    return $this->getXmlArray('origin-transaction-id');
+  }
+
+  /**
+   * Returns refund transaction id from xml array.
+   *
+   * @return received refund transaction id
+   */
+  public function getRefundTransactionId() {
+    return $this->getXmlArray('refund-transaction-id');
+  }
 }
 ?>

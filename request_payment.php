@@ -72,5 +72,50 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
 
     return $requestArray;
   }
+
+  /**
+   * Returns transaction id from xml array.
+   *
+   * @return received transaction id
+   */
+  public function getTransactionId() {
+    return $this->getXmlArray('transaction-id');
+  }
+
+  /**
+   * Returns payment slip link from xml array.
+   *
+   * @return received payment slip link
+   */
+  public function getPaymentSlipLink() {
+    return $this->getXmlArray('payment-slip-link');
+  }
+
+  /**
+   * Returns expiration notice from xml array.
+   *
+   * @return received expiration notice
+   */
+  public function getExpirationNotice() {
+    return $this->getXmlArray('expiration-notice');
+  }
+
+  /**
+   * Returns infotext 1 from xml array.
+   *
+   * @return received infotext 1
+   */
+  public function getInfotext1() {
+    return $this->getXmlArray('infotext-1');
+  }
+
+  /**
+   * Returns infotext 2 from xml array.
+   *
+   * @return received infotext 2
+   */
+  public function getInfotext2() {
+    return $this->getXmlArray('infotext-2');
+  }
 }
 ?>

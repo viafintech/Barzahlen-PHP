@@ -19,12 +19,24 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL-3.0)
  */
 
-require_once('base.php');
-require_once('api.php');
-require_once('request_base.php');
-require_once('request_payment.php');
-require_once('request_refund.php');
-require_once('request_resend.php');
-require_once('exception.php');
-require_once('notification.php');
+class Barzahlen_Exception extends Exception {
+
+  /**
+   * Constructor to create exception, uses parent function.
+   */
+  public function __construct($message, $code = 0) {
+
+    parent::__construct($message, $code);
+  }
+
+  /**
+   * Output exception.
+   *
+   * @return string with error code and message
+   */
+  public function __toString() {
+
+    return __CLASS__ . ": [{$this->code}] - {$this->message}\n";
+  }
+}
 ?>

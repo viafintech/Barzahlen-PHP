@@ -21,14 +21,14 @@
 
 abstract class Barzahlen_Base {
 
-  //const ApiDomain = 'https://api.barzahlen.com/v1/transactions/'; //!< call domain (productive use)
-  //const ApiSandboxDomain = 'https://api-sandbox.barzahlen.com/v1/transactions/'; //!< sandbox call domain (productive use)
-  const ApiDomain = 'https://dev-test.bar-zahlen.net:901/v1/transactions/'; //!< call domain (dev)
-  const ApiSandboxDomain = 'https://api-online-sandbox.barzahlen.de:904/v1/transactions/'; //!< sandbox call domain (dev)
+  //const APIDOMAIN = 'https://api.barzahlen.com/v1/transactions/'; //!< call domain (productive use)
+  //const APISANDBOXDOMAIN = 'https://api-sandbox.barzahlen.com/v1/transactions/'; //!< sandbox call domain (productive use)
+  const APIDOMAIN = 'https://dev-test.bar-zahlen.net:901/v1/transactions/'; //!< call domain (dev)
+  const APISANDBOXDOMAIN = 'https://api-online-sandbox.barzahlen.de:904/v1/transactions/'; //!< sandbox call domain (dev)
 
-  const HashAlgo = 'sha512'; //!< hash algorithm
-  const Separator = ';'; //!< separator character
-  const MaxAttemps = 2; //!< maximum of allowed connection attempts
+  const HASHALGO = 'sha512'; //!< hash algorithm
+  const SEPARATOR = ';'; //!< separator character
+  const MAXATTEMPTS = 2; //!< maximum of allowed connection attempts
 
   /**
    * Generates the hash for the request array.
@@ -40,8 +40,8 @@ abstract class Barzahlen_Base {
   final protected function _createHash(array $hashArray, $key) {
 
     $hashArray[] = $key;
-    $hashString = implode(self::Separator, $hashArray);
-    return hash(self::HashAlgo, $hashString);
+    $hashString = implode(self::SEPARATOR, $hashArray);
+    return hash(self::HASHALGO, $hashString);
   }
 }
 ?>

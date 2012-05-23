@@ -93,7 +93,7 @@ class Barzahlen_Api extends Barzahlen_Base {
       return $this->_sendRequest($requestArray, $requestType);
     }
     catch (Exception $e) {
-      if ($this->_madeAttempts >= self::MaxAttemps) {
+      if ($this->_madeAttempts >= self::MAXATTEMPTS) {
         throw $e;
       }
       return $this->_connectToApi($requestArray, $requestType);
@@ -110,7 +110,7 @@ class Barzahlen_Api extends Barzahlen_Base {
    */
   protected function _sendRequest(array $requestArray, $requestType) {
 
-    $callDomain = $this->_sandbox ? self::ApiSandboxDomain.$requestType : self::ApiDomain.$requestType;
+    $callDomain = $this->_sandbox ? self::APISANDBOXDOMAIN.$requestType : self::APIDOMAIN.$requestType;
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $callDomain);
@@ -128,7 +128,7 @@ class Barzahlen_Api extends Barzahlen_Base {
     curl_close($ch);
 
     if($error != '') {
-      throw new Exception('Error during cURL: ' . $error);
+      throw new Barzahlen_Exception('Error during cURL: ' . $error);
     }
 
     return $return;
