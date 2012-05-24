@@ -21,6 +21,7 @@
 
 abstract class Barzahlen_Request_Base extends Barzahlen_Base {
 
+  protected $_isValid = false; //!< requests validity
   protected $_type; //!< request type
   protected $_xmlObj; //!< SimpleXMLElement
   protected $_xmlAttributes = array(); //!< expected xml nodes
@@ -36,6 +37,15 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
    */
   final public function getRequestType() {
     return $this->_type;
+  }
+
+  /**
+   * Gets state of validity.
+   *
+   * @return boolean if request response is valid
+   */
+  final public function isValid() {
+    return $this->_isValid;
   }
 
   /**
@@ -71,6 +81,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
     $this->_getXmlError();
     $this->_getXmlAttributes();
     $this->_checkXmlHash($paymentKey);
+    $this->_isValid = true;
   }
 
   /**

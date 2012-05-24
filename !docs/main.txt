@@ -33,7 +33,7 @@ catch (Barzahlen_Exception $e) {
  *  // Möglichkeit zum Error-Logging
  *}</pre>
  *
- * <p>Nach erfolgreicher Abfrage können Sie die übermittelten Informationen beim Request-Objekt abfragen. Wahlweise einzeln oder als komplettes Array.</p>
+ * <p>Nach erfolgreicher Abfrage (kann über $payment->isValid(); geprüft werden) können Sie die übermittelten Informationen beim Request-Objekt abfragen. Wahlweise einzeln oder als komplettes Array.</p>
  * <pre>$payment->getTransactionId();
  *$payment->getPaymentSlipLink();
  *$payment->getExpirationNotice();
