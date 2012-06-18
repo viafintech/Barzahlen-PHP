@@ -1,4 +1,4 @@
 .DS_Store
-\!docs/
 tests/cover/
 nbproject/
+/!docs/
