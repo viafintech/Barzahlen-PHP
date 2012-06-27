@@ -75,6 +75,7 @@ class Barzahlen_Notification extends Barzahlen_Base {
       $this->_notificationType = 'refund';
       foreach ($this->_originData as $attribute) {
         $this->_notficationData = str_replace($attribute, 'origin_' . $attribute, $this->_notficationData);
+        $this->_notficationData[] = 'refund_transaction_id';
       }
     }
 
@@ -95,11 +96,9 @@ class Barzahlen_Notification extends Barzahlen_Base {
     if($this->_notificationType == 'refund') {
       $invalid += !is_numeric($this->_receivedData['refund_transaction_id']);
       $invalid += !is_numeric($this->_receivedData['origin_transaction_id']);
-      $invalid += !is_numeric($this->_receivedData['origin_order_id']);
     }
     else {
       $invalid += !is_numeric($this->_receivedData['transaction_id']);
-      $invalid += !is_numeric($this->_receivedData['order_id']);
     }
 
     $invalid += $this->_shopId != $this->_receivedData['shop_id'];
@@ -116,12 +115,25 @@ class Barzahlen_Notification extends Barzahlen_Base {
   protected function _checkHash() {
 
     $receivedHash = $this->_receivedData['hash'];
-    unset($this->_receivedData['hash']);
+    $this->_cleanNotNecessaryAttributes();
     $generatedHash = $this->_createHash($this->_receivedData, $this->_notificationKey);
 
     if($receivedHash != $generatedHash){
       throw new Barzahlen_Exception('Notification hash is not valid.');
     }
+  }
+
+  /**
+   * Gets rid of additional $_GET attributes.
+   */
+  protected function _cleanNotNecessaryAttributes() {
+
+    foreach ($this->_receivedData as $attribute => $value) {
+      if(!in_array($attribute, $this->_notficationData)) {
+        unset($this->_receivedData[$attribute]);
+      }
+    }
+    unset($this->_receivedData['hash']);
   }
 
   /**
