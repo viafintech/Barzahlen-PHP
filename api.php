@@ -74,8 +74,11 @@ class Barzahlen_Api extends Barzahlen_Base {
   public function handleRequest($request) {
 
     $requestArray = $request->buildRequestArray($this->_shopId, $this->_language, $this->_customVar, $this->_paymentKey);
+    $this->_debug("API: Sending request array to Barzahlen.", $requestArray);
     $xmlResponse = $this->_connectToApi($requestArray, $request->getRequestType());
+    $this->_debug("API: Received XML response from Barzahlen.", $xmlResponse);
     $request->parseXml($xmlResponse, $this->_paymentKey);
+    $this->_debug("API: Parsed XML response and returned it to request object.", $request->getXmlArray());
   }
 
   /**

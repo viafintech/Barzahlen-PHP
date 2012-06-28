@@ -30,6 +30,35 @@ abstract class Barzahlen_Base {
   const SEPARATOR = ';'; //!< separator character
   const MAXATTEMPTS = 2; //!< maximum of allowed connection attempts
 
+  protected $_debug = false; //!< debog mode on / off
+  protected $_logFile; //!< log file for debug output
+
+  /**
+   * Sets debug settings.
+   *
+   * @param boolean $debug debug mode on / off
+   * @param string $logFile position of log file
+   */
+  final public function setDebug($debug, $logFile) {
+    $this->_debug = $debug;
+    $this->_logFile = $logFile;
+  }
+
+  /**
+   * Write debug message to log file.
+   *
+   * @param string $message debug message
+   * @param array $data related data (optional)
+   */
+  final protected function _debug($message, $data = array()) {
+
+    if($this->_debug == true) {
+      $time = date("[Y-m-d H:i:s] ");
+      $message .= $data != array() ? " | " . serialize($data) : "";
+      error_log($time. $message . "\r\r", 3, $this->_logFile);
+    }
+  }
+
   /**
    * Generates the hash for the request array.
    *
