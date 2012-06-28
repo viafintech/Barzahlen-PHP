@@ -97,7 +97,7 @@ class Barzahlen_Api extends Barzahlen_Base {
     }
     catch (Exception $e) {
       if ($this->_madeAttempts >= self::MAXATTEMPTS) {
-        throw $e;
+        throw new Barzahlen_Exception ($e->getMessage());
       }
       return $this->_connectToApi($requestArray, $requestType);
     }
