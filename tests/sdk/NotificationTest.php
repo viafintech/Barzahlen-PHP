@@ -181,7 +181,8 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'custom_var_0' => 'PHP SDK',
                  'custom_var_1' => 'Euro 2012',
                  'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5'
+                 'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5',
+                 'page' => 'ipn/barzahlen'
                    );
 
     $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
@@ -205,6 +206,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $this->notification->getCustomVar());
 
     unset($_GET['hash']);
+    unset($_GET['page']);
     $this->assertEquals($_GET, $this->notification->getNotificationArray());
   }
 

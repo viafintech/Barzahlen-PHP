@@ -50,6 +50,8 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
               ->method('_sendRequest')
               ->will($this->returnValue($xml));
 
+    $this->api->setDebug(true, __DIR__ . "/../barzahlen.log");
+
     $this->api->handleRequest($this->payment);
 
     $this->assertEquals('7690927', $this->payment->getTransactionId());
@@ -57,6 +59,7 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('Der Zahlschein ist 14 Tage gültig.', $this->payment->getExpirationNotice());
     $this->assertEquals('Hallo <b>Welt</b>! <a href="http://www.barzahlen.de">Bar zahlen</a> Infütöxt Äinß', $this->payment->getInfoText1());
     $this->assertEquals('Hallo <i>Welt</i>! <a href="http://www.barzahlen.de?a=b&c=d">Bar zahlen</a> Infütöxt 2% & so weiter', $this->payment->getInfoText2());
+    $this->assertTrue($this->payment->isValid());
   }
 
   /**
@@ -82,6 +85,22 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
               ->will($this->returnValue($xml));
 
     $this->api->handleRequest($this->payment);
+    $this->assertFalse($this->payment->isValid());
+  }
+
+  /**
+   * Error test for a payment request.
+   *
+   * @expectedException Barzahlen_Exception
+   */
+  public function testErrorXmlPaymentResponse() {
+
+    $this->api->expects($this->any())
+              ->method('_sendRequest')
+              ->will($this->throwException(new Exception("Timeout")));
+
+    $this->api->handleRequest($this->payment);
+    $this->assertFalse($this->payment->isValid());
   }
 
   /**
@@ -91,6 +110,7 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
 
     unset($this->api);
     unset($this->payment);
+    emptyLog();
   }
 }
 ?>

@@ -53,6 +53,7 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('7691945', $this->refund->getRefundTransactionId());
     $this->assertEquals(array('origin-transaction-id' => '7690927', 'refund-transaction-id' => '7691945'),
                         $this->refund->getXmlArray());
+    $this->assertTrue($this->refund->isValid());
   }
 
   /**
@@ -73,6 +74,7 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
               ->will($this->returnValue($xml));
 
     $this->api->handleRequest($this->refund);
+    $this->assertFalse($this->refund->isValid());
   }
 
   /**

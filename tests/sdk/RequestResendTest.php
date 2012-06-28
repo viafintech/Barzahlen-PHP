@@ -49,6 +49,7 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
     $this->api->handleRequest($this->resend);
 
     $this->assertEquals('7691945', $this->resend->getTransactionId());
+    $this->assertTrue($this->resend->isValid());
   }
 
   /**
@@ -65,6 +66,7 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
               ->will($this->returnValue($xml));
 
     $this->api->handleRequest($this->resend);
+    $this->assertFalse($this->resend->isValid());
   }
 
   /**
