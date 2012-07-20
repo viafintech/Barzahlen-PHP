@@ -123,7 +123,7 @@ class Barzahlen_Api extends Barzahlen_Base {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-    curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/certs/barzahlen_ca.pem');
+    curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/certs/ca-bundle.crt');
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 7);
     curl_setopt($ch, CURLOPT_HTTP_VERSION, 1.1);
     $return = curl_exec($ch);
