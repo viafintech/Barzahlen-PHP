@@ -5,7 +5,7 @@
  * 
  * \subsection V1 1.1 Händlerdaten
  *
- * <p>Die benötigten Händlerdaten, um Zahlungen über Bar zahlen abwickeln zu können erhalten Sie im Händlerbereich auf http://www.barzahlen.de/merchant-area/. Nach erfolgter Registrierung wird Ihnen eine Shop ID sowie Zahlungs- und Benachrichtigungsschlüssel zugewiesen. Weiterhin können Sie an dieser Stelle neben ihrer Shop-URL die Benachrichtigungs-URL einstellen, die Bar zahlen nutzt um Statusänderungen bezüglich Transaktionen und Rückzahlungen an das Zahlungsmodul zu senden, damit diese automatisch in ihren Shop eingetragen werden.</p><br/>
+ * <p>Die benötigten Händlerdaten, um Zahlungen über Barzahlen abwickeln zu können, erhalten Sie im Händlerbereich auf http://www.barzahlen.de/merchant-area/. Nach erfolgter Registrierung wird Ihnen eine Shop ID sowie Zahlungs- und Benachrichtigungsschlüssel zugewiesen. Weiterhin können Sie an dieser Stelle neben ihrer Shop-URL die Benachrichtigungs-URL einstellen, die Barzahlen nutzt um Statusänderungen bezüglich Transaktionen und Rückzahlungen an das Zahlungsmodul zu senden, damit diese automatisch in ihren Shop eingetragen werden.</p><br/>
  * 
  *
  * \subsection V2 1.2 Installation
@@ -17,7 +17,7 @@
  *
  * \section usage_sec 2. Anwendung
  *
- * <p>Es empfiehlt sich, API-Anfragen und Benachrichtigungsverifizierung mittels try-catch-Blöcken zu umschließen, da Fehler als Barzahlen_Exceptions geworfen werden, damit Sie ihm eingesetzten Webshop softwarespezifisch geloggt werden können.</p><br/>
+ * <p>Es empfiehlt sich, API-Anfragen und Benachrichtigungsverifizierung mittels try-catch-Blöcken zu umschließen, da Fehler als Barzahlen_Exceptions geworfen werden, damit Sie im eingesetzten Webshop softwarespezifisch geloggt werden können.</p><br/>
  *
  * \subsection A1 2.1 Requests an Barzahlen senden
  *
@@ -67,5 +67,5 @@ catch (Barzahlen_Exception $e) {
  *
  *
  * \section support_sec 3. Support 
- * <p>Das Team von Bar zahlen steht Ihnen bei jeglichen Fragen gern zur Verfügung.</p> * <p>Sie können uns eine E-Mail an support@barzahlen.de senden oder das Kontaktformular auf http://www.barzahlen.de verwenden. Ihre E-Mail wird daraufhin in unserem Ticket-System direkt dem zuständigen Mitarbeiter zugeordnet und bearbeitet.</p>
+ * <p>Das Team von Barzahlen steht Ihnen bei jeglichen Fragen gern zur Verfügung.</p> * <p>Sie können uns eine E-Mail an support@barzahlen.de senden oder das Kontaktformular auf http://www.barzahlen.de verwenden. Ihre E-Mail wird daraufhin in unserem Ticket-System direkt dem zuständigen Mitarbeiter zugeordnet und bearbeitet.</p>
  */
