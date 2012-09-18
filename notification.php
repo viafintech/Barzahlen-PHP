@@ -33,7 +33,7 @@ class Barzahlen_Notification extends Barzahlen_Base {
                                       'currency','order_id','custom_var_0','custom_var_1',
                                       'custom_var_2','hash'); //!< all necessary attributes for a valid notification
 
-  protected $_originData = array('transaction_id','order_id'); //!< numeric values for database queries
+  protected $_originData = array('transaction_id','order_id'); //!< origin values for refund notifications
 
   /**
    * Constructor. Sets basic settings.
@@ -93,21 +93,26 @@ class Barzahlen_Notification extends Barzahlen_Base {
    */
   protected function _checkValues() {
 
-    $invalid = 0;
-
     if($this->_notificationType == 'refund') {
-      $invalid += !is_numeric($this->_receivedData['refund_transaction_id']);
-      $invalid += !is_numeric($this->_receivedData['origin_transaction_id']);
+      if(!is_numeric($this->_receivedData['refund_transaction_id'])) {
+        throw new Barzahlen_Exception('Refund transaction id is not numeric.');
+      }
+      if(!is_numeric($this->_receivedData['origin_transaction_id'])) {
+        throw new Barzahlen_Exception('Origin transaction id is not numeric.');
+      }
     }
     else {
-      $invalid += !is_numeric($this->_receivedData['transaction_id']);
+      if(!is_numeric($this->_receivedData['transaction_id'])) {
+        throw new Barzahlen_Exception('Transaction id is not numeric.');
+      }
     }
 
-    $invalid += $this->_shopId != $this->_receivedData['shop_id'];
-    $invalid += !preg_match('/^(1000(\.00?)?|\d{1,3}(\.\d\d?)?)$/', $this->_receivedData['amount']);
+    if($this->_shopId != $this->_receivedData['shop_id']) {
+      throw new Barzahlen_Exception('Shop id doesn\'t match the given value.');
+    }
 
-    if($invalid > 0) {
-      throw new Barzahlen_Exception('Notification contains '. $invalid .' invalid values.');
+    if(!preg_match('/^(1000(\.00?)?|\d{1,3}(\.\d\d?)?)$/', $this->_receivedData['amount'])) {
+      throw new Barzahlen_Exception('Amount is no valid value.');
     }
   }
 
@@ -117,8 +122,8 @@ class Barzahlen_Notification extends Barzahlen_Base {
   protected function _checkHash() {
 
     $receivedHash = $this->_receivedData['hash'];
-    $this->_cleanNotNecessaryAttributes();
-    $generatedHash = $this->_createHash($this->_receivedData, $this->_notificationKey);
+    $hashArray = $this->_sortAttributes();
+    $generatedHash = $this->_createHash($hashArray, $this->_notificationKey);
 
     if($receivedHash != $generatedHash){
       throw new Barzahlen_Exception('Notification hash is not valid.');
@@ -128,14 +133,32 @@ class Barzahlen_Notification extends Barzahlen_Base {
   /**
    * Gets rid of additional $_GET attributes.
    */
-  protected function _cleanNotNecessaryAttributes() {
+  protected function _sortAttributes() {
 
-    foreach ($this->_receivedData as $attribute => $value) {
-      if(!in_array($attribute, $this->_notficationData)) {
-        unset($this->_receivedData[$attribute]);
-      }
+    $hashArray = array();
+    $hashArray[] = $this->_receivedData['state'];
+    if($this->_notificationType == 'refund') {
+      $hashArray[] = $this->_receivedData['refund_transaction_id'];
+      $hashArray[] = $this->_receivedData['origin_transaction_id'];
     }
-    unset($this->_receivedData['hash']);
+    else {
+      $hashArray[] = $this->_receivedData['transaction_id'];
+    }
+    $hashArray[] = $this->_receivedData['shop_id'];
+    $hashArray[] = $this->_receivedData['customer_email'];
+    $hashArray[] = $this->_receivedData['amount'];
+    $hashArray[] = $this->_receivedData['currency'];
+    if($this->_notificationType == 'refund') {
+      $hashArray[] = $this->_receivedData['origin_order_id'];
+    }
+    else {
+      $hashArray[] = $this->_receivedData['order_id'];
+    }
+    $hashArray[] = $this->_receivedData['custom_var_0'];
+    $hashArray[] = $this->_receivedData['custom_var_1'];
+    $hashArray[] = $this->_receivedData['custom_var_2'];
+
+    return $hashArray;
   }
 
   /**
