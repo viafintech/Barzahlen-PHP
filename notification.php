@@ -89,7 +89,7 @@ class Barzahlen_Notification extends Barzahlen_Base {
   }
 
   /**
-   * Checks that all numeric attributes are numeric.
+   * Checks that attribute values are as expected.
    */
   protected function _checkValues() {
 
@@ -131,7 +131,9 @@ class Barzahlen_Notification extends Barzahlen_Base {
   }
 
   /**
-   * Gets rid of additional $_GET attributes.
+   * Puts $_GET attributes in the right order.
+   * 
+   * @return array for hash generation
    */
   protected function _sortAttributes() {
 
