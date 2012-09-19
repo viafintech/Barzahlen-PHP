@@ -17,7 +17,7 @@
  *
  * \section usage_sec 2. Anwendung
  *
- * <p>Es empfiehlt sich, API-Anfragen und Benachrichtigungsverifizierung mittels try-catch-Blöcken zu umschließen, da Fehler als Barzahlen_Exceptions geworfen werden, damit Sie im eingesetzten Webshop softwarespezifisch geloggt werden können.</p><br/>
+ * <p>Es empfiehlt sich, API-Anfragen und Benachrichtigungsverifizierung mittels try-catch-Blöcken zu umschließen, da Fehler als Exceptions geworfen werden, damit Sie im eingesetzten Webshop softwarespezifisch geloggt werden können.</p><br/>
  *
  * \subsection A1 2.1 Requests an Barzahlen senden
  *
@@ -29,7 +29,7 @@
 try {
  *  $api->handleRequest($payment);
  *}
-catch (Barzahlen_Exception $e) {
+catch (Exception $e) {
  *  // Möglichkeit zum Error-Logging
  *}</pre>
  *
@@ -55,7 +55,7 @@ catch (Barzahlen_Exception $e) {
 try {
   $notification->validate();
  *}
-catch (Barzahlen_Exception $e) {
+catch (Exception $e) {
  *  // Möglichkeit zum Error-Logging
  *}</pre>
  * 
