@@ -17,7 +17,7 @@
  * along with this program.  If not, see http://www.gnu.org/licenses/
  *
  * @copyright   Copyright (c) 2012 Zerebro Internet GmbH (http://www.barzahlen.de)
- * @author      Alexander Diebler (alexander.diebler@barzahlen.de)
+ * @author      Alexander Diebler
  * @license     http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  */
 
