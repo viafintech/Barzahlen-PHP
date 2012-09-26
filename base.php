@@ -17,16 +17,14 @@
  * along with this program.  If not, see http://www.gnu.org/licenses/
  *
  * @copyright   Copyright (c) 2012 Zerebro Internet GmbH (http://www.barzahlen.de)
- * @author      Alexander Diebler (alexander.diebler@barzahlen.de)
+ * @author      Alexander Diebler
  * @license     http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  */
 
 abstract class Barzahlen_Base {
 
-  //const APIDOMAIN = 'https://api.barzahlen.de/v1/transactions/'; //!< call domain (productive use)
-  //const APISANDBOXDOMAIN = 'https://api-sandbox.barzahlen.de/v1/transactions/'; //!< sandbox call domain (productive use)
-  const APIDOMAIN = 'https://api-staging.barzahlen.de/v1/transactions/'; //!< call domain (dev)
-  const APISANDBOXDOMAIN = 'https://api-sandbox-staging.barzahlen.de/v1/transactions/'; //!< sandbox call domain (dev)
+  const APIDOMAIN = 'https://api.barzahlen.de/v1/transactions/'; //!< call domain (productive use)
+  const APIDOMAINSANDBOX = 'https://api-sandbox.barzahlen.de/v1/transactions/'; //!< sandbox call domain
 
   const HASHALGO = 'sha512'; //!< hash algorithm
   const SEPARATOR = ';'; //!< separator character
