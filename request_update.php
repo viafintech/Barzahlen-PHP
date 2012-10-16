@@ -21,21 +21,24 @@
  * @license     http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  */
 
-class Barzahlen_Request_Resend extends Barzahlen_Request_Base {
+class Barzahlen_Request_Update extends Barzahlen_Request_Base {
 
-  protected $_type = 'resend_email'; //!< request type
+  protected $_type = 'update'; //!< request type
   protected $_transactionId; //!< origin transaction id
+  protected $_orderId; //!< order id
 
-  protected $_xmlAttributes = array('transaction-id', 'result', 'hash'); //!< resend xml content
+  protected $_xmlAttributes = array('transaction-id', 'result', 'hash'); //!< update xml content
 
   /**
    * Construtor to set variable request settings.
    *
    * @param string $transactionId origin transaction id
+   * @param string $orderId order id
    */
-  public function __construct($transactionId) {
+  public function __construct($transactionId, $orderId) {
 
     $this->_transactionId = $transactionId;
+    $this->_orderId = $orderId;
   }
 
   /**
@@ -45,14 +48,14 @@ class Barzahlen_Request_Resend extends Barzahlen_Request_Base {
    * @param string $paymentKey merchants payment key
    * @param string $language langauge code (ISO 639-1)
    * @param array $customVar custom variables from merchant
-   * @return array for resend request
+   * @return array for update request
    */
   public function buildRequestArray($shopId, $paymentKey, $language, array $customVar) {
 
     $requestArray = array();
     $requestArray['shop_id'] = $shopId;
     $requestArray['transaction_id'] = $this->_transactionId;
-    $requestArray['language'] = $language;
+    $requestArray['order_id'] = $this->_orderId;
     $requestArray['hash'] = $this->_createHash($requestArray, $paymentKey);
 
     return $requestArray;

@@ -48,12 +48,12 @@ class Barzahlen_Request_Refund extends Barzahlen_Request_Base {
    * Builds array for request.
    *
    * @param string $shopId merchants shop id
+   * @param string $paymentKey merchants payment key
    * @param string $language langauge code (ISO 639-1)
    * @param array $customVar custom variables from merchant
-   * @param string $paymentKey merchants payment key
    * @return array for refund request
    */
-  public function buildRequestArray($shopId, $language, array $customVar, $paymentKey) {
+  public function buildRequestArray($shopId, $paymentKey, $language, array $customVar) {
 
     $requestArray = array();
     $requestArray['shop_id'] = $shopId;
