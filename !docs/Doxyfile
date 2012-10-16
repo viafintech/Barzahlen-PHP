@@ -32,7 +32,7 @@ PROJECT_NAME           = "Barzahlen PHP SDK"
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = v1.0
+PROJECT_NUMBER         = v1.1.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description 
 # for a project that appears at the top of each page and should give viewer 
@@ -1635,7 +1635,7 @@ PERL_PATH              = /usr/bin/perl
 # this option also works with HAVE_DOT disabled, but it is recommended to 
 # install and use dot, since it yields more powerful graphs.
 
-CLASS_DIAGRAMS         = NO
+CLASS_DIAGRAMS         = YES
 
 # You can define message sequence charts within doxygen comments using the \msc 
 # command. Doxygen will then run the mscgen tool (see 
@@ -1679,7 +1679,7 @@ DOT_FONTNAME           = Helvetica
 # The DOT_FONTSIZE tag can be used to set the size of the font of dot graphs. 
 # The default size is 10pt.
 
-DOT_FONTSIZE           = 10
+DOT_FONTSIZE           = 12
 
 # By default doxygen will tell dot to use the Helvetica font. 
 # If you specify a different font using DOT_FONTNAME you can use DOT_FONTPATH to 

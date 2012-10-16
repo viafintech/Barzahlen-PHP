@@ -29,7 +29,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
   protected $_xmlAttributes = array(); //!< expected xml nodes
   protected $_xmlData = array(); //!< array with parsed xml data
 
-  abstract public function buildRequestArray($shopId, $language, array $customVar, $paymentKey);
+  abstract public function buildRequestArray($shopId, $paymentKey, $language, array $customVar);
 
   /**
    * Returns request type.

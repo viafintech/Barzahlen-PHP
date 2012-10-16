@@ -25,6 +25,9 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
 
   protected $_type = 'create'; //!< request type
   protected $_customerEmail; //!< customers e-mail address
+  protected $_customerStreetNr; //!< customers e-mail address
+  protected $_customerZipcode; //!< customers e-mail address
+  protected $_customerCity; //!< customers e-mail address
   protected $_orderId; //!< order id
   protected $_amount; //!< payment amount
   protected $_currency; //!< currency of payment (ISO 4217)
@@ -36,29 +39,34 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
    * Construtor to set variable request settings.
    *
    * @param string $customerEmail customers e-mail address
-   * @param string $orderId order id
+   * @param string $customerStreetNr customers street and house number
+   * @param string $customerZipcode customers zip code
+   * @param string $customerCity customers city name
    * @param string $amount payment amount
    * @param string $currency currency of payment (ISO 4217)
-   * @return
+   * @param string $orderId order id
    */
-  public function __construct($customerEmail, $orderId, $amount, $currency = 'EUR') {
+  public function __construct($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $amount, $currency = 'EUR', $orderId = '') {
 
     $this->_customerEmail = $customerEmail;
-    $this->_orderId = $orderId;
+    $this->_customerStreetNr = $customerStreetNr;
+    $this->_customerZipcode = $customerZipcode;
+    $this->_customerCity = $customerCity;
     $this->_amount = $amount;
     $this->_currency = $currency;
+    $this->_orderId = $orderId;
   }
 
   /**
    * Builds array for request.
    *
    * @param string $shopId merchants shop id
+   * @param string $paymentKey merchants payment key
    * @param string $language langauge code (ISO 639-1)
    * @param array $customVar custom variables from merchant
-   * @param string $paymentKey merchants payment key
    * @return array for payment request
    */
-  public function buildRequestArray($shopId, $language, array $customVar, $paymentKey) {
+  public function buildRequestArray($shopId, $paymentKey, $language, array $customVar) {
 
     $requestArray = array();
     $requestArray['shop_id'] = $shopId;
@@ -67,6 +75,9 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
     $requestArray['currency'] = $this->_currency;
     $requestArray['language'] = $language;
     $requestArray['order_id'] = $this->_orderId;
+    $requestArray['customer_street_nr'] = $this->_customerStreetNr;
+    $requestArray['customer_zipcode'] = $this->_customerZipcode;
+    $requestArray['customer_city'] = $this->_customerCity;
     $requestArray['custom_var_0'] = $customVar[0];
     $requestArray['custom_var_1'] = $customVar[1];
     $requestArray['custom_var_2'] = $customVar[2];
