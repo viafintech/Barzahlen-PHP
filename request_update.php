@@ -58,6 +58,7 @@ class Barzahlen_Request_Update extends Barzahlen_Request_Base {
     $requestArray['order_id'] = $this->_orderId;
     $requestArray['hash'] = $this->_createHash($requestArray, $paymentKey);
 
+    $this->_removeEmptyValues($requestArray);
     return $requestArray;
   }
 

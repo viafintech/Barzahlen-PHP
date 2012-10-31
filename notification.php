@@ -30,8 +30,7 @@ class Barzahlen_Notification extends Barzahlen_Base {
   protected $_notificationType = 'payment'; //!< type of notification (payment or refund)
 
   protected $_notficationData = array('state','transaction_id','shop_id','customer_email','amount',
-                                      'currency','order_id','custom_var_0','custom_var_1',
-                                      'custom_var_2','hash'); //!< all necessary attributes for a valid notification
+                                      'currency','hash'); //!< all necessary attributes for a valid notification
 
   protected $_originData = array('transaction_id','order_id'); //!< origin values for refund notifications
 
@@ -111,7 +110,7 @@ class Barzahlen_Notification extends Barzahlen_Base {
       throw new Barzahlen_Exception('Shop id doesn\'t match the given value.');
     }
 
-    if(!preg_match('/^(1000(\.00?)?|\d{1,3}(\.\d\d?)?)$/', $this->_receivedData['amount'])) {
+    if(!preg_match('/^\d{1,3}(\.\d\d?)?$/', $this->_receivedData['amount'])) {
       throw new Barzahlen_Exception('Amount is no valid value.');
     }
   }
@@ -151,14 +150,14 @@ class Barzahlen_Notification extends Barzahlen_Base {
     $hashArray[] = $this->_receivedData['amount'];
     $hashArray[] = $this->_receivedData['currency'];
     if($this->_notificationType == 'refund') {
-      $hashArray[] = $this->_receivedData['origin_order_id'];
+      $hashArray[] = isset($this->_receivedData['origin_order_id']) ? $this->_receivedData['origin_order_id'] : '';
     }
     else {
-      $hashArray[] = $this->_receivedData['order_id'];
+      $hashArray[] = isset($this->_receivedData['order_id']) ? $this->_receivedData['order_id'] : '';
     }
-    $hashArray[] = $this->_receivedData['custom_var_0'];
-    $hashArray[] = $this->_receivedData['custom_var_1'];
-    $hashArray[] = $this->_receivedData['custom_var_2'];
+    $hashArray[] = isset($this->_receivedData['custom_var_0']) ? $this->_receivedData['custom_var_0'] : '';
+    $hashArray[] = isset($this->_receivedData['custom_var_1']) ? $this->_receivedData['custom_var_1'] : '';
+    $hashArray[] = isset($this->_receivedData['custom_var_2']) ? $this->_receivedData['custom_var_2'] : '';
 
     return $hashArray;
   }
