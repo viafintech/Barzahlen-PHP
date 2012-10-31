@@ -29,7 +29,7 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
   public function setUp() {
 
     $this->api = $this->getMock('Barzahlen_Api', array('_sendRequest'), array(SHOPID, PAYMENTKEY));
-    $this->payment = new Barzahlen_Request_Payment('foo@bar.com', 'Musterstr. 1a', '12345', 'Musterhausen', '24.95');
+    $this->payment = new Barzahlen_Request_Payment('foo@bar.com', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95');
   }
 
   /**

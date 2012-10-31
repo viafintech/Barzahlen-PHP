@@ -63,6 +63,7 @@ class Barzahlen_Request_Refund extends Barzahlen_Request_Base {
     $requestArray['language'] = $language;
     $requestArray['hash'] = $this->_createHash($requestArray, $paymentKey);
 
+    $this->_removeEmptyValues($requestArray);
     return $requestArray;
   }
 

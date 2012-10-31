@@ -286,6 +286,47 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Test function with valid expired notification without custom vars.
+   */
+  public function testValidExpiredShortNotification() {
+
+   $_GET = array('state' => 'expired',
+                 'transaction_id' => '1',
+                 'shop_id' => '10483',
+                 'customer_email' => 'foo@bar.com',
+                 'amount' => '24.95',
+                 'currency' => 'EUR',
+                 'order_id' => '1',
+                 'hash' => '48cad9d7f1f19ce612212b1717b43ca0f2e2ff2589b16d28d82a94ab6f5ade4ff69f551b1c2d9f6f8fff726609b04c91c08951d417e3c64e724f8a7722085df6'
+                   );
+
+    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
+    $this->assertTrue($this->notification->isValid());
+  }
+
+  /**
+   * Test function with valid refund notification without custom vars and origin order id.
+   */
+  public function testValidShortRefundNotification() {
+
+   $_GET = array('state' => 'refund_completed',
+                 'refund_transaction_id' => '1',
+                 'origin_transaction_id' => '1',
+                 'shop_id' => '10483',
+                 'customer_email' => 'foo@bar.com',
+                 'amount' => '24.95',
+                 'currency' => 'EUR',
+                 'hash' => 'da5ec940ce1be06fab76f96aa192953db093e0997f0c5e62a5e47ebde3b1f5791daf29fe5eafeea176f07c07e470bae8d9ced710bfd90f62dd238bf621d20717',
+                 'page' => 'ipn/barzahlen'
+                 );
+
+    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $this->notification->validate();
+    $this->assertTrue($this->notification->isValid());
+  }
+
+  /**
    * Unset everything before the next test.
    */
   protected function tearDown() {
