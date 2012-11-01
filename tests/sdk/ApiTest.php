@@ -38,28 +38,9 @@ class ApiTest extends PHPUnit_Framework_TestCase {
 
     $this->assertAttributeEquals(SHOPID, '_shopId', $this->api);
     $this->assertAttributeEquals(PAYMENTKEY, '_paymentKey', $this->api);
-    $this->assertAttributeEquals(array('', '', ''), '_customVar', $this->api);
     $this->assertAttributeEquals('de', '_language', $this->api);
     $this->assertAttributeEquals(false, '_sandbox', $this->api);
     $this->assertAttributeEquals(0, '_madeAttempts', $this->api);
-  }
-
-  /**
-   * Tests different custom variable settings.
-   */
-  public function testCustomVarSetter() {
-
-    $this->api->setCustomVar('ABC', '{{}}');
-    $this->assertAttributeEquals(array('ABC', '{{}}', ''), '_customVar', $this->api);
-
-    $this->api->setCustomVar('Mein Shopsystem');
-    $this->assertAttributeEquals(array('Mein Shopsystem', '', ''), '_customVar', $this->api);
-
-    $this->api->setCustomVar('Mein Shopsystem', 'xt:Commerce', 'Magento');
-    $this->assertAttributeEquals(array('Mein Shopsystem', 'xt:Commerce', 'Magento'), '_customVar', $this->api);
-
-    $this->api->setCustomVar();
-    $this->assertAttributeEquals(array('', '', ''), '_customVar', $this->api);
   }
 
   /**

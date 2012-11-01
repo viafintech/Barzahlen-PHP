@@ -47,7 +47,7 @@ class Barzahlen_Request_Resend extends Barzahlen_Request_Base {
    * @param array $customVar custom variables from merchant
    * @return array for resend request
    */
-  public function buildRequestArray($shopId, $paymentKey, $language, array $customVar) {
+  public function buildRequestArray($shopId, $paymentKey, $language) {
 
     $requestArray = array();
     $requestArray['shop_id'] = $shopId;
