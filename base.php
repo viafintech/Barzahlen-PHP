@@ -23,10 +23,8 @@
 
 abstract class Barzahlen_Base {
 
-  //const APIDOMAIN = 'https://api.barzahlen.de/v1/transactions/'; //!< call domain (productive use)
-  //const APIDOMAINSANDBOX = 'https://api-sandbox.barzahlen.de/v1/transactions/'; //!< sandbox call domain (productive use)
-  const APIDOMAIN = 'https://api-staging.barzahlen.de/v1/transactions/'; //!< call domain (dev)
-  const APIDOMAINSANDBOX = 'https://api-sandbox-staging.barzahlen.de/v1/transactions/'; //!< sandbox call domain (dev)
+  const APIDOMAIN = 'https://api.barzahlen.de/v1/transactions/'; //!< call domain (productive use)
+  const APIDOMAINSANDBOX = 'https://api-sandbox.barzahlen.de/v1/transactions/'; //!< sandbox call domain
 
   const HASHALGO = 'sha512'; //!< hash algorithm
   const SEPARATOR = ';'; //!< separator character

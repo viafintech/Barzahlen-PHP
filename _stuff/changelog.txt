@@ -1,7 +1,6 @@
 ==1.1.0 (16.10.2012)==
-* Adjusting to new API specification
-* Updated Payment_Request to enable store locations on payment slip
-* Added Update_Request to set order id after payment creation
+* implemented new api geocoding feature to get the closest points of sales
+* added update request to set order id after create request
 
 ==1.0.0 (26.09.2012)==
-* Initial Release
+* initial release
