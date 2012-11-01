@@ -1,4 +1,5 @@
 .DS_Store
 tests/cover/
 nbproject/
-/!docs/
+/!docs/html/
+/!docs/latex/

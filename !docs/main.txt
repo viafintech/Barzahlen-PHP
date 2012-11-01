@@ -1,29 +1,28 @@
 /*! \mainpage Barzahlen Software Development Kit for PHP
  *
  *
- * \section prep_sec 1. Vorbereitung
- * 
- * \subsection V1 1.1 Händlerdaten
+ * \section prep_sec 1. Preparation
  *
- * <p>Die benötigten Händlerdaten, um Zahlungen über Barzahlen abwickeln zu können, erhalten Sie im Händlerbereich auf https://www.barzahlen.de/merchant-area/. Nach erfolgter Registrierung wird Ihnen eine Shop ID sowie Zahlungs- und Benachrichtigungsschlüssel zugewiesen. Weiterhin können Sie an dieser Stelle neben ihrer Shop-URL die Benachrichtigungs-URL einstellen, die Barzahlen nutzt um Statusänderungen bezüglich Transaktionen und Rückzahlungen an das Zahlungsmodul zu senden, damit diese automatisch in ihren Shop eingetragen werden.</p>
- * 
+ * \subsection V1 1.1 Merchant Data
+ *
+ * <p>The merchant credentials, which are necessary to handle payment with Barzahlen, can be received at https://partner.barzahlen.de. After a successful registration a shop id is assigned to you as well as payment and notification key. Furthermore you can set you callback url, which is used to send updates on payment and refund transactions.</p>
+ *
  *
  * \subsection V2 1.2 Installation
  *
- * <p>Laden Sie das Barzahlen PHP SDK aus dem Händlerbereich herunter und entpacken Sie es in einen Ordner ihrer Wahl in ihrem Webshopsystem.
- * Binden Sie den Loader ein. Damit stehen Ihnen alle Barzahlen SDK Klassen zur Verfügung.</p>
+ * <p>Download the Barzahlen PHP SDK and unzip it to a directory of your choice in your online shop system. Include the loader so you have access to all Barzahlen SDK classes.</p>
  *<pre>
   require_once('loader.php');
   </pre>
  *
- * \section usage_sec 2. Anwendung
+ * \section usage_sec 2. Usage
  *
- * <p>Es empfiehlt sich, API-Anfragen und Benachrichtigungsverifizierung mittels try-catch-Blöcken zu umschließen, da Fehler als Exceptions geworfen werden, damit Sie im eingesetzten Webshop softwarespezifisch geloggt werden können.</p>
+ * <p>It's recommended to surround api requests and notifications with try-catch-blocks since errors are thrown as exceptions so they can be logged as required by the system.</p>
  *
- * \subsection A1 2.1 Anfragen an Barzahlen senden
+ * \subsection A1 2.1 Sending Requests to Barzahlen
  *
- * <p>Erstellen Sie eine neue API-Klassen, welche Sie mit ihrer Shop ID und dem Zahlungsschlüssel initiieren. Zu Testzwecken können Sie den dritten Parameter, welcher optional ist und die Sandboxeinstellung darstellt, auf <em>true</em> setzen. Dieser Werte ist standardmäßig für den Produktivbetrieb auf <em>false</em> gesetzt. Erstellen Sie weiterhin ein Request-Objekt ihrer Wahl, z.B. einen Bezahlaufruf (Payment-Request). Jedes Request-Objekt benötigt zusätzliche Informationen, die mitinitiiert. Übergeben Sie anschließend das Request-Objekt an die API mit der Anweisung, den Request auszuführen.</p>
- * 
+ * <p>Create a new api object, which you initiate with your unique shop id and payment key. For testing purpose you can set the third, optional parameter, which handles the sandbox setting, to <em>true</em>. By default this parameter is set to <em>false</em>. Create a request object of your choice, e.g. a payment request. Every request object needs additional information. Following this, pass the request object to the api object with the order to handle the request.</p>
+ *
  *<pre>
   $api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);
   $payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $orderAmount[, $currency[, $orderId]]);
@@ -32,43 +31,43 @@
     $api->handleRequest($payment);
   }
   catch (Exception $e) {
-    // Möglichkeit zum Error-Logging
+    // possibility for error logging
   }
   </pre>
 
- * <p>Nach erfolgreicher Abfrage (kann über $payment->isValid(); geprüft werden) können Sie die übermittelten Informationen beim Request-Objekt abfragen. Wahlweise einzeln oder als komplettes Array.</p>
+ * <p>After a successful request (can be check by $payment->isValid()) the received information can be taken from the request object. Either one by one or as an complete array.</p>
  *<pre>
   $payment->getTransactionId();
   $payment->getPaymentSlipLink();
   $payment->getExpirationNotice();
   $payment->getInfotext1();
   $payment->getInfotext2();
-  
+
   $payment->getXmlArray();
   </pre>
  *
- * <p>Sofern vor der Zahlscheinabfrage noch keine Bestellnummer verfügbar war, kann diese nachträglich geändert werden. Erstellen Sie dazu ein Request_Update-Objekt, welches Sie an die API übergeben. Abfragen für Rückzahlungen und den erneuten E-Mail-Versand für Zahlscheine bzw. Auszahlscheine erfolgen in gleicher Weise.</p>
+ * <p>If there was no order id available before the payment request, it can be updated later on. Therefore create an update object which you pass to the api object. Requests for refunds and e-mail resending are done in the same way.</p>
  *<pre>
   $update = new Barzahlen_Request_Update($transactionId, $orderId);
   $refund = new Barzahlen_Request_Refund($transactionId, $refundAmount);
   $resend = new Barzahlen_Request_Resend($transactionId);
   </pre>
  *
- * \subsection A2 2.2 Benachrichtigungen von Barzahlen empfangen
+ * \subsection A2 2.2 Receive Notifications from Barzahlen
  *
- * <p>Laden Sie die Benachrichtungsklasse unter Verwendung ihrer persönlichen Shop ID, dem Benachrichtungsschlüssel und dem erhalten GET-Array.</p>
+ * <p>Create a notification object using your private shop id and notification key as well as the received GET array.</p>
  *<pre>
   $notification = new Barzahlen_Notification('10483', 'e5354004de1001f86004090d01982a6e05da1c12', $_GET);
-  
+
   try {
     $notification->validate();
   }
   catch (Exception $e) {
-    // Möglichkeit zum Error-Logging
+    // possibility for error logging
   }
   </pre>
- * 
- * <p>Ob die Benachrichtung valide war, können Sie mit $notification->isValid(); prüfen. Anschließend besteht die Möglichkeit die Informationen der Benachrichtigung auszugeben und zu verarbeiten.</p>
+ *
+ * <p>If a notification is valid, can be check with $notification->isValid(). After that you can request and process the parameters.</p>
  *<pre>
   $notification->getNotificationType();
   $notification->getTransactionId();
@@ -77,6 +76,7 @@
   </pre>
  *
  *
- * \section support_sec 3. Support 
- * <p>Das Team von Barzahlen steht Ihnen bei jeglichen Fragen gern zur Verfügung.</p> * <p>Sie können uns eine E-Mail an support@barzahlen.de senden oder das Kontaktformular auf http://www.barzahlen.de verwenden. Ihre E-Mail wird daraufhin in unserem Ticket-System direkt dem zuständigen Mitarbeiter zugeordnet und bearbeitet.</p>
+ * \section support_sec 3. Support
+ * <p>The Barzahlen Team will happily assist you with any problems or questions.</p>
+ * <p>Send us an email to support@barzahlen.de or use the contact form at http://www.barzahlen.de.</p>
  */
