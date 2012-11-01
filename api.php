@@ -25,7 +25,6 @@ class Barzahlen_Api extends Barzahlen_Base {
 
   protected $_shopId; //!< merchants shop id
   protected $_paymentKey; //!< merchants payment key
-  protected $_customVar = array('', '', ''); //!< custom variables
   protected $_language = 'de'; //!< langauge code
   protected $_sandbox = false; //!< sandbox settings
   protected $_madeAttempts = 0; //!< performed attempts
@@ -45,20 +44,6 @@ class Barzahlen_Api extends Barzahlen_Base {
   }
 
   /**
-   * Lets the merchant sets custom variables.
-   *
-   * @param string $var0 First Custom Variable
-   * @param string $var1 Second Custom Variable
-   * @param string $var2 Third Custom Variable
-   */
-  public function setCustomVar($var0 = '', $var1 = '', $var2 = '') {
-
-    $this->_customVar[0] = $var0;
-    $this->_customVar[1] = $var1;
-    $this->_customVar[2] = $var2;
-  }
-
-  /**
    * Sets the language for payment / refund slip.
    *
    * @param string $language Langauge Code (ISO 639-1)
@@ -75,7 +60,7 @@ class Barzahlen_Api extends Barzahlen_Base {
    */
   public function handleRequest($request) {
 
-    $requestArray = $request->buildRequestArray($this->_shopId, $this->_paymentKey, $this->_language, $this->_customVar);
+    $requestArray = $request->buildRequestArray($this->_shopId, $this->_paymentKey, $this->_language);
     $this->_debug("API: Sending request array to Barzahlen.", $requestArray);
     $xmlResponse = $this->_connectToApi($requestArray, $request->getRequestType());
     $this->_debug("API: Received XML response from Barzahlen.", $xmlResponse);

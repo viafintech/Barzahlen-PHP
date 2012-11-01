@@ -33,6 +33,24 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Tests different custom variable settings.
+   */
+  public function testCustomVarSetter() {
+
+    $this->payment->setCustomVar('ABC', '{{}}');
+    $this->assertAttributeEquals(array('ABC', '{{}}', ''), '_customVar', $this->payment);
+
+    $this->payment->setCustomVar('Mein Shopsystem');
+    $this->assertAttributeEquals(array('Mein Shopsystem', '', ''), '_customVar', $this->payment);
+
+    $this->payment->setCustomVar('Mein Shopsystem', 'xt:Commerce', 'Magento');
+    $this->assertAttributeEquals(array('Mein Shopsystem', 'xt:Commerce', 'Magento'), '_customVar', $this->payment);
+
+    $this->payment->setCustomVar();
+    $this->assertAttributeEquals(array('', '', ''), '_customVar', $this->payment);
+  }
+
+  /**
    * Happy path test for a payment request.
    */
   public function testValidXmlPaymentResponse() {

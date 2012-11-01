@@ -32,6 +32,7 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
   protected $_orderId; //!< order id
   protected $_amount; //!< payment amount
   protected $_currency; //!< currency of payment (ISO 4217)
+  protected $_customVar = array('', '', ''); //!< custom variables
 
   protected $_xmlAttributes = array('transaction-id', 'payment-slip-link', 'expiration-notice',
                                     'infotext-1', 'infotext-2', 'result', 'hash'); //!< payment xml content
@@ -60,6 +61,20 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
   }
 
   /**
+   * Lets the merchant sets custom variables.
+   *
+   * @param string $var0 First Custom Variable
+   * @param string $var1 Second Custom Variable
+   * @param string $var2 Third Custom Variable
+   */
+  public function setCustomVar($var0 = '', $var1 = '', $var2 = '') {
+
+    $this->_customVar[0] = $var0;
+    $this->_customVar[1] = $var1;
+    $this->_customVar[2] = $var2;
+  }
+
+  /**
    * Builds array for request.
    *
    * @param string $shopId merchants shop id
@@ -68,7 +83,7 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
    * @param array $customVar custom variables from merchant
    * @return array for payment request
    */
-  public function buildRequestArray($shopId, $paymentKey, $language, array $customVar) {
+  public function buildRequestArray($shopId, $paymentKey, $language) {
 
     $requestArray = array();
     $requestArray['shop_id'] = $shopId;
@@ -81,9 +96,9 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
     $requestArray['customer_zipcode'] = $this->_customerZipcode;
     $requestArray['customer_city'] = $this->_customerCity;
     $requestArray['customer_country'] = $this->_customerCountry;
-    $requestArray['custom_var_0'] = $customVar[0];
-    $requestArray['custom_var_1'] = $customVar[1];
-    $requestArray['custom_var_2'] = $customVar[2];
+    $requestArray['custom_var_0'] = $this->_customVar[0];
+    $requestArray['custom_var_1'] = $this->_customVar[1];
+    $requestArray['custom_var_2'] = $this->_customVar[2];
     $requestArray['hash'] = $this->_createHash($requestArray, $paymentKey);
 
     $this->_removeEmptyValues($requestArray);
