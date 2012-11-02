@@ -25,7 +25,7 @@
  *
  *<pre>
   $api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);
-  $payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $orderAmount[, $currency[, $orderId]]);
+  $payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountryId, $orderAmount[, $currency[, $orderId]]);
 
   try {
     $api->handleRequest($payment);

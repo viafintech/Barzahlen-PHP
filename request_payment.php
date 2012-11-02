@@ -28,7 +28,7 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
   protected $_customerStreetNr; //!< customers street and street number
   protected $_customerZipcode; //!< customers zipcode
   protected $_customerCity; //!< customers city
-  protected $_customerCountry; //!< customers country
+  protected $_customerCountry; //!< customers country (ISO 3166-1 alpha-2)
   protected $_orderId; //!< order id
   protected $_amount; //!< payment amount
   protected $_currency; //!< currency of payment (ISO 4217)
