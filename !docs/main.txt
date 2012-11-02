@@ -5,7 +5,7 @@
  *
  * \subsection V1 1.1 Merchant Data
  *
- * <p>The merchant credentials, which are necessary to handle payment with Barzahlen, can be received at https://partner.barzahlen.de. After a successful registration a shop id is assigned to you as well as payment and notification key. Furthermore you can set you callback url, which is used to send updates on payment and refund transactions.</p>
+ * <p>The merchant credentials, which are necessary to handle payments with Barzahlen, can be received at https://partner.barzahlen.de. After a successful registration a shop ID is assigned to you as well as a payment and a notification key. Furthermore you can set you callback URL, which is used to send updates on payment and refund transactions.</p>
  *
  *
  * \subsection V2 1.2 Installation
@@ -21,7 +21,7 @@
  *
  * \subsection A1 2.1 Sending Requests to Barzahlen
  *
- * <p>Create a new api object, which you initiate with your unique shop id and payment key. For testing purpose you can set the third, optional parameter, which handles the sandbox setting, to <em>true</em>. By default this parameter is set to <em>false</em>. Create a request object of your choice, e.g. a payment request. Every request object needs additional information. Following this, pass the request object to the api object with the order to handle the request.</p>
+ * <p>Create a new api object, which you initiate with your unique shop ID and payment key. For testing purpose you can set the third, optional parameter, which handles the sandbox setting, to <em>true</em>. By default this parameter is set to <em>false</em>. Create a request object of your choice, e.g. a payment request. Every request object needs additional information. Following this, pass the request object to the api object with the order to handle the request.</p>
  *
  *<pre>
   $api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);
@@ -35,7 +35,7 @@
   }
   </pre>
 
- * <p>After a successful request (can be check by $payment->isValid()) the received information can be taken from the request object. Either one by one or as an complete array.</p>
+ * <p>After a successful request (can be checked by $payment->isValid()) the received information can be taken from the request object. Either one by one or as a complete array.</p>
  *<pre>
   $payment->getTransactionId();
   $payment->getPaymentSlipLink();
@@ -46,7 +46,7 @@
   $payment->getXmlArray();
   </pre>
  *
- * <p>If there was no order id available before the payment request, it can be updated later on. Therefore create an update object which you pass to the api object. Requests for refunds and e-mail resending are done in the same way.</p>
+ * <p>If there was no order ID available before the payment request, it can be updated later on. Therefore create an update object which you pass to the api object. Requests for refunds and e-mail resending are done in the same way.</p>
  *<pre>
   $update = new Barzahlen_Request_Update($transactionId, $orderId);
   $refund = new Barzahlen_Request_Refund($transactionId, $refundAmount);
@@ -55,7 +55,7 @@
  *
  * \subsection A2 2.2 Receive Notifications from Barzahlen
  *
- * <p>Create a notification object using your private shop id and notification key as well as the received GET array.</p>
+ * <p>Create a notification object using your private shop ID and notification key as well as the received GET array.</p>
  *<pre>
   $notification = new Barzahlen_Notification('10483', 'e5354004de1001f86004090d01982a6e05da1c12', $_GET);
 
@@ -67,7 +67,7 @@
   }
   </pre>
  *
- * <p>If a notification is valid, can be check with $notification->isValid(). After that you can request and process the parameters.</p>
+ * <p>If a notification is valid, can be checked with $notification->isValid(). After that, you can request and process the parameters.</p>
  *<pre>
   $notification->getNotificationType();
   $notification->getTransactionId();
@@ -78,5 +78,5 @@
  *
  * \section support_sec 3. Support
  * <p>The Barzahlen Team will happily assist you with any problems or questions.</p>
- * <p>Send us an email to support@barzahlen.de or use the contact form at http://www.barzahlen.de.</p>
+ * <p>Send us an email to support@barzahlen.de or use the contact form at http://www.barzahlen.de/partner/integration.</p>
  */
