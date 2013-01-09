@@ -27,57 +27,128 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
    * Set everything that is needed for the testing up.
    */
   public function setUp() {
+  }
 
-    $this->api = $this->getMock('Barzahlen_Api', array('_sendRequest'), array(SHOPID, PAYMENTKEY));
-    $this->resend = new Barzahlen_Request_Update('7691945','42');
+  public function testBuildRequestArray() {
+
+    $update = new Barzahlen_Request_Update('7691945','42');
+
+    $requestArray = array('shop_id' => '10483',
+                          'transaction_id' => '7691945',
+                          'order_id' => '42',
+                          'hash' => '81b52a055e547294691bf9875e8f7cfcf4922c1c58ae8e34fdd059bc797eb23a82e9b96a045b253ad33cd4726b7e11cabbcf41a93c8667e662e7ce487e234d76');
+
+    $this->assertEquals($requestArray, $update->buildRequestArray(SHOPID, PAYMENTKEY, 'de'));
+  }
+
+  public function testParseXmlWithValidResponse() {
+
+    $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
+                    <response>
+                      <transaction-id>7691945</transaction-id>
+                      <result>0</result>
+                      <hash>d6b01ae78c6a7d1b6895b0cf08040095b5bd66c4f589556cfa591b956fa94bedfe032de843b17d36b7f865cb6689797cafa40c53815609217fa210e1b0ee9ee8</hash>
+                    </response>';
+
+    $update = new Barzahlen_Request_Update('7691945','42');
+    $update->parseXml($xmlResponse, PAYMENTKEY);
+
+    $this->assertEquals('7691945', $update->getTransactionId());
+    $this->assertTrue($update->isValid());
   }
 
   /**
-   * Happy path test for a resend request.
-   */
-  public function testValidXmlResendResponse() {
-
-    $xml = '<?xml version="1.0" encoding="UTF-8"?>
-            <response>
-              <transaction-id>7691945</transaction-id>
-              <result>0</result>
-              <hash>d6b01ae78c6a7d1b6895b0cf08040095b5bd66c4f589556cfa591b956fa94bedfe032de843b17d36b7f865cb6689797cafa40c53815609217fa210e1b0ee9ee8</hash>
-            </response>';
-
-    $this->api->expects($this->once())
-              ->method('_sendRequest')
-              ->will($this->returnValue($xml));
-
-    $this->api->handleRequest($this->resend);
-
-    $this->assertEquals('7691945', $this->resend->getTransactionId());
-    $this->assertTrue($this->resend->isValid());
-  }
-
-  /**
-   * Receive empty xml response for a resend request.
-   *
    * @expectedException Barzahlen_Exception
    */
-  public function testEmptyXmlResendResponse() {
+  public function testParseXmlWithErrorResponse() {
 
-    $xml = '';
+    $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
+                    <response>
+                      <result>8</result>
+                      <error-message>order_id already set</error-message>
+                    </response>';
 
-    $this->api->expects($this->once())
-              ->method('_sendRequest')
-              ->will($this->returnValue($xml));
+    $update = new Barzahlen_Request_Update('7691945','42');
+    $update->parseXml($xmlResponse, PAYMENTKEY);
 
-    $this->api->handleRequest($this->resend);
-    $this->assertFalse($this->resend->isValid());
+    $this->assertFalse($update->isValid());
+  }
+
+  /**
+   * @expectedException Barzahlen_Exception
+   */
+  public function testParseXmlWithEmptyResponse() {
+
+    $xmlResponse = '';
+
+    $update = new Barzahlen_Request_Update('7691945','42');
+    $update->parseXml($xmlResponse, PAYMENTKEY);
+
+    $this->assertFalse($update->isValid());
+  }
+
+  /**
+   * @expectedException Barzahlen_Exception
+   */
+  public function testParseXmlWithIncompleteResponse() {
+
+    $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
+                    <response>
+                      <transaction-id>7691945</transaction-id>
+                      <result>0</result>
+                    </response>';
+
+    $update = new Barzahlen_Request_Update('7691945','42');
+    $update->parseXml($xmlResponse, PAYMENTKEY);
+
+    $this->assertFalse($update->isValid());
+  }
+
+  /**
+   * @expectedException Barzahlen_Exception
+   */
+  public function testParseXmlWithInvalidResponse() {
+
+    $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
+                    <response>
+                      <transaction-id>1234567</transaction-id>
+                      <result>0</result>
+                      <hash>d6b01ae78c6a7d1b6895b0cf08040095b5bd66c4f589556cfa591b956fa94bedfe032de843b17d36b7f865cb6689797cafa40c53815609217fa210e1b0ee9ee8</hash>
+                    </response>';
+
+    $update = new Barzahlen_Request_Update('7691945','42');
+    $update->parseXml($xmlResponse, PAYMENTKEY);
+
+    $this->assertFalse($update->isValid());
+  }
+
+  /**
+   * @expectedException Exception
+   */
+  public function testParseXmlWithInvalidXML() {
+
+    $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
+                    <response>
+                      <transaction-id>7691945</transaction-id>
+                      <result>0</result>
+                      <hash>d6b01ae78c6a7d1b6895b0cf08040095b5bd66c4f589556cfa591b956fa94bedfe032de843b17d36b7f865cb6689797cafa40c53815609217fa210e1b0ee9ee8</hash>';
+
+    $update = new Barzahlen_Request_Update('7691945','42');
+    $update->parseXml($xmlResponse, PAYMENTKEY);
+
+    $this->assertFalse($update->isValid());
+  }
+
+  public function testGetRequestType() {
+
+    $update = new Barzahlen_Request_Update('7691945','42');
+    $this->assertEquals('update', $update->getRequestType());
   }
 
   /**
    * Unset everything before the next test.
    */
   protected function tearDown() {
-
-    unset($this->api);
-    unset($this->resend);
   }
 }
 ?>

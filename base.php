@@ -39,7 +39,7 @@ abstract class Barzahlen_Base {
    * @param boolean $debug debug mode on / off
    * @param string $logFile position of log file
    */
-  final public function setDebug($debug, $logFile) {
+  public function setDebug($debug, $logFile) {
     $this->_debug = $debug;
     $this->_logFile = $logFile;
   }
@@ -50,7 +50,7 @@ abstract class Barzahlen_Base {
    * @param string $message debug message
    * @param array $data related data (optional)
    */
-  final protected function _debug($message, $data = array()) {
+  protected function _debug($message, $data = array()) {
 
     if($this->_debug == true) {
       $time = date("[Y-m-d H:i:s] ");
@@ -66,7 +66,7 @@ abstract class Barzahlen_Base {
    * @param string $key private key depending on hash type
    * @return hash sum
    */
-  final protected function _createHash(array $hashArray, $key) {
+  protected function _createHash(array $hashArray, $key) {
 
     $hashArray[] = $key;
     $hashString = implode(self::SEPARATOR, $hashArray);
@@ -78,7 +78,7 @@ abstract class Barzahlen_Base {
    *
    * @param array $array array with (empty) values
    */
-  final protected function _removeEmptyValues(array &$array) {
+  protected function _removeEmptyValues(array &$array) {
 
     foreach($array as $key => $value) {
       if($value == '') {
