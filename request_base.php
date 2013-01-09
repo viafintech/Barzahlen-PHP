@@ -36,7 +36,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
    *
    * @return type of request
    */
-  final public function getRequestType() {
+  public function getRequestType() {
     return $this->_type;
   }
 
@@ -45,7 +45,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
    *
    * @return boolean if request response is valid
    */
-  final public function isValid() {
+  public function isValid() {
     return $this->_isValid;
   }
 
@@ -55,7 +55,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
    * @param string $attribute single attribute, that shall be returned
    * @return single value if exists (else: null) or whole array
    */
-  final public function getXmlArray($attribute = '') {
+  public function getXmlArray($attribute = '') {
 
     if($attribute != '') {
       return array_key_exists($attribute, $this->_xmlData) ? $this->_xmlData[$attribute] : null;
@@ -71,7 +71,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
    * @param string $paymentKey merchants payment key
    * @return array with parsed xml data
    */
-  final public function parseXml($xmlResponse, $paymentKey) {
+  public function parseXml($xmlResponse, $paymentKey) {
 
     if(!is_string($xmlResponse) || $xmlResponse == '') {
       throw new Barzahlen_Exception('No valid xml response received.');
@@ -88,7 +88,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
   /**
    * Checks if an error occurred.
    */
-  final protected function _getXmlError() {
+  protected function _getXmlError() {
 
     if($this->_xmlObj->{'result'} != 0) {
       throw new Barzahlen_Exception('XML response contains an error: ' . $this->_xmlObj->{'error-message'}, (int)$this->_xmlObj->{'result'});
@@ -100,7 +100,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
    *
    * @param string $responseType type for xml response
    */
-  final protected function _getXmlAttributes() {
+  protected function _getXmlAttributes() {
 
     $this->_xmlData = array();
 
@@ -114,7 +114,7 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
    *
    * @param string $paymentKey merchants payment key
    */
-  final protected function _checkXmlHash($paymentKey) {
+  protected function _checkXmlHash($paymentKey) {
 
     $receivedHash = $this->_xmlData['hash'];
     unset($this->_xmlData['hash']);

@@ -34,12 +34,13 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testEmptyNotification() {
+  public function testValidateWithEmptyNotification() {
 
     $_GET = array();
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
@@ -47,13 +48,14 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testIncompleteNotification() {
+  public function testValidateWithIncompleteNotification() {
 
     $_GET = array('state' => 'paid',
                   'transaction_id' => '5');
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
@@ -61,7 +63,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testInvalidValuesNotificationTransactionId() {
+  public function testValidateWithInvalidValueTransactionId() {
 
    $_GET = array('state' => 'paid',
                  'transaction_id' => '<hack>',
@@ -76,8 +78,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'hash' => 'fb4393c37919371968f786a174b5a9b7340bc7e397fc480dd0d81e97873f87303c6799e855bc0a36d8673957bf00392b5b9a23f772660e67719534f13ac6d5c1'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
@@ -85,7 +88,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testInvalidValuesNotificationShopId() {
+  public function testValidateWithInvalidValueShopId() {
 
    $_GET = array('state' => 'paid',
                  'transaction_id' => '1',
@@ -100,8 +103,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'hash' => 'fb4393c37919371968f786a174b5a9b7340bc7e397fc480dd0d81e97873f87303c6799e855bc0a36d8673957bf00392b5b9a23f772660e67719534f13ac6d5c1'
                 );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
@@ -109,7 +113,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testInvalidValuesNotificationAmount() {
+  public function testValidateWithInvalidValueAmount() {
 
    $_GET = array('state' => 'paid',
                  'transaction_id' => '1',
@@ -124,8 +128,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'hash' => 'f37e091346df8f8a9dfed61772d62d1dae22bd30e159836fa1c01f21c4ce2933c0153fe66e8629601c695c3b28a6d61f20f1bfa3d66e54c362637b432e3dc265'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
@@ -133,7 +138,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testInvalidValuesNotificationRefundTransactionId() {
+  public function testValidateWithInvalidValueRefundTransactionId() {
 
    $_GET = array('state' => 'refund_completed',
                  'refund_transaction_id' => '123abc',
@@ -150,8 +155,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'page' => 'ipn/barzahlen'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
@@ -159,7 +165,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testInvalidValuesNotificationOriginTransactionId() {
+  public function testValidateWithInvalidValueOriginTransactionId() {
 
    $_GET = array('state' => 'refund_completed',
                  'refund_transaction_id' => '1',
@@ -176,8 +182,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'page' => 'ipn/barzahlen'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
@@ -185,7 +192,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    *
    * @expectedException Barzahlen_Exception
    */
-  public function testInvalidHashPaidNotification() {
+  public function testValidateWithInvalidHash() {
 
    $_GET = array('state' => 'paid',
                  'transaction_id' => '1',
@@ -200,14 +207,15 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'hash' => '85d13e7eda95276a655ef86947409f095be8ccd1736579d54a88fc9ce2ac5353964b33d8143439354ee46fa3ce0a7ea07c49429ae3bdbfeca4f2ab1990c15367'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertFalse($notification->isValid());
   }
 
   /**
    * Test function with valid paid notification.
    */
-  public function testValidPaidNotification() {
+  public function testValidateWithValidPaidNotification() {
 
    $_GET = array('state' => 'paid',
                  'transaction_id' => '1',
@@ -222,30 +230,30 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'hash' => '85d13e7eda95276a655ef86947409f095be8ccd1736579d54a88fc9ce2ac5353964b33d8143439354ee46fa3ce0a7ea07c49429ae3bdbfeca4f2ab1990c15366'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
 
-    $this->assertTrue($this->notification->isValid());
-    $this->assertEquals('payment', $this->notification->getNotificationType());
-    $this->assertEquals('paid', $this->notification->getState());
-    $this->assertEquals('1', $this->notification->getTransactionId());
-    $this->assertEquals('10483', $this->notification->getShopId());
-    $this->assertEquals('foo@bar.com', $this->notification->getCustomerEmail());
-    $this->assertEquals('24.95', $this->notification->getAmount());
-    $this->assertEquals('EUR', $this->notification->getCurrency());
-    $this->assertEquals('1', $this->notification->getOrderId());
-    $this->assertEquals('PHP SDK', $this->notification->getCustomVar0());
-    $this->assertEquals('Euro 2012', $this->notification->getCustomVar1());
-    $this->assertEquals('Barzahlen v.1.3.3.7', $this->notification->getCustomVar2());
-    $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $this->notification->getCustomVar());
+    $this->assertTrue($notification->isValid());
+    $this->assertEquals('payment', $notification->getNotificationType());
+    $this->assertEquals('paid', $notification->getState());
+    $this->assertEquals('1', $notification->getTransactionId());
+    $this->assertEquals('10483', $notification->getShopId());
+    $this->assertEquals('foo@bar.com', $notification->getCustomerEmail());
+    $this->assertEquals('24.95', $notification->getAmount());
+    $this->assertEquals('EUR', $notification->getCurrency());
+    $this->assertEquals('1', $notification->getOrderId());
+    $this->assertEquals('PHP SDK', $notification->getCustomVar0());
+    $this->assertEquals('Euro 2012', $notification->getCustomVar1());
+    $this->assertEquals('Barzahlen v.1.3.3.7', $notification->getCustomVar2());
+    $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $notification->getCustomVar());
 
-    $this->assertEquals($_GET, $this->notification->getNotificationArray());
+    $this->assertEquals($_GET, $notification->getNotificationArray());
   }
 
   /**
    * Test function with valid refund notification.
    */
-  public function testValidRefundNotification() {
+  public function testValidateWithValidRefundNotification() {
 
    $_GET = array('state' => 'refund_completed',
                  'refund_transaction_id' => '1',
@@ -262,33 +270,33 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'page' => 'ipn/barzahlen'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
 
-    $this->assertTrue($this->notification->isValid());
-    $this->assertEquals('refund', $this->notification->getNotificationType());
-    $this->assertEquals('refund_completed', $this->notification->getState());
-    $this->assertEquals('1', $this->notification->getRefundTransactionId());
-    $this->assertEquals(null, $this->notification->getTransactionId());
-    $this->assertEquals('1', $this->notification->getOriginTransactionId());
-    $this->assertEquals('10483', $this->notification->getShopId());
-    $this->assertEquals('foo@bar.com', $this->notification->getCustomerEmail());
-    $this->assertEquals('24.95', $this->notification->getAmount());
-    $this->assertEquals('EUR', $this->notification->getCurrency());
-    $this->assertEquals(null, $this->notification->getOrderId());
-    $this->assertEquals('1', $this->notification->getOriginOrderId());
-    $this->assertEquals('PHP SDK', $this->notification->getCustomVar0());
-    $this->assertEquals('Euro 2012', $this->notification->getCustomVar1());
-    $this->assertEquals('Barzahlen v.1.3.3.7', $this->notification->getCustomVar2());
-    $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $this->notification->getCustomVar());
+    $this->assertTrue($notification->isValid());
+    $this->assertEquals('refund', $notification->getNotificationType());
+    $this->assertEquals('refund_completed', $notification->getState());
+    $this->assertEquals('1', $notification->getRefundTransactionId());
+    $this->assertEquals(null, $notification->getTransactionId());
+    $this->assertEquals('1', $notification->getOriginTransactionId());
+    $this->assertEquals('10483', $notification->getShopId());
+    $this->assertEquals('foo@bar.com', $notification->getCustomerEmail());
+    $this->assertEquals('24.95', $notification->getAmount());
+    $this->assertEquals('EUR', $notification->getCurrency());
+    $this->assertEquals(null, $notification->getOrderId());
+    $this->assertEquals('1', $notification->getOriginOrderId());
+    $this->assertEquals('PHP SDK', $notification->getCustomVar0());
+    $this->assertEquals('Euro 2012', $notification->getCustomVar1());
+    $this->assertEquals('Barzahlen v.1.3.3.7', $notification->getCustomVar2());
+    $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $notification->getCustomVar());
 
-    $this->assertEquals($_GET, $this->notification->getNotificationArray());
+    $this->assertEquals($_GET, $notification->getNotificationArray());
   }
 
   /**
    * Test function with valid expired notification without custom vars.
    */
-  public function testValidExpiredShortNotification() {
+  public function testValidateWithValidExpiredShortNotification() {
 
    $_GET = array('state' => 'expired',
                  'transaction_id' => '1',
@@ -300,15 +308,15 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'hash' => '48cad9d7f1f19ce612212b1717b43ca0f2e2ff2589b16d28d82a94ab6f5ade4ff69f551b1c2d9f6f8fff726609b04c91c08951d417e3c64e724f8a7722085df6'
                    );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
-    $this->assertTrue($this->notification->isValid());
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertTrue($notification->isValid());
   }
 
   /**
    * Test function with valid refund notification without custom vars and origin order id.
    */
-  public function testValidShortRefundNotification() {
+  public function testValidateWithValidShortRefundNotification() {
 
    $_GET = array('state' => 'refund_completed',
                  'refund_transaction_id' => '1',
@@ -321,17 +329,15 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
                  'page' => 'ipn/barzahlen'
                  );
 
-    $this->notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
-    $this->notification->validate();
-    $this->assertTrue($this->notification->isValid());
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification->validate();
+    $this->assertTrue($notification->isValid());
   }
 
   /**
    * Unset everything before the next test.
    */
   protected function tearDown() {
-
-    unset($this->notification);
   }
 }
 ?>
