@@ -29,7 +29,7 @@ class ApiTest extends PHPUnit_Framework_TestCase {
   public function setUp() {
 
     $this->api = $this->getMock('Barzahlen_Api', array('_sendRequest'), array(SHOPID, PAYMENTKEY));
-    $this->api->setDebug(true, '../barzahlen.log');
+    $this->api->setDebug(true, 'barzahlen.log');
   }
 
   /**
@@ -164,6 +164,7 @@ class ApiTest extends PHPUnit_Framework_TestCase {
   protected function tearDown() {
 
     unset($this->api);
+    emptyLog();
   }
 }
 ?>

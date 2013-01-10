@@ -123,7 +123,7 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @expectedException Exception
+   * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidXML() {
 
