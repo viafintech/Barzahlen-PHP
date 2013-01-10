@@ -77,7 +77,12 @@ abstract class Barzahlen_Request_Base extends Barzahlen_Base {
       throw new Barzahlen_Exception('No valid xml response received.');
     }
 
-    $this->_xmlObj = new SimpleXMLElement($xmlResponse);
+    try {
+      $this->_xmlObj = new SimpleXMLElement($xmlResponse);
+    }
+    catch(Exception $e) {
+      throw new Barzahlen_Exception($e->getMessage());
+    }
 
     $this->_getXmlError();
     $this->_getXmlAttributes();
