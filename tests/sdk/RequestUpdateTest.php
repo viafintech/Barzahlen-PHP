@@ -24,11 +24,8 @@
 class RequestUpdateTest extends PHPUnit_Framework_TestCase {
 
   /**
-   * Set everything that is needed for the testing up.
+   * Testing the construction of an update request array.
    */
-  public function setUp() {
-  }
-
   public function testBuildRequestArray() {
 
     $update = new Barzahlen_Request_Update('7691945','42');
@@ -41,6 +38,9 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($requestArray, $update->buildRequestArray(SHOPID, PAYMENTKEY, 'de'));
   }
 
+  /**
+   * Testing XML parsing with a valid response.
+   */
   public function testParseXmlWithValidResponse() {
 
     $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
@@ -58,6 +58,8 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an error response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithErrorResponse() {
@@ -75,6 +77,8 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an empty response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithEmptyResponse() {
@@ -88,6 +92,8 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incomplete response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithIncompleteResponse() {
@@ -105,6 +111,8 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incorrect return value.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidResponse() {
@@ -123,6 +131,8 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an invalid xml response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidXML() {
@@ -139,16 +149,13 @@ class RequestUpdateTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($update->isValid());
   }
 
+  /**
+   * Tests that the right request type is returned.
+   */
   public function testGetRequestType() {
 
     $update = new Barzahlen_Request_Update('7691945','42');
     $this->assertEquals('update', $update->getRequestType());
-  }
-
-  /**
-   * Unset everything before the next test.
-   */
-  protected function tearDown() {
   }
 }
 ?>

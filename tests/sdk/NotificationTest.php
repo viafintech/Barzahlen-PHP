@@ -24,12 +24,6 @@
 class NotificationTest extends PHPUnit_Framework_TestCase {
 
   /**
-   * Set everything that is needed for the testing up.
-   */
-  public function setUp() {
-  }
-
-  /**
    * Test that empty arrays are decleared not valid.
    *
    * @expectedException Barzahlen_Exception
@@ -332,12 +326,6 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
     $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
     $notification->validate();
     $this->assertTrue($notification->isValid());
-  }
-
-  /**
-   * Unset everything before the next test.
-   */
-  protected function tearDown() {
   }
 }
 ?>

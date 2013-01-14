@@ -24,11 +24,9 @@
 class RequestRefundTest extends PHPUnit_Framework_TestCase {
 
   /**
-   * Set everything that is needed for the testing up.
+   * Testing the construction of a refund request array.
+   * Using minimal parameters.
    */
-  public function setUp() {
-  }
-
   public function testBuildRequestArrayWithMinimumParameters() {
 
     $refund = new Barzahlen_Request_Refund('7690927', '24.95');
@@ -43,6 +41,10 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($requestArray, $refund->buildRequestArray(SHOPID, PAYMENTKEY, 'de'));
   }
 
+  /**
+   * Testing the construction of a refund request array.
+   * Using all parameters.
+   */
   public function testBuildRequestArrayWithCurrency() {
 
     $refund = new Barzahlen_Request_Refund('7690927', '24.95', 'USD');
@@ -57,6 +59,9 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($requestArray, $refund->buildRequestArray(SHOPID, PAYMENTKEY, 'de'));
   }
 
+  /**
+   * Testing XML parsing with a valid response.
+   */
   public function testParseXmlWithValidResponse() {
 
     $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
@@ -77,6 +82,8 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an error response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithErrorResponse() {
@@ -94,6 +101,8 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an empty response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithEmptyResponse() {
@@ -107,6 +116,8 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incomplete response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithIncompleteResponse() {
@@ -125,6 +136,8 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incorrect return value.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidResponse() {
@@ -144,6 +157,8 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an invalid xml response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidXML() {
@@ -162,16 +177,13 @@ class RequestRefundTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($refund->isValid());
   }
 
+  /**
+   * Tests that the right request type is returned.
+   */
   public function testGetRequestType() {
 
     $refund = new Barzahlen_Request_Refund('7690927', '24.95');
     $this->assertEquals('refund', $refund->getRequestType());
-  }
-
-  /**
-   * Unset everything before the next test.
-   */
-  protected function tearDown() {
   }
 }
 ?>

@@ -24,24 +24,12 @@
 class ExceptionTest extends PHPUnit_Framework_TestCase {
 
   /**
-   * Set everything that is needed for the testing up.
-   */
-  public function setUp() {
-  }
-
-  /**
-   * This tests the existence of default values.
+   * Testing the correct output.
    */
   public function testToString() {
 
     $exception = new Barzahlen_Exception('An error occurred.', 42);
     $this->assertEquals("Barzahlen_Exception: [42] - An error occurred.\n", $exception->__toString());
-  }
-
-  /**
-   * Unset everything before the next test.
-   */
-  protected function tearDown() {
   }
 }
 ?>

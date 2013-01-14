@@ -1,3 +1,6 @@
+==1.1.2 (14.01.2013)==
+* refractored Barzahlen_Notification::getNotificationArray()
+
 ==1.1.1 (10.01.2013)==
 * seperated curl prepartion from sending method
 

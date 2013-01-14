@@ -29,7 +29,6 @@ class Barzahlen_Api extends Barzahlen_Base {
   protected $_allowLanguages = array('de', 'en'); //!< allowed languages for requests
   protected $_sandbox = false; //!< sandbox settings
   protected $_madeAttempts = 0; //!< performed attempts
-  private $_curl = null; //!< curl handle
 
   /**
    * Constructor. Sets basic settings.
@@ -85,12 +84,10 @@ class Barzahlen_Api extends Barzahlen_Base {
   protected function _connectToApi(array $requestArray, $requestType) {
 
     $this->_madeAttempts++;
-    if($this->_curl === null) {
-      $this->_prepareRequest($requestArray, $requestType);
-    }
+    $curl = $this->_prepareRequest($requestArray, $requestType);
 
     try {
-      return $this->_sendRequest($this->_curl);
+      return $this->_sendRequest($curl);
     }
     catch (Exception $e) {
       if ($this->_madeAttempts >= self::MAXATTEMPTS) {
@@ -111,17 +108,18 @@ class Barzahlen_Api extends Barzahlen_Base {
 
     $callDomain = $this->_sandbox ? self::APIDOMAINSANDBOX.$requestType : self::APIDOMAIN.$requestType;
 
-    $this->_curl = curl_init();
-    curl_setopt($this->_curl, CURLOPT_URL, $callDomain);
-    curl_setopt($this->_curl, CURLOPT_POST, count($requestArray));
-    curl_setopt($this->_curl, CURLOPT_POSTFIELDS, $requestArray);
-    curl_setopt($this->_curl, CURLOPT_HEADER, 0);
-    curl_setopt($this->_curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($this->_curl, CURLOPT_SSL_VERIFYPEER, true);
-    curl_setopt($this->_curl, CURLOPT_SSL_VERIFYHOST, 2);
-    curl_setopt($this->_curl, CURLOPT_CAINFO, dirname(__FILE__) . '/certs/ca-bundle.crt');
-    curl_setopt($this->_curl, CURLOPT_CONNECTTIMEOUT, 7);
-    curl_setopt($this->_curl, CURLOPT_HTTP_VERSION, 1.1);
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $callDomain);
+    curl_setopt($curl, CURLOPT_POST, count($requestArray));
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $requestArray);
+    curl_setopt($curl, CURLOPT_HEADER, 0);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/certs/ca-bundle.crt');
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 7);
+    curl_setopt($curl, CURLOPT_HTTP_VERSION, 1.1);
+    return $curl;
   }
 
   /**

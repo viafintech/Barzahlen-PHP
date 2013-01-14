@@ -24,12 +24,6 @@
 class RequestPaymentTest extends PHPUnit_Framework_TestCase {
 
   /**
-   * Set everything that is needed for the testing up.
-   */
-  public function setUp() {
-  }
-
-  /**
    * Tests different custom variable settings.
    */
   public function testSetCustomVar() {
@@ -49,6 +43,10 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
     $this->assertAttributeEquals(array('', '', ''), '_customVar', $payment);
   }
 
+  /**
+   * Testing the construction of a payment request array.
+   * Using minimal parameters.
+   */
   public function testBuildRequestArrayWithMinimumParameters() {
 
     $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95');
@@ -67,6 +65,10 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($requestArray, $payment->buildRequestArray(SHOPID, PAYMENTKEY, 'de'));
   }
 
+  /**
+   * Testing the construction of a payment request array.
+   * Using one optional parameter.
+   */
   public function testBuildRequestArrayWithCurrency() {
 
     $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95', 'USD');
@@ -85,6 +87,10 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($requestArray, $payment->buildRequestArray(SHOPID, PAYMENTKEY, 'en'));
   }
 
+  /**
+   * Testing the construction of a payment request array.
+   * Using all parameters.
+   */
   public function testBuildRequestArrayWithCurrencyAndOrderId() {
 
     $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95', 'EUR', '42');
@@ -104,6 +110,9 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($requestArray, $payment->buildRequestArray(SHOPID, PAYMENTKEY, 'de'));
   }
 
+  /**
+   * Testing XML parsing with a valid response.
+   */
   public function testParseXmlWithValidResponse() {
 
     $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
@@ -129,6 +138,8 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an error response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithErrorResponse() {
@@ -146,6 +157,8 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an empty response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithEmptyResponse() {
@@ -159,6 +172,8 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incomplete response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithIncompleteResponse() {
@@ -179,6 +194,8 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incorrect return value.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidResponse() {
@@ -201,6 +218,8 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an invalid xml response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidXML() {
@@ -222,16 +241,13 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($payment->isValid());
   }
 
+  /**
+   * Tests that the right request type is returned.
+   */
   public function testGetRequestType() {
 
     $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95');
     $this->assertEquals('create', $payment->getRequestType());
-  }
-
-  /**
-   * Unset everything before the next test.
-   */
-  protected function tearDown() {
   }
 }
 ?>
