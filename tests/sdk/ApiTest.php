@@ -59,6 +59,9 @@ class ApiTest extends PHPUnit_Framework_TestCase {
     $this->assertAttributeEquals('de', '_language', $this->api);
   }
 
+  /**
+   * Testing request handling with a successful response on the first try.
+   */
   public function testHandleRequest() {
 
     $requestArray = array('shop_id' => '10483',
@@ -90,6 +93,9 @@ class ApiTest extends PHPUnit_Framework_TestCase {
     $this->api->handleRequest($request);
   }
 
+  /**
+   * Testing request handling with a successful response on the second try.
+   */
   public function testHandleRequestWithOneException() {
 
     $requestArray = array('shop_id' => '10483',
@@ -124,9 +130,11 @@ class ApiTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing request handling with none successful try but two timeout exceptions.
+   *
    * @expectedException Barzahlen_Exception
    */
-  public function testHandleRequestWithTwoException() {
+  public function testHandleRequestWithTwoExceptions() {
 
     $requestArray = array('shop_id' => '10483',
                           'transaction_id' => '7691945',

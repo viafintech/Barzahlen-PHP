@@ -24,11 +24,8 @@
 class RequestResendTest extends PHPUnit_Framework_TestCase {
 
   /**
-   * Set everything that is needed for the testing up.
+   * Testing the construction of a resend request array.
    */
-  public function setUp() {
-  }
-
   public function testBuildRequestArray() {
 
     $resend = new Barzahlen_Request_Resend('7691945');
@@ -41,6 +38,9 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($requestArray, $resend->buildRequestArray(SHOPID, PAYMENTKEY, 'de'));
   }
 
+  /**
+   * Testing XML parsing with a valid response.
+   */
   public function testParseXmlWithValidResponse() {
 
     $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
@@ -58,6 +58,8 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an error response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithErrorResponse() {
@@ -75,6 +77,8 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an empty response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithEmptyResponse() {
@@ -88,6 +92,8 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incomplete response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithIncompleteResponse() {
@@ -105,6 +111,8 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an incorrect return value.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidResponse() {
@@ -123,6 +131,8 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Testing XML parsing with an invalid xml response.
+   *
    * @expectedException Barzahlen_Exception
    */
   public function testParseXmlWithInvalidXML() {
@@ -140,16 +150,13 @@ class RequestResendTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($resend->isValid());
   }
 
+  /**
+   * Tests that the right request type is returned.
+   */
   public function testGetRequestType() {
 
     $resend = new Barzahlen_Request_Resend('7691945');
     $this->assertEquals('resend_email', $resend->getRequestType());
-  }
-
-  /**
-   * Unset everything before the next test.
-   */
-  protected function tearDown() {
   }
 }
 ?>

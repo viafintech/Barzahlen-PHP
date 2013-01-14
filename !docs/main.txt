@@ -23,6 +23,8 @@
  *
  * <p>Create a new api object, which you initiate with your unique shop ID and payment key. For testing purpose you can set the third, optional parameter, which handles the sandbox setting, to <em>true</em>. By default this parameter is set to <em>false</em>. Create a request object of your choice, e.g. a payment request. Every request object needs additional information. Following this, pass the request object to the api object with the order to handle the request.</p>
  *
+ * <p><strong>Important:</strong> Make sure that all string variables are encoded UTF-8. This is necessary for the hash calculation.</p>
+ *
  *<pre>
   $api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);
   $payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountryId, $orderAmount[, $currency[, $orderId]]);
