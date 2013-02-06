@@ -117,7 +117,8 @@ class Barzahlen_Api extends Barzahlen_Base {
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/certs/ca-bundle.crt');
-    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 7);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 15);
     curl_setopt($curl, CURLOPT_HTTP_VERSION, 1.1);
     return $curl;
   }

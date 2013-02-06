@@ -249,5 +249,15 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase {
     $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95');
     $this->assertEquals('create', $payment->getRequestType());
   }
+
+  /**
+   * Tests iso convertion to utf-8 to avoid problems with iso-8859-1 encoding.
+   */
+  public function testIsoConvert() {
+
+    $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95');
+    $this->assertEquals('Rübenweg 42', $payment->isoConvert('Rübenweg 42'));
+    $this->assertEquals('Rübenweg 42', $payment->isoConvert(utf8_decode('Rübenweg 42')));
+  }
 }
 ?>

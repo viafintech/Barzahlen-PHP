@@ -51,9 +51,9 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
   public function __construct($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountry, $amount, $currency = 'EUR', $orderId = '') {
 
     $this->_customerEmail = $customerEmail;
-    $this->_customerStreetNr = $customerStreetNr;
+    $this->_customerStreetNr = $this->isoConvert($customerStreetNr);
     $this->_customerZipcode = $customerZipcode;
-    $this->_customerCity = $customerCity;
+    $this->_customerCity = $this->isoConvert($customerCity);
     $this->_customerCountry = $customerCountry;
     $this->_amount = $amount;
     $this->_currency = $currency;
