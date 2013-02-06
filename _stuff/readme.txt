@@ -6,4 +6,4 @@ Barzahlen Payment Module SDK
 http://www.barzahlen.de
 
 ==Current Version==
-1.1.2
+1.1.3
