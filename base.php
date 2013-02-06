@@ -23,8 +23,10 @@
 
 abstract class Barzahlen_Base {
 
-  const APIDOMAIN = 'https://api.barzahlen.de/v1/transactions/'; //!< call domain (productive use)
-  const APIDOMAINSANDBOX = 'https://api-sandbox.barzahlen.de/v1/transactions/'; //!< sandbox call domain
+  //const APIDOMAIN = 'https://api.barzahlen.de/v1/transactions/'; //!< call domain (productive use)
+  //const APIDOMAINSANDBOX = 'https://api-sandbox.barzahlen.de/v1/transactions/'; //!< sandbox call domain (productive use)
+  const APIDOMAIN = 'https://api-staging.barzahlen.de/v1/transactions/'; //!< call domain (dev)
+  const APIDOMAINSANDBOX = 'https://api-sandbox-staging.barzahlen.de/v1/transactions/'; //!< sandbox call domain (dev)
 
   const HASHALGO = 'sha512'; //!< hash algorithm
   const SEPARATOR = ';'; //!< separator character
@@ -85,6 +87,21 @@ abstract class Barzahlen_Base {
         unset($array[$key]);
       }
     }
+  }
+
+  /**
+   * Converts ISO-8859-1 strings to UTF-8 if necessary.
+   *
+   * @param string $string text which is to check
+   * @return string with utf-8 encoding
+   */
+  public function isoConvert($string) {
+
+    if(!preg_match('/\S/u', $string)) {
+      $string = utf8_encode($string);
+    }
+
+    return $string;
   }
 }
 ?>
