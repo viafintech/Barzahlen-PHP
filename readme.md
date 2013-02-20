@@ -1,8 +1,7 @@
 # Barzahlen Payment Module PHP SDK (v1.1.3)
 
 ## Copyright
-(c) 2013, Zerebro Internet GmbH
-
+(c) 2013, Zerebro Internet GmbH  
 http://www.barzahlen.de
 
 ## Preparation
@@ -68,7 +67,7 @@ If a notification is valid, can be checked with $notification->isValid(). After 
 > $notification->getCustomVar1();  
 > ...
 
-## 3. Support
+## Support
 The Barzahlen Team will happily assist you with any problems or questions.
 
 Send us an email to support@barzahlen.de or use the contact form at http://www.barzahlen.de/partner/integration.
