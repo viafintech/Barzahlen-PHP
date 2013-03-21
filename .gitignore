@@ -2,3 +2,5 @@
 tests/cover/
 nbproject/
 /!docs/
+/build/logs/
+/build/coverage/
