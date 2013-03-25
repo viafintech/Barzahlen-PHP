@@ -1,5 +1,5 @@
 <?php
-require_once('../loader.php');
+require_once('../src/loader.php');
 
 $api = new Barzahlen_Api('10483', '22b8231bcf3a47e81fc1c7ec19f07fb8c10e94e8', true);
 $payment = new Barzahlen_Request_Payment('email@example.com', 'Musterstr. 1', '12345', 'Musterstadt', 'DE', '45.99');

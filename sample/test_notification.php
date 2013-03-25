@@ -1,5 +1,5 @@
 <?php
-require_once('../loader.php');
+require_once('../src/loader.php');
 
 $_GET = array('state' => 'paid',
                'transaction_id' => '123',
