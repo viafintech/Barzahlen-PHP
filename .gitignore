@@ -1,6 +1,9 @@
 .DS_Store
-tests/cover/
-nbproject/
 /!docs/
 /build/logs/
 /build/coverage/
+/build/api/
+/build/pdepend/
+/build/phpdox/
+/build/code-browser/
+/cache.properties
