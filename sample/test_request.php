@@ -6,6 +6,7 @@ $payment = new Barzahlen_Request_Payment('email@example.com', 'Musterstr. 1', '1
 //$update = new Barzahlen_Request_Update('21846231', '66');
 //$refund = new Barzahlen_Request_Refund('21070102', '24.95');
 //$resend = new Barzahlen_Request_Resend('21846833');
+//$cancel = new Barzahlen_Request_Cancel('35487447');
 
 try {
   $api->handleRequest($payment);
