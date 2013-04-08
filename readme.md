@@ -1,4 +1,4 @@
-# Barzahlen Payment Module PHP SDK (v1.1.3)
+# Barzahlen Payment Module PHP SDK (v1.1.4)
 
 ## Copyright
 (c) 2013, Zerebro Internet GmbH  

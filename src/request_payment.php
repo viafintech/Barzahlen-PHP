@@ -55,7 +55,7 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base {
     $this->_customerZipcode = $customerZipcode;
     $this->_customerCity = $this->isoConvert($customerCity);
     $this->_customerCountry = $customerCountry;
-    $this->_amount = $amount;
+    $this->_amount = round($amount, 2);
     $this->_currency = $currency;
     $this->_orderId = $orderId;
   }
