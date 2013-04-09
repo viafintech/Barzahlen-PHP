@@ -30,9 +30,9 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithEmptyNotification() {
 
-    $_GET = array();
+    $params = array();
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -44,10 +44,10 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithIncompleteNotification() {
 
-    $_GET = array('state' => 'paid',
-                  'transaction_id' => '5');
+    $params = array('state' => 'paid',
+                    'transaction_id' => '5');
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -59,20 +59,20 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithInvalidValueTransactionId() {
 
-   $_GET = array('state' => 'paid',
-                 'transaction_id' => '<hack>',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => 'fb4393c37919371968f786a174b5a9b7340bc7e397fc480dd0d81e97873f87303c6799e855bc0a36d8673957bf00392b5b9a23f772660e67719534f13ac6d5c1'
-                   );
+   $params = array('state' => 'paid',
+                   'transaction_id' => '<hack>',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => 'fb4393c37919371968f786a174b5a9b7340bc7e397fc480dd0d81e97873f87303c6799e855bc0a36d8673957bf00392b5b9a23f772660e67719534f13ac6d5c1'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -84,20 +84,20 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithInvalidValueShopId() {
 
-   $_GET = array('state' => 'paid',
-                 'transaction_id' => '1',
-                 'shop_id' => '12345',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => 'fb4393c37919371968f786a174b5a9b7340bc7e397fc480dd0d81e97873f87303c6799e855bc0a36d8673957bf00392b5b9a23f772660e67719534f13ac6d5c1'
-                );
+   $params = array('state' => 'paid',
+                   'transaction_id' => '1',
+                   'shop_id' => '12345',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => 'fb4393c37919371968f786a174b5a9b7340bc7e397fc480dd0d81e97873f87303c6799e855bc0a36d8673957bf00392b5b9a23f772660e67719534f13ac6d5c1'
+                  );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -109,20 +109,20 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithInvalidValueAmount() {
 
-   $_GET = array('state' => 'paid',
-                 'transaction_id' => '1',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '2004.95',
-                 'currency' => 'EUR',
-                 'order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => 'f37e091346df8f8a9dfed61772d62d1dae22bd30e159836fa1c01f21c4ce2933c0153fe66e8629601c695c3b28a6d61f20f1bfa3d66e54c362637b432e3dc265'
-                   );
+   $params = array('state' => 'paid',
+                   'transaction_id' => '1',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '2004.95',
+                   'currency' => 'EUR',
+                   'order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => 'f37e091346df8f8a9dfed61772d62d1dae22bd30e159836fa1c01f21c4ce2933c0153fe66e8629601c695c3b28a6d61f20f1bfa3d66e54c362637b432e3dc265'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -134,22 +134,22 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithInvalidValueRefundTransactionId() {
 
-   $_GET = array('state' => 'refund_completed',
-                 'refund_transaction_id' => '123abc',
-                 'origin_transaction_id' => '1',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'origin_order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5',
-                 'page' => 'ipn/barzahlen'
-                   );
+   $params = array('state' => 'refund_completed',
+                   'refund_transaction_id' => '123abc',
+                   'origin_transaction_id' => '1',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'origin_order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5',
+                   'page' => 'ipn/barzahlen'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -161,22 +161,22 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithInvalidValueOriginTransactionId() {
 
-   $_GET = array('state' => 'refund_completed',
-                 'refund_transaction_id' => '1',
-                 'origin_transaction_id' => '<iframe src="example.com">1</iframe>',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'origin_order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5',
-                 'page' => 'ipn/barzahlen'
-                   );
+   $params = array('state' => 'refund_completed',
+                   'refund_transaction_id' => '1',
+                   'origin_transaction_id' => '<iframe src="example.com">1</iframe>',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'origin_order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5',
+                   'page' => 'ipn/barzahlen'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -188,20 +188,20 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithInvalidHash() {
 
-   $_GET = array('state' => 'paid',
-                 'transaction_id' => '1',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => '85d13e7eda95276a655ef86947409f095be8ccd1736579d54a88fc9ce2ac5353964b33d8143439354ee46fa3ce0a7ea07c49429ae3bdbfeca4f2ab1990c15367'
-                   );
+   $params = array('state' => 'paid',
+                   'transaction_id' => '1',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => '85d13e7eda95276a655ef86947409f095be8ccd1736579d54a88fc9ce2ac5353964b33d8143439354ee46fa3ce0a7ea07c49429ae3bdbfeca4f2ab1990c15367'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertFalse($notification->isValid());
   }
@@ -211,20 +211,20 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithValidPaidNotification() {
 
-   $_GET = array('state' => 'paid',
-                 'transaction_id' => '1',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => '85d13e7eda95276a655ef86947409f095be8ccd1736579d54a88fc9ce2ac5353964b33d8143439354ee46fa3ce0a7ea07c49429ae3bdbfeca4f2ab1990c15366'
-                   );
+   $params = array('state' => 'paid',
+                   'transaction_id' => '1',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => '85d13e7eda95276a655ef86947409f095be8ccd1736579d54a88fc9ce2ac5353964b33d8143439354ee46fa3ce0a7ea07c49429ae3bdbfeca4f2ab1990c15366'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
 
     $this->assertEquals(null, $notification->getState());
     $this->assertEquals(null, $notification->getTransactionId());
@@ -246,7 +246,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('Barzahlen v.1.3.3.7', $notification->getCustomVar2());
     $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $notification->getCustomVar());
 
-    $this->assertEquals($_GET, $notification->getNotificationArray());
+    $this->assertEquals($params, $notification->getNotificationArray());
   }
 
   /**
@@ -254,22 +254,22 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithValidRefundNotification() {
 
-   $_GET = array('state' => 'refund_completed',
-                 'refund_transaction_id' => '1',
-                 'origin_transaction_id' => '1',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'origin_order_id' => '1',
-                 'custom_var_0' => 'PHP SDK',
-                 'custom_var_1' => 'Euro 2012',
-                 'custom_var_2' => 'Barzahlen v.1.3.3.7',
-                 'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5',
-                 'page' => 'ipn/barzahlen'
-                   );
+   $params = array('state' => 'refund_completed',
+                   'refund_transaction_id' => '1',
+                   'origin_transaction_id' => '1',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'origin_order_id' => '1',
+                   'custom_var_0' => 'PHP SDK',
+                   'custom_var_1' => 'Euro 2012',
+                   'custom_var_2' => 'Barzahlen v.1.3.3.7',
+                   'hash' => '55b3b182caf79881f5ac9a4fd7ac4f84824267fc8ac8a18dcfd25535b48a646eb28a0acf864faaff006365fd5f0480c09341930bf15dbcbe3ad27e4fa0d5c9f5',
+                   'page' => 'ipn/barzahlen'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
 
     $this->assertEquals(null, $notification->getState());
     $this->assertEquals(null, $notification->getOriginTransactionId());
@@ -294,7 +294,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('Barzahlen v.1.3.3.7', $notification->getCustomVar2());
     $this->assertEquals(array('PHP SDK', 'Euro 2012', 'Barzahlen v.1.3.3.7'), $notification->getCustomVar());
 
-    $this->assertEquals($_GET, $notification->getNotificationArray());
+    $this->assertEquals($params, $notification->getNotificationArray());
   }
 
   /**
@@ -302,17 +302,17 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithValidExpiredShortNotification() {
 
-   $_GET = array('state' => 'expired',
-                 'transaction_id' => '1',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'order_id' => '1',
-                 'hash' => '48cad9d7f1f19ce612212b1717b43ca0f2e2ff2589b16d28d82a94ab6f5ade4ff69f551b1c2d9f6f8fff726609b04c91c08951d417e3c64e724f8a7722085df6'
-                   );
+   $params = array('state' => 'expired',
+                   'transaction_id' => '1',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'order_id' => '1',
+                   'hash' => '48cad9d7f1f19ce612212b1717b43ca0f2e2ff2589b16d28d82a94ab6f5ade4ff69f551b1c2d9f6f8fff726609b04c91c08951d417e3c64e724f8a7722085df6'
+                     );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertTrue($notification->isValid());
   }
@@ -322,18 +322,18 @@ class NotificationTest extends PHPUnit_Framework_TestCase {
    */
   public function testValidateWithValidShortRefundNotification() {
 
-   $_GET = array('state' => 'refund_completed',
-                 'refund_transaction_id' => '1',
-                 'origin_transaction_id' => '1',
-                 'shop_id' => '10483',
-                 'customer_email' => 'foo@bar.com',
-                 'amount' => '24.95',
-                 'currency' => 'EUR',
-                 'hash' => 'da5ec940ce1be06fab76f96aa192953db093e0997f0c5e62a5e47ebde3b1f5791daf29fe5eafeea176f07c07e470bae8d9ced710bfd90f62dd238bf621d20717',
-                 'page' => 'ipn/barzahlen'
-                 );
+   $params = array('state' => 'refund_completed',
+                   'refund_transaction_id' => '1',
+                   'origin_transaction_id' => '1',
+                   'shop_id' => '10483',
+                   'customer_email' => 'foo@bar.com',
+                   'amount' => '24.95',
+                   'currency' => 'EUR',
+                   'hash' => 'da5ec940ce1be06fab76f96aa192953db093e0997f0c5e62a5e47ebde3b1f5791daf29fe5eafeea176f07c07e470bae8d9ced710bfd90f62dd238bf621d20717',
+                   'page' => 'ipn/barzahlen'
+                   );
 
-    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $_GET);
+    $notification = new Barzahlen_Notification(SHOPID, NOTIFICATIONKEY, $params);
     $notification->validate();
     $this->assertTrue($notification->isValid());
   }
