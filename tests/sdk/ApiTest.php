@@ -33,27 +33,67 @@ class ApiTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * This tests the existence of default values.
+   * This tests the existence and default value of the attriubte shop ID.
    */
-  public function testAttributeExistanceAndDefaultValues() {
+  public function testAttributeShopId() {
 
     $this->assertAttributeEquals(SHOPID, '_shopId', $this->api);
+  }
+
+  /**
+   * This tests the existence and default value of the attriubte payment key.
+   */
+  public function testAttributePaymentKey() {
+
     $this->assertAttributeEquals(PAYMENTKEY, '_paymentKey', $this->api);
+  }
+
+  /**
+   * This tests the existence and default value of the attriubte language.
+   */
+  public function testAttributeLanguage() {
+
     $this->assertAttributeEquals('de', '_language', $this->api);
+  }
+
+  /**
+   * This tests the existence and default value of the attriubte sandbox.
+   */
+  public function testAttributeSandbox() {
+
     $this->assertAttributeEquals(false, '_sandbox', $this->api);
+  }
+
+  /**
+   * This tests the existence and default value of the attriubte made attempts.
+   */
+  public function testAttributeMadeAttempts() {
+
     $this->assertAttributeEquals(0, '_madeAttempts', $this->api);
   }
 
   /**
-   * Tests language setter with and without value.
+   * Tests language setter with valid value.
    */
-  public function testSetLanguage() {
+  public function testSetLanguageWithValidInput() {
 
     $this->api->setLanguage('en');
     $this->assertAttributeEquals('en', '_language', $this->api);
+  }
+
+  /**
+   * Tests language setter with empty value.
+   */
+  public function testSetLanguageWithEmptyInput() {
 
     $this->api->setLanguage();
     $this->assertAttributeEquals('de', '_language', $this->api);
+  }
+
+  /**
+   * Tests language setter with invalid value.
+   */
+  public function testSetLanguageWithInvalidInput() {
 
     $this->api->setLanguage('someRandomEntry');
     $this->assertAttributeEquals('de', '_language', $this->api);
