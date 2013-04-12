@@ -46,7 +46,8 @@ If there was no order ID available before the payment request, it can be updated
 
 > $update = new Barzahlen_Request_Update($transactionId, $orderId);  
 > $refund = new Barzahlen_Request_Refund($transactionId, $refundAmount);  
-> $resend = new Barzahlen_Request_Resend($transactionId);
+> $resend = new Barzahlen_Request_Resend($transactionId);  
+> $cancel = new Barzahlen_Request_Cancel($transactionId);
 
 ### Receive Notifications from Barzahlen
 Create a notification object using your private shop ID and notification key as well as the received GET array.
