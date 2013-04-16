@@ -21,15 +21,14 @@
  * @license     http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  */
 
-class ExceptionTest extends PHPUnit_Framework_TestCase {
-
-  /**
-   * Testing the correct output.
-   */
-  public function testToString() {
-
-    $exception = new Barzahlen_Exception('An error occurred.', 42);
-    $this->assertEquals("Barzahlen_Exception: [42] - An error occurred.\n", $exception->__toString());
-  }
+class ExceptionTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * Testing the correct output.
+     */
+    public function testToString()
+    {
+        $exception = new Barzahlen_Exception('An error occurred.', 42);
+        $this->assertEquals("Barzahlen_Exception: [42] - An error occurred.\n", $exception->__toString());
+    }
 }
-?>
