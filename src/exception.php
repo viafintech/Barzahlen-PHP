@@ -21,24 +21,23 @@
  * @license     http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
  */
 
-class Barzahlen_Exception extends Exception {
+class Barzahlen_Exception extends Exception
+{
+    /**
+     * Constructor to create exception, uses parent function.
+     */
+    public function __construct($message, $code = 0)
+    {
+        parent::__construct($message, $code);
+    }
 
-  /**
-   * Constructor to create exception, uses parent function.
-   */
-  public function __construct($message, $code = 0) {
-
-    parent::__construct($message, $code);
-  }
-
-  /**
-   * Output exception.
-   *
-   * @return string with error code and message
-   */
-  public function __toString() {
-
-    return __CLASS__ . ": [{$this->code}] - {$this->message}\n";
-  }
+    /**
+     * Output exception.
+     *
+     * @return string with error code and message
+     */
+    public function __toString()
+    {
+        return __CLASS__ . ": [{$this->code}] - {$this->message}\n";
+    }
 }
-?>
