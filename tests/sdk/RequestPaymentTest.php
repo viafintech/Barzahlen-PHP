@@ -118,19 +118,19 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase
         $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
                     <response>
                       <transaction-id>7690927</transaction-id>
-                      <payment-slip-link>https://api-online-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
+                      <payment-slip-link>https://api-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
                       <expiration-notice>Der Zahlschein ist 14 Tage gültig.</expiration-notice>
                       <infotext-1><![CDATA[Hallo <b>Welt</b>! <a href="http://www.barzahlen.de">Bar zahlen</a> Infütöxt Äinß]]></infotext-1>
                       <infotext-2><![CDATA[Hallo <i>Welt</i>! <a href="http://www.barzahlen.de?a=b&c=d">Bar zahlen</a> Infütöxt 2% & so weiter]]></infotext-2>
                       <result>0</result>
-                      <hash>5a175d4002e91f4b16758ff4b8b41ff973ad355e48e73d386195cb8605600d18e443819c4e7044ebb5853a45ff9ffe75b6868e33cc98459494b656301991c18e</hash>
+                      <hash>0ab32fef460c2136d1dfefd31271638739aa6a1fc4b9b3a4a089ad298e86451c534cb3c2d0efb3f44584593a3f652d6909a9adc9e464b3b7069e604271eea69b</hash>
                     </response>';
 
         $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95');
         $payment->parseXml($xmlResponse, PAYMENTKEY);
 
         $this->assertEquals('7690927', $payment->getTransactionId());
-        $this->assertEquals('https://api-online-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf', $payment->getPaymentSlipLink());
+        $this->assertEquals('https://api-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf', $payment->getPaymentSlipLink());
         $this->assertEquals('Der Zahlschein ist 14 Tage gültig.', $payment->getExpirationNotice());
         $this->assertEquals('Hallo <b>Welt</b>! <a href="http://www.barzahlen.de">Bar zahlen</a> Infütöxt Äinß', $payment->getInfoText1());
         $this->assertEquals('Hallo <i>Welt</i>! <a href="http://www.barzahlen.de?a=b&c=d">Bar zahlen</a> Infütöxt 2% & so weiter', $payment->getInfoText2());
@@ -181,7 +181,7 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase
         $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
                     <response>
                       <transaction-id>7690927</transaction-id>
-                      <payment-slip-link>https://api-online-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
+                      <payment-slip-link>https://api-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
                       <expiration-notice>Der Zahlschein ist 14 Tage gültig.</expiration-notice>
                       <result>0</result>
                       <hash>5a175d4002e91f4b16758ff4b8b41ff973ad355e48e73d386195cb8605600d18e443819c4e7044ebb5853a45ff9ffe75b6868e33cc98459494b656301991c18e</hash>
@@ -203,7 +203,7 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase
         $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
                     <response>
                       <transaction-id>7690927</transaction-id>
-                      <payment-slip-link>https://api-online-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
+                      <payment-slip-link>https://api-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
                       <expiration-notice>Der Zahlschein ist 14 Tage gültig.</expiration-notice>
                       <infotext-1><![CDATA[Hallo <b>Welt</b>! <a href="http://www.barzahlen.de">Bar zahlen</a> Infütöxt Äinß]]></infotext-1>
                       <infotext-2><![CDATA[Hallo <i>Welt</i>! <a href="http://www.barzahlen.de?a=b&c=d">Bar zahlen</a> Infütöxt 2% & so weiter]]></infotext-2>
@@ -227,12 +227,12 @@ class RequestPaymentTest extends PHPUnit_Framework_TestCase
         $xmlResponse = '<?xml version="1.0" encoding="UTF-8"?>
                     <response>
                       <transaction-id>7690927</some-id>
-                      <payment-slip-link>https://api-online-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
+                      <payment-slip-link>https://api-sandbox.barzahlen.de:904/download/2001048300000/b3fc66ebb5f60ddfaa20307c73e0db3b73c0d812c1dc7e64984c5e2d4b64799a/Zahlschein_Barzahlen.pdf</payment-slip-link>
                       <expiration-notice>Der Zahlschein ist 14 Tage gültig.</expiration-notice>
                       <infotext-1><![CDATA[Hallo <b>Welt</b>! <a href="http://www.barzahlen.de">Bar zahlen</a> Infütöxt Äinß]]></infotext-1>
                       <infotext-2><![CDATA[Hallo <i>Welt</i>! <a href="http://www.barzahlen.de?a=b&c=d">Bar zahlen</a> Infütöxt 2% & so weiter]]></infotext-2>
                       <result>0</result>
-                      <hash>5a175d4002e91f4b16758ff4b8b41ff973ad355e48e73d386195cb8605600d18e443819c4e7044ebb5853a45ff9ffe75b6868e33cc98459494b656301991c18e</hash>
+                      <hash>0ab32fef460c2136d1dfefd31271638739aa6a1fc4b9b3a4a089ad298e86451c534cb3c2d0efb3f44584593a3f652d6909a9adc9e464b3b7069e604271eea69b</hash>
                     </response>';
 
         $payment = new Barzahlen_Request_Payment('mustermann@barzahlen.de', 'Musterstr. 1a', '12345', 'Musterhausen', 'DE', '24.95');
