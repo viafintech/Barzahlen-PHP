@@ -1,7 +1,7 @@
-# Barzahlen Payment Module PHP SDK (v1.1.4)
+# Barzahlen Payment Module PHP SDK (v1.1.5)
 
 ## Copyright
-(c) 2013, Zerebro Internet GmbH  
+(c) 2014, Cash Payment Solutions GmbH  
 http://www.barzahlen.de
 
 ## Preparation
@@ -23,7 +23,7 @@ Create a new api object, which you initiate with your unique shop ID and payment
 **Important:** Make sure that all string variables are encoded UTF-8. This is necessary for the hash calculation.
 
 > $api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);  
-> $payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountryId, $orderAmount[, $currency[, $orderId]]);  
+> $payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountryId, $orderAmount[, $currency[, $orderId[, $dueDate]]]);  
 >
 > try {  
 >   $api->handleRequest($payment);  

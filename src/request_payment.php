@@ -32,6 +32,7 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base
     protected $_orderId; //!< order id
     protected $_amount; //!< payment amount
     protected $_currency; //!< currency of payment (ISO 4217)
+    protected $_dueDate; //!< due date for payment (ISO 8601)
     protected $_customVar = array('', '', ''); //!< custom variables
     protected $_xmlAttributes = array('transaction-id', 'payment-slip-link', 'expiration-notice',
         'infotext-1', 'infotext-2', 'result', 'hash'); //!< payment xml content
@@ -46,17 +47,19 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base
      * @param string $amount payment amount
      * @param string $currency currency of payment (ISO 4217)
      * @param string $orderId order id
+     * @param string $dueDate due date for payment slip (ISO 8601)
      */
-    public function __construct($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountry, $amount, $currency = 'EUR', $orderId = '')
+    public function __construct($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountry, $amount, $currency = 'EUR', $orderId = '', $dueDate = null)
     {
         $this->_customerEmail = $customerEmail;
         $this->_customerStreetNr = $this->isoConvert($customerStreetNr);
         $this->_customerZipcode = $customerZipcode;
         $this->_customerCity = $this->isoConvert($customerCity);
         $this->_customerCountry = $customerCountry;
-        $this->_amount = round($amount, 2);
+        $this->_amount = number_format($amount, 2, '.', '');
         $this->_currency = $currency;
         $this->_orderId = $orderId;
+        $this->_dueDate = $dueDate;
     }
 
     /**
@@ -99,6 +102,7 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base
         $requestArray['custom_var_1'] = $this->_customVar[1];
         $requestArray['custom_var_2'] = $this->_customVar[2];
         $requestArray['hash'] = $this->_createHash($requestArray, $paymentKey);
+        $requestArray['due_date'] = $this->_dueDate;
 
         $this->_removeEmptyValues($requestArray);
         return $requestArray;

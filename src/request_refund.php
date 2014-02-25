@@ -40,7 +40,7 @@ class Barzahlen_Request_Refund extends Barzahlen_Request_Base
     public function __construct($transactionId, $amount, $currency = 'EUR')
     {
         $this->_transactionId = $transactionId;
-        $this->_amount = round($amount, 2);
+        $this->_amount = number_format($amount, 2, '.', '');
         $this->_currency = $currency;
     }
 
