@@ -71,9 +71,9 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base
      */
     public function setCustomVar($var0 = '', $var1 = '', $var2 = '')
     {
-        $this->_customVar[0] = $var0;
-        $this->_customVar[1] = $var1;
-        $this->_customVar[2] = $var2;
+        $this->_customVar[0] = $this->isoConvert($var0);
+        $this->_customVar[1] = $this->isoConvert($var1);
+        $this->_customVar[2] = $this->isoConvert($var2);
     }
 
     /**
