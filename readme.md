@@ -1,4 +1,4 @@
-# Barzahlen Payment Module PHP SDK (v1.1.5)
+# Barzahlen Payment Module PHP SDK (v1.1.6)
 
 ## Copyright
 (c) 2014, Cash Payment Solutions GmbH  
