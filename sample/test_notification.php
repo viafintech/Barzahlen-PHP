@@ -13,6 +13,7 @@ $_GET = array('state' => 'paid',
                'custom_var_2' => '',
                'hash' => '5c976e71a3fe53adf8d6be16067e1119d38bf40f98a6b433c6d78e0282d86bdbc19d4f56af064d4f7668b89c99ea75d5381f590b3e440111ee540a726d5e1b54'
                );
+
 try {
   $notification = new Barzahlen_Notification('10483', 'e5354004de1001f86004090d01982a6e05da1c12', $_GET);
   $notification->validate();
@@ -21,5 +22,27 @@ catch (Exception $e) {
   echo $e;
 }
 
-var_dump($notification->isValid());
+if ($notification->isValid()) {
+  switch ($notification->getState()) {
+    case 'paid':
+      // set order status to paid
+      break;
+    case 'expired':
+      // set order status to canceled
+      break;
+    case 'refund_completed':
+      // set refund status to done
+      break;
+    case 'refund_expired':
+      // set refund status to canceled
+      break;
+  }
+
+  header("HTTP/1.1 200 OK");
+  header("Status: 200 OK");
+}
+else {
+  header("HTTP/1.1 400 Bad Request");
+  header("Status: 400 Bad Request");
+}
 ?>
