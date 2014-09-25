@@ -2,23 +2,9 @@
 /**
  * Barzahlen Payment Module SDK
  *
- * NOTICE OF LICENSE
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses/
- *
- * @copyright   Copyright (c) 2012 Zerebro Internet GmbH (http://www.barzahlen.de)
+ * @copyright   Copyright (c) 2014 Cash Payment Solutions GmbH (https://www.barzahlen.de)
  * @author      Alexander Diebler
- * @license     http://opensource.org/licenses/GPL-3.0  GNU General Public License, version 3 (GPL-3.0)
+ * @license     The MIT License (MIT) - http://opensource.org/licenses/MIT
  */
 
 class Barzahlen_Api extends Barzahlen_Base
@@ -29,6 +15,7 @@ class Barzahlen_Api extends Barzahlen_Base
     protected $_allowLanguages = array('de', 'en'); //!< allowed languages for requests
     protected $_sandbox = false; //!< sandbox settings
     protected $_madeAttempts = 0; //!< performed attempts
+    protected $_userAgent = 'PHP SDK v1.1.7';
 
     /**
      * Constructor. Sets basic settings.
@@ -56,6 +43,16 @@ class Barzahlen_Api extends Barzahlen_Base
         } else {
             $this->_language = $this->_allowLanguages[0];
         }
+    }
+
+    /**
+     * Sets user agent
+     *
+     * @param string $userAgent used user agent
+     */
+    public function setUserAgent($userAgent)
+    {
+        $this->_userAgent = $userAgent;
     }
 
     /**
@@ -111,6 +108,7 @@ class Barzahlen_Api extends Barzahlen_Base
         curl_setopt($curl, CURLOPT_POST, count($requestArray));
         curl_setopt($curl, CURLOPT_POSTFIELDS, $requestArray);
         curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_USERAGENT, $this->_userAgent);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);

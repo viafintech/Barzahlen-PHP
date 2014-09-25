@@ -1,8 +1,8 @@
-# Barzahlen Payment Module PHP SDK (v1.1.6)
+# Barzahlen Payment Module PHP SDK (v1.1.7)
 
 ## Copyright
 (c) 2014, Cash Payment Solutions GmbH  
-http://www.barzahlen.de
+https://www.barzahlen.de
 
 ## Preparation
 
@@ -71,4 +71,4 @@ If a notification is valid, can be checked with $notification->isValid(). After 
 ## Support
 The Barzahlen Team will happily assist you with any problems or questions.
 
-Send us an email to support@barzahlen.de or use the contact form at http://www.barzahlen.de/partner/integration.
+Send us an email to support@barzahlen.de or use the contact form at https://integration.barzahlen.de/en/support.
