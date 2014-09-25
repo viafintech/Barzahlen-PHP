@@ -15,5 +15,5 @@ define('NOTIFICATIONKEY', 'e5354004de1001f86004090d01982a6e05da1c12');
 
 function emptyLog()
 {
-    fclose(fopen(__DIR__ . "/barzahlen.log", "w"));
+    fclose(fopen(dirname(__FILE__) . "/barzahlen.log", "w"));
 }
