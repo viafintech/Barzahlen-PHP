@@ -1,5 +1,7 @@
 # Barzahlen Payment Module PHP SDK (v1.1.7)
 
+[![Build Status](https://travis-ci.org/Barzahlen/Barzahlen-PHP.svg?branch=master)](https://travis-ci.org/Barzahlen/Barzahlen-PHP)
+
 ## Copyright
 (c) 2014, Cash Payment Solutions GmbH  
 https://www.barzahlen.de
