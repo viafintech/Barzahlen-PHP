@@ -1,3 +1,6 @@
+==1.1.7 (25.09.2014)==
+* added user agent header to curl request
+
 ==1.1.6 (11.04.2014)==
 * added automatic iso conversion for custom variables
 
