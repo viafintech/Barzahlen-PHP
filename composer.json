@@ -1,0 +1,16 @@
+{
+	"name": "Barzahlen/Barzahlen-PHP",
+	"description": "",
+	"minimum-stability": "dev",
+	"license": "MIT",
+	"type": "library",
+	"authors": [
+		{
+			"name": "Alexander Diebler",
+			"email": "alexander.diebler@barzahlen.de"
+		}
+	],
+	"autoload": {
+		"classmap": ["src/"]
+	}
+}
