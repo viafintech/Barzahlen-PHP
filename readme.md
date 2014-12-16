@@ -21,7 +21,7 @@ To install Barzahlen PHP SDK as a dependency of your project using Composer, ple
 ```javascript
 {
     "require": {
-        "barzahlen/barzahlen-php": "*"
+        "barzahlen/barzahlen-php": "dev-master"
     }
 }
 ```
