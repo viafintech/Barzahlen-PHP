@@ -16,6 +16,17 @@ Download the Barzahlen PHP SDK and unzip it to a directory of your choice in you
 
 > require_once('loader.php');
 
+To install Barzahlen PHP SDK as a dependency of your project using Composer, please add the following to your
+`composer.json` config file.
+```javascript
+{
+    "require": {
+        "Barzahlen/Barzahlen-PHP": "*"
+    }
+}
+```
+Then run `php composer.phar install` from your project's root directory to install the Barzahlen PHP SDK.
+
 ## Usage
 It's recommended to surround api requests and notifications with try-catch-blocks since errors are thrown as exceptions so they can be logged as required by the system.
 
