@@ -4,6 +4,9 @@
 	"minimum-stability": "dev",
 	"license": "MIT",
 	"type": "library",
+        "require": {
+            "php": ">=5.3.0"
+        }
 	"authors": [
 		{
 			"name": "Alexander Diebler",
