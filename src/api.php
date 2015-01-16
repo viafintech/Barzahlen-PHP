@@ -58,7 +58,7 @@ class Barzahlen_Api extends Barzahlen_Base
     /**
      * Handles request of all kinds.
      *
-     * @param Barzahlen_Request $request request that should be made
+     * @param Barzahlen_Request_Base $request request that should be made
      */
     public function handleRequest($request)
     {
