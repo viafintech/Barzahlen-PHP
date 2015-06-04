@@ -2,7 +2,7 @@
 /**
  * Barzahlen Payment Module SDK
  *
- * @copyright   Copyright (c) 2014 Cash Payment Solutions GmbH (https://www.barzahlen.de)
+ * @copyright   Copyright (c) 2015 Cash Payment Solutions GmbH (https://www.barzahlen.de)
  * @author      Alexander Diebler
  * @license     The MIT License (MIT) - http://opensource.org/licenses/MIT
  */
@@ -15,7 +15,7 @@ class Barzahlen_Api extends Barzahlen_Base
     protected $_allowLanguages = array('de', 'en'); //!< allowed languages for requests
     protected $_sandbox = false; //!< sandbox settings
     protected $_madeAttempts = 0; //!< performed attempts
-    protected $_userAgent = 'PHP SDK v1.1.7';
+    protected $_userAgent = 'PHP SDK v1.1.8';
 
     /**
      * Constructor. Sets basic settings.

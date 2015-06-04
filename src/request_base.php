@@ -2,7 +2,7 @@
 /**
  * Barzahlen Payment Module SDK
  *
- * @copyright   Copyright (c) 2014 Cash Payment Solutions GmbH (https://www.barzahlen.de)
+ * @copyright   Copyright (c) 2015 Cash Payment Solutions GmbH (https://www.barzahlen.de)
  * @author      Alexander Diebler
  * @license     The MIT License (MIT) - http://opensource.org/licenses/MIT
  */

@@ -2,7 +2,7 @@
 /**
  * Barzahlen Payment Module SDK
  *
- * @copyright   Copyright (c) 2014 Cash Payment Solutions GmbH (https://www.barzahlen.de)
+ * @copyright   Copyright (c) 2015 Cash Payment Solutions GmbH (https://www.barzahlen.de)
  * @author      Alexander Diebler
  * @license     The MIT License (MIT) - http://opensource.org/licenses/MIT
  */
@@ -37,7 +37,7 @@ class Barzahlen_Request_Payment extends Barzahlen_Request_Base
      */
     public function __construct($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountry, $amount, $currency = 'EUR', $orderId = '', $dueDate = null)
     {
-        $this->_customerEmail = $customerEmail;
+        $this->_customerEmail = $this->isoConvert($customerEmail);
         $this->_customerStreetNr = $this->isoConvert($customerStreetNr);
         $this->_customerZipcode = $customerZipcode;
         $this->_customerCity = $this->isoConvert($customerCity);
