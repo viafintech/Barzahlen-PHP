@@ -13,9 +13,9 @@ The merchant credentials, which are necessary to handle payments with Barzahlen,
 
 ### Installation
 Download the Barzahlen PHP SDK and unzip it to a directory of your choice in your online shop system. Include the loader so you have access to all Barzahlen SDK classes.
-
-> require_once('loader.php');
-
+```php
+require_once('loader.php');
+```
 To install Barzahlen PHP SDK as a dependency of your project using Composer, please add the following to your
 `composer.json` config file.
 ```javascript
@@ -35,52 +35,54 @@ Create a new api object, which you initiate with your unique shop ID and payment
 
 **Important:** Make sure that all string variables are encoded UTF-8. This is necessary for the hash calculation.
 
-> $api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);  
-> $payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountryId, $orderAmount[, $currency[, $orderId[, $dueDate]]]);  
->
-> try {  
->   $api->handleRequest($payment);  
-> }  
-> catch (Exception $e) {  
->   // possibility for error logging  
-> }
+```php
+$api = new Barzahlen_Api('10000', 'e5354004de1001f86004090d01982a6e05da1c12', true);  
+$payment = new Barzahlen_Request_Payment($customerEmail, $customerStreetNr, $customerZipcode, $customerCity, $customerCountryId, $orderAmount[, $currency[, $orderId[, $dueDate]]]);  
 
+try {  
+    $api->handleRequest($payment);  
+}  
+catch (Exception $e) {  
+    // possibility for error logging  
+}
+```
 After a successful request (can be checked by $payment->isValid()) the received information can be taken from the request object. Either one by one or as a complete array.
+```php
+$payment->getTransactionId();  
+$payment->getPaymentSlipLink();  
+$payment->getExpirationNotice();  
+$payment->getInfotext1();  
+$payment->getInfotext2();  
 
-> $payment->getTransactionId();  
-> $payment->getPaymentSlipLink();  
-> $payment->getExpirationNotice();  
-> $payment->getInfotext1();  
-> $payment->getInfotext2();  
->
-> $payment->getXmlArray();
-
+$payment->getXmlArray();
+```
 If there was no order ID available before the payment request, it can be updated later on. Therefore create an update object which you pass to the api object. Requests for refunds and e-mail resending are done in the same way.
-
-> $update = new Barzahlen_Request_Update($transactionId, $orderId);  
-> $refund = new Barzahlen_Request_Refund($transactionId, $refundAmount);  
-> $resend = new Barzahlen_Request_Resend($transactionId);  
-> $cancel = new Barzahlen_Request_Cancel($transactionId);
+```php
+$update = new Barzahlen_Request_Update($transactionId, $orderId);  
+$refund = new Barzahlen_Request_Refund($transactionId, $refundAmount);  
+$resend = new Barzahlen_Request_Resend($transactionId);  
+$cancel = new Barzahlen_Request_Cancel($transactionId);
+```
 
 ### Receive Notifications from Barzahlen
 Create a notification object using your private shop ID and notification key as well as the received GET array.
+```php
+$notification = new Barzahlen_Notification('10483', 'e5354004de1001f86004090d01982a6e05da1c12', $_GET);
 
-> $notification = new Barzahlen_Notification('10483', 'e5354004de1001f86004090d01982a6e05da1c12', $_GET);
->
-> try {  
->   $notification->validate();  
-> }  
-> catch (Exception $e) {  
->   // possibility for error logging  
-> }
-
+try {  
+    $notification->validate();  
+}  
+catch (Exception $e) {  
+    // possibility for error logging  
+}
+```
 If a notification is valid, can be checked with $notification->isValid(). After that, you can request and process the parameters.
-
-> $notification->getNotificationType();  
-> $notification->getTransactionId();  
-> $notification->getCustomVar1();  
-> ...
-
+```php
+$notification->getNotificationType();  
+$notification->getTransactionId();  
+$notification->getCustomVar1();  
+//...
+```
 ## Support
 The Barzahlen Team will happily assist you with any problems or questions.
 
