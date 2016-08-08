@@ -30,4 +30,30 @@ class Middleware
 
         return hash_hmac('sha256', $signatureString, $key);
     }
+
+    /**
+     * @param string $first
+     * @param string $second
+     * @return boolean
+     *
+     * Workaround for PHP < 5.6 by: asphp at dsgml dot com
+     * Source: https://php.net/manual/en/function.hash-equals.php#115635
+     */
+    public static function stringsEqual($first, $second)
+    {
+        if (function_exists('hash_equals')) {
+            return hash_equals($first, $second);
+        }
+
+        if (strlen($first) != strlen($second)) {
+            return false;
+        }
+
+        $res = $first ^ $second;
+        $ret = 0;
+        for ($i = strlen($res) - 1; $i >= 0; $i--) {
+            $ret |= ord($res[$i]);
+        }
+        return !$ret;
+    }
 }
