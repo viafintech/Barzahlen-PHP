@@ -1,9 +1,2 @@
 .DS_Store
-/!docs/
-/build/logs/
-/build/coverage/
-/build/api/
-/build/pdepend/
-/build/phpdox/
-/build/code-browser/
-/cache.properties
+/vendor/
