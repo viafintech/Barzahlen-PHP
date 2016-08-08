@@ -36,6 +36,6 @@ class Webhook
             $this->paymentKey
         );
 
-        return $header['HTTP_BZ_SIGNATURE'] == 'BZ1-HMAC-SHA256 ' . $signature;
+        return Middleware::stringsEqual($header['HTTP_BZ_SIGNATURE'], 'BZ1-HMAC-SHA256 ' . $signature);
     }
 }
