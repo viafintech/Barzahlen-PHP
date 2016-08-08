@@ -26,7 +26,7 @@ class Client
     /**
      * @var string
      */
-    private $userAgent = 'PHP SDK v2.0.0';
+    private $userAgent = 'PHP SDK v2.0.1';
 
 
     /**
