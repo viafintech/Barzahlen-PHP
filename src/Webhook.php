@@ -28,7 +28,7 @@ class Webhook
         $signature = Middleware::generateSignature(
             $header['HTTP_HOST'] . ':' . $header['SERVER_PORT'],
             $header['REQUEST_METHOD'],
-            $header['SCRIPT_NAME'],
+            $header['REQUEST_URI'],
             $header['QUERY_STRING'],
             $header['HTTP_DATE'],
             '',

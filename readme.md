@@ -1,4 +1,4 @@
-# Barzahlen Payment Module PHP SDK (v2.0.1)
+# Barzahlen Payment Module PHP SDK (v2.0.2)
 
 [![Build Status](https://travis-ci.org/Barzahlen/Barzahlen-PHP.svg?branch=master)](https://travis-ci.org/Barzahlen/Barzahlen-PHP)
 [![Total Downloads](https://poser.pugx.org/barzahlen/barzahlen-php/downloads)](https://packagist.org/packages/barzahlen/barzahlen-php)

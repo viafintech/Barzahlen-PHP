@@ -30,7 +30,7 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
             'HTTP_HOST' => 'callback.example.com',
             'SERVER_PORT' => 443,
             'REQUEST_METHOD' => 'POST',
-            'SCRIPT_NAME' => '/barzahlen/callback',
+            'REQUEST_URI' => '/barzahlen/callback',
             'QUERY_STRING' => '',
             'HTTP_DATE' => 'Fri, 01 Apr 2016 09:20:06 GMT'
         );
