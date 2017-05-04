@@ -78,12 +78,13 @@ class Client
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 
+        $response = curl_exec($curl);
+        
         $error = curl_error($curl);
-        if ($error) {
+        if ($error || false === $response) {
             throw new Exception\CurlException('Error during cURL: ' . $error . ' [' . curl_errno($curl) . ']');
         }
 
-        $response = curl_exec($curl);
         $this->checkResponse($response);
         curl_close($curl);
 
