@@ -13,6 +13,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     private $client;
 
+    /**
+     * @var string
+     */
+    private $userAgent = 'PHP SDK v2.0.3';
 
     public function setUp()
     {
@@ -21,7 +25,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultUserAgent()
     {
-        $this->assertAttributeEquals('PHP SDK v2.0.2', 'userAgent', $this->client);
+        $this->assertAttributeEquals($this->userAgent, 'userAgent', $this->client);
     }
 
     public function testSetUserAgent()
@@ -41,7 +45,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $header = $this->client->buildHeader($request);
         $this->assertEquals('Host: api.barzahlen.de', $header[0]);
         $this->assertContains('Date: ', $header[1]);
-        $this->assertEquals('User-Agent: PHP SDK v2.0.2', $header[2]);
+        $this->assertEquals('User-Agent: '.$this->userAgent, $header[2]);
         $this->assertRegExp('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
         $this->assertRegExp('/^Idempotency-Key: [a-f0-9]{32}$/', $header[4]);
     }
@@ -54,7 +58,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $header = $client->buildHeader($request);
         $this->assertEquals('Host: api-sandbox.barzahlen.de', $header[0]);
         $this->assertContains('Date: ', $header[1]);
-        $this->assertEquals('User-Agent: PHP SDK v2.0.2', $header[2]);
+        $this->assertEquals('User-Agent: '.$this->userAgent, $header[2]);
         $this->assertRegExp('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
         $this->assertArrayNotHasKey(4, $header);
     }
