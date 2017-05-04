@@ -26,7 +26,7 @@ class Client
     /**
      * @var string
      */
-    private $userAgent = 'PHP SDK v2.0.2';
+    private $userAgent = 'PHP SDK v2.0.3';
 
 
     /**
@@ -79,7 +79,7 @@ class Client
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 
         $response = curl_exec($curl);
-        
+
         $error = curl_error($curl);
         if ($error || false === $response) {
             throw new Exception\CurlException('Error during cURL: ' . $error . ' [' . curl_errno($curl) . ']');
