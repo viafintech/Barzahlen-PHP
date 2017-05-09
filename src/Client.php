@@ -2,6 +2,9 @@
 
 namespace Barzahlen;
 
+use Barzahlen\Request\Request;
+use Barzahlen\Exception as Exception;
+
 class Client
 {
     const API_URL = 'https://api.barzahlen.de:443/v2';
@@ -26,7 +29,7 @@ class Client
     /**
      * @var string
      */
-    private $userAgent = 'PHP SDK v2.0.3';
+    private $userAgent = 'PHP SDK v2.1.0';
 
 
     /**
@@ -53,7 +56,7 @@ class Client
     }
 
     /**
-     * @param Request\Request $request
+     * @param Request $request
      * @return string
      * @throws Exception\ApiException
      * @throws Exception\AuthException
@@ -85,14 +88,16 @@ class Client
             throw new Exception\CurlException('Error during cURL: ' . $error . ' [' . curl_errno($curl) . ']');
         }
 
-        $this->checkResponse($response);
+        $contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+        $this->checkResponse($response, $contentType);
+
         curl_close($curl);
 
         return $response;
     }
 
     /**
-     * @param Request\Request $request
+     * @param Request $request
      * @return array
      */
     public function buildHeader($request)
@@ -127,6 +132,7 @@ class Client
 
     /**
      * @param string $response
+     * @param string $contentType
      * @throws Exception\ApiException
      * @throws Exception\AuthException
      * @throws Exception\IdempotencyException
@@ -138,44 +144,32 @@ class Client
      * @throws Exception\ServerException
      * @throws Exception\TransportException
      */
-    public function checkResponse($response)
+    public function checkResponse($response, $contentType)
     {
-        if (strpos($response, 'error_class') === false) {
-            return;
-        }
+        if (Middleware::stringIsPrefix('application/json', $contentType)) {
 
-        $response = json_decode($response);
-        switch ($response->error_class) {
-            case 'auth':
-                throw new Exception\AuthException($response->message, $response->request_id);
-                break;
-            case 'transport':
-                throw new Exception\TransportException($response->message, $response->request_id);
-                break;
-            case 'idempotency':
-                throw new Exception\IdempotencyException($response->message, $response->request_id);
-                break;
-            case 'rate_limit':
-                throw new Exception\RateLimitException($response->message, $response->request_id);
-                break;
-            case 'invalid_format':
-                throw new Exception\InvalidFormatException($response->message, $response->request_id);
-                break;
-            case 'invalid_state':
-                throw new Exception\InvalidStateException($response->message, $response->request_id);
-                break;
-            case 'invalid_parameter':
-                throw new Exception\InvalidParameterException($response->message, $response->request_id);
-                break;
-            case 'not_allowed':
-                throw new Exception\NotAllowedException($response->message, $response->request_id);
-                break;
-            case 'server_error':
-                throw new Exception\ServerException($response->message, $response->request_id);
-                break;
-            default:
-                throw new Exception\ApiException($response->message, $response->request_id);
-                break;
+            if (strpos($response, 'error_class') === false) {
+                return;
+            }
+
+            $response = json_decode($response);
+            $errorMapping = array(
+                'auth'              => '\Barzahlen\Exception\AuthException',
+                'transport'         => '\Barzahlen\Exception\TransportException',
+                'idempotency'       => '\Barzahlen\Exception\IdempotencyException',
+                'rate_limit'        => '\Barzahlen\Exception\RateLimitException',
+                'invalid_format'    => '\Barzahlen\Exception\InvalidFormatException',
+                'invalid_state'     => '\Barzahlen\Exception\InvalidStateException',
+                'invalid_parameter' => '\Barzahlen\Exception\InvalidParameterException',
+                'not_allowed'       => '\Barzahlen\Exception\NotAllowedException',
+                'server_error'      => '\Barzahlen\Exception\ServerException'
+            );
+
+            if (isset($errorMapping[$response->error_class])) {
+                throw new $errorMapping[$response->error_class]($response->message, $response->request_id);
+            }
+
+            throw new Exception\ApiException($response->message, $response->request_id);
         }
     }
 }

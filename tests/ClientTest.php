@@ -16,7 +16,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    private $userAgent = 'PHP SDK v2.0.3';
+    private $userAgent = 'PHP SDK v2.1.0';
 
     public function setUp()
     {
@@ -66,7 +66,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testNoneError()
     {
         $response = '{}';
-        $this->assertNull($this->client->checkResponse($response));
+        $this->assertNull($this->client->checkResponse($response, 'application/json;charset=utf-8'));
     }
 
     /**
@@ -75,7 +75,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testAuthError()
     {
         $response = '{"error_class":"auth","error_code":"invalid_signature","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -84,7 +84,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testIdempotencyError()
     {
         $response = '{"error_class":"idempotency","error_code":"use_idempotency_key_twice","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -93,7 +93,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testInvalidFormatError()
     {
         $response = '{"error_class":"invalid_format","error_code":"bad_json_format","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -102,7 +102,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testInvalidParameterError()
     {
         $response = '{"error_class":"invalid_parameter","error_code":"invalid_slip_type","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -111,7 +111,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testInvalidStateError()
     {
         $response = '{"error_class":"invalid_state","error_code":"invalid_slip_state","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -120,7 +120,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testNotAllowedError()
     {
         $response = '{"error_class":"not_allowed","error_code":"method_not_allowed","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -129,7 +129,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testRateLimitError()
     {
         $response = '{"error_class":"rate_limit","error_code":"rate_limit_exceeded","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -138,7 +138,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testServerError()
     {
         $response = '{"error_class":"server_error","error_code":"internal_server_error","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -147,7 +147,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testTransportError()
     {
         $response = '{"error_class":"transport","error_code":"invalid_host_header","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
     /**
@@ -156,6 +156,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testUnknownError()
     {
         $response = '{"error_class":"unknown","error_code":"unknown_error","message":"error message","request_id":"r3qu3s71d"}';
-        $this->client->checkResponse($response);
+        $this->client->checkResponse($response, 'application/json;charset=utf-8');
+    }
+
+    public function testMediaResponse()
+    {
+        $response = ''; // some pdf data - non in this test case
+        $this->assertNull($this->client->checkResponse($response, 'application/pdf'));
     }
 }

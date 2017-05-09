@@ -111,6 +111,24 @@ class CreateRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedBody, $this->request->getBody());
     }
 
+    public function testPayoutBody()
+    {
+        $date = new \DateTime();
+        $date->modify('+2 weeks');
+
+        $this->request->setSlipType('payout');
+        $this->request->setCustomer(array(
+            'key' => 'LDFKHSLFDHFL',
+            'cell_phone' => '012345678910'
+        ));
+        $this->request->setTransaction('-20.95', 'EUR');
+        $this->request->setExpiresAt($date);
+
+        $expectedBody = '{"slip_type":"payout","transactions":[{"amount":"-20.95","currency":"EUR"}],"customer":{"key":"LDFKHSLFDHFL","cell_phone":"012345678910"},"expires_at":"' . $date->format('c') . '"}';
+
+        $this->assertEquals($expectedBody, $this->request->getBody());
+    }
+
     public function testSetMaximalParametersBody()
     {
         $this->request->setSlipType('payment');
