@@ -45,4 +45,10 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(Middleware::stringsEqual($first, $second));
     }
+
+    public function testStringIsPrefix()
+    {
+        $this->assertTrue(Middleware::stringIsPrefix('thisIs?\A$9Prefix', 'thisIs?\A$9PrefixAndMore'));
+        $this->assertTrue(!Middleware::stringIsPrefix('a_prefix', 'has_no_prefix'));
+    }
 }

@@ -1,4 +1,4 @@
-# Barzahlen Payment Module PHP SDK (v2.0.3)
+# Barzahlen Payment Module PHP SDK (v2.1.0)
 
 [![Build Status](https://travis-ci.org/Barzahlen/Barzahlen-PHP.svg?branch=master)](https://travis-ci.org/Barzahlen/Barzahlen-PHP)
 [![Total Downloads](https://poser.pugx.org/barzahlen/barzahlen-php/downloads)](https://packagist.org/packages/barzahlen/barzahlen-php)
@@ -23,8 +23,8 @@ composer require barzahlen/barzahlen-php
 The client will connect your application to the Barzahlen API v2. Initiate it with the division ID and the payment key. Set the third, optional parameter to true if you want to send your requests to the sandbox for development purpose. Optional: Set a custom user agent.
 
 ```php
-use \Barzahlen\Client;
-use \Barzahlen\Exception\ApiException;
+use Barzahlen\Client;
+use Barzahlen\Exception\ApiException;
 
 $client = new Client('12345', 'f2a173a210c7c8e7e439da7dc2b8330b6c06fc04', true);
 $client->setUserAgent('Awesome Project v1.0.1');
@@ -48,7 +48,10 @@ There are five different requests which the client can handle for you. The requi
 ### CreateRequest
 To request a new payment or refund slip simply initiate a new CreateRequest and add the parameters. Here are three examples for a minimal payment request using setters, an array and plain json.
 
+#### Payment Slips
 ```php
+use Barzahlen\Request\CreateRequest;
+
 $request = new CreateRequest();
 $request->setSlipType('payment');
 $request->setCustomerKey('LDFKHSLFDHFL');
@@ -56,6 +59,8 @@ $request->setTransaction('14.95', 'EUR');
 ``` 
 
 ```php
+use Barzahlen\Request\CreateRequest;
+
 $parameters = array(
     'slip_type' => 'payment',
     'customer' => array(
@@ -74,6 +79,8 @@ $request->setBody($parameters);
 ```
 
 ```php
+use Barzahlen\Request\CreateRequest;
+
 $json = '{
   "slip_type": "payment",
   "customer": {
@@ -88,15 +95,32 @@ $request = new CreateRequest();
 $request->setBody($json);
 ```
 
+#### Refund Slips
 This is an example for a minimal refund request. Please note that the amount is negative and must not exceed the initial payment amount. Multiple refunds for one payment up to the initial amount are possible.
 
 ```php
+use Barzahlen\Request\CreateRequest;
+
 $request = new CreateRequest();
 $request->setSlipType('refund');
 $request->setForSlipId('slp-1b41145c-2dd3-4e3f-bbe1-72c09fbf3f94');
 $request->setTransaction('-14.95', 'EUR');
 ```
 
+#### Payout Slips
+This is an example for a minimal payout request. 
+> Payout slips allow a customer to receive money and result in money being transferred from your division. They are used when paying out money that is not associated with a previous payment. When returning a portion or all of the money a customer has previously paid via Barzahlen, use refund slips.
+
+```php
+use Barzahlen\Request\CreateRequest;
+
+$request = new CreateRequest();
+$request->setSlipType('payout');
+$request->setCustomerKey('LDFKHSLFDHFL');
+$request->setTransaction('-14.95', 'EUR');
+```
+
+#### More parameters
 You may set more parameters according to the [Barzahlen API v2 Documentation](https://docs.barzahlen.de/api/v2/).
 
 ```php
@@ -242,6 +266,8 @@ Representation of current slip status. (Content depends on sent parameters.)
 To change slip parameters afterwards initiate a new UpdateRequest using the slip id. Use setters, an array or a json string to set your new or updated parameter(s). Only pending slips can be updated. For more information please read the [Barzahlen API v2 Documentation](https://docs.barzahlen.de/api/v2/).
 
 ```php
+use Barzahlen\Request\UpdateRequest;
+
 $request = new UpdateRequest('slp-f26bcd0b-556b-4285-b0b3-ba54052df97f');
 $request->setCustomer(array(
     'email' => 'customer@provider.tld',
@@ -258,6 +284,10 @@ The expiresAt() method can be used with a DateTime object and chaining the sette
 The last three requests don't require any additional parameters via setters, array or json. They can be initiate with the slip id (and message type) before they're sent with the client.
 
 ```php
+use Barzahlen\Request\RetrieveRequest;
+use Barzahlen\Request\ResendRequest;
+use Barzahlen\Request\InvalidateRequest;
+
 // get current information on the slip
 $request = new RetrieveRequest('slp-f26bcd0b-556b-4285-b0b3-ba54052df97f');
 
@@ -269,11 +299,28 @@ $request = new ResendRequest('slp-f26bcd0b-556b-4285-b0b3-ba54052df97f', 'text_m
 $request = new InvalidateRequest('slp-f26bcd0b-556b-4285-b0b3-ba54052df97f');
 ```
 
+### RetrievePdfRequest
+Retrieve the slip’s PDF representation for printing.
+Downloading the PDF is only possible for slips in the pending state.
+
+> Note: Due to security reasons this endpoint is disabled by default and can only be enabled by Barzahlen. Please feel free to contact us if you are interested in using this feature.
+
+```php
+use Barzahlen\Request\RetrievePdfRequest;
+
+$request = new RetrievePdfRequest('slp-f26bcd0b-556b-4285-b0b3-ba54052df97f');
+
+// contains pdf data
+$response = $client->handle($request);
+
+```
+
+
 ## Webhook
 When the state of a slip changes (e.g. the customer payed at a retail partner) and a hook url is set, Barzahlen will send a POST request to this hook url to let you know about the change. Initiate the Webhook class with the payment key and use it to verify the incoming request's header and body.
 
 ```php
-use \Barzahlen\Webhook;
+use Barzahlen\Webhook;
 
 $header = $_SERVER;
 $body = file_get_contents('php://input');

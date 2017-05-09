@@ -56,4 +56,16 @@ class Middleware
         }
         return !$ret;
     }
+
+    /**
+     * Check if first string is a prefix of second string.
+     *
+     * @param $prefix
+     * @param $string
+     * @return bool
+     */
+    public static function stringIsPrefix($prefix, $string)
+    {
+        return substr($string, 0, strlen($prefix)) === $prefix;
+    }
 }
