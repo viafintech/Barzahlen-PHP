@@ -130,7 +130,7 @@ $request->setExpiresAt('2016-04-01T12:34:56Z');
 $request->setCustomerKey('customer@provider.tld');
 $request->setCustomerCellPhone('01234567910');
 $request->setCustomerEmail('customer@provider.tld');
-$request->setCustomerLanguage('de_DE');
+$request->setCustomerLanguage('de-DE');
 $request->setAddress(array(
             'street_and_no' => 'Wallstr. 14a',
             'zipcode' => '10179',
@@ -151,7 +151,7 @@ $request->setExpiresAt($expire)
             'cell_phone' => '01234567910'
             'key' => 'customer@provider.tld'
             'email' => 'customer@provider.tld'
-            'language' => 'de_DE'
+            'language' => 'de-DE'
         ));
 ```
 
