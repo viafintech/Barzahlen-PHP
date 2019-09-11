@@ -1,14 +1,47 @@
 <?php
 namespace Barzahlen;
 
+use Barzahlen\Request\Autocorrect;
+use Barzahlen\Request\Validate;
+use Barzahlen\Exception\ApiException;
+
 class Translate
 {
+	protected static $sLanguage = "en_GB";
+	private static $_oValidate;
+	private static $_oAutocorrect;
 
-	protected static $sLanguage = "de_DE";
-
-	public static function setLanguage($sIso3Lang)
+	/**
+	 * @throws ApiException
+	 */
+	public static function autodetectLanguage()
 	{
-		self::$sLanguage = $sIso3Lang;
+		$sLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+		self::setLanguage($sLang);
+	}
+
+	/**
+	 * @param $sLang
+	 * @throws ApiException
+	 */
+	public static function setLanguage($sLang)
+	{
+		self::$_oValidate = new Validate();
+		self::$_oAutocorrect = new Autocorrect();
+
+		$bLanguage = self::$_oValidate->checkLanguage($sLang);
+
+		if(!$bLanguage) {
+			$sLang = self::$_oAutocorrect->correctLanguage($sLang);
+		}
+
+		$bLanguage = self::$_oValidate->checkLanguage($sLang);
+
+		if(!$bLanguage) {
+			throw new ApiException( 'No valid language string given.');
+		}
+
+		self::$sLanguage = $sLang;
 	}
 
 	public static function getLanguage()

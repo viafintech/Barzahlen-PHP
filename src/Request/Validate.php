@@ -37,4 +37,9 @@ class Validate
 
 	}
 
+	public function checkLanguage($sLang)
+	{
+
+	}
+
 }

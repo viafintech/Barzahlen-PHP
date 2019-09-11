@@ -2,6 +2,10 @@
 
 namespace Barzahlen\Request;
 
+use Barzahlen\Request\Validate;
+use Barzahlen\Request\Autocorrect;
+use Barzahlen\Request\Sanitize;
+
 class UpdateRequest extends Request
 {
     /**
@@ -190,7 +194,7 @@ class UpdateRequest extends Request
     }
 
 	public function validate() {
-
+		
 	}
 
 	public function autocorrect() {

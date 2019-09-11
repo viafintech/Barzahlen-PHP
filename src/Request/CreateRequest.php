@@ -2,6 +2,10 @@
 
 namespace Barzahlen\Request;
 
+use Barzahlen\Request\Validate;
+use Barzahlen\Request\Autocorrect;
+use Barzahlen\Request\Sanitize;
+
 class CreateRequest extends Request
 {
     /**

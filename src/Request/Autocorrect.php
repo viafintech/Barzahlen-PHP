@@ -26,4 +26,20 @@ class Autocorrect
 		//correct phone
 	}
 
+	public function correctLanguage($sLang) {
+		switch ($sLang)
+		{
+			case 'en':
+			case 'english':
+			case 'englisch':
+				return 'en_GB';
+			case 'de':
+			case 'deu':
+			case 'deutsch':
+				return 'de_DE';
+			default:
+				return $sLang;
+		}
+	}
+
 }
