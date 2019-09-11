@@ -303,4 +303,17 @@ class CreateRequest extends Request
 
         return json_encode($body);
     }
+
+    public function validate() {
+
+	}
+
+	public function autocorrect() {
+
+	}
+
+	public function sanitize() {
+
+	}
+
 }
