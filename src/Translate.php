@@ -7,55 +7,55 @@ use Barzahlen\Exception\ApiException;
 
 class Translate
 {
-	protected static $sLanguage = "en_GB";
-	private static $_oValidate;
-	private static $_oAutocorrect;
+    protected static $sLanguage = "en_GB";
+    private static $_oValidate;
+    private static $_oAutocorrect;
 
-	/**
-	 * @throws ApiException
-	 */
-	public static function autodetectLanguage()
-	{
-		$sLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-		self::setLanguage($sLang);
-	}
+    /**
+     * @throws ApiException
+     */
+    public static function autodetectLanguage()
+    {
+        $sLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        self::setLanguage($sLang);
+    }
 
-	/**
-	 * @param $sLang
-	 * @throws ApiException
-	 */
-	public static function setLanguage($sLang)
-	{
-		self::$_oValidate = new Validate();
-		self::$_oAutocorrect = new Autocorrect();
+    /**
+     * @param $sLang
+     * @throws ApiException
+     */
+    public static function setLanguage($sLang)
+    {
+        self::$_oValidate = new Validate();
+        self::$_oAutocorrect = new Autocorrect();
 
-		$bLanguage = self::$_oValidate->checkLanguage($sLang);
+        $bLanguage = self::$_oValidate->checkLanguage($sLang);
 
-		if(!$bLanguage) {
-			$sLang = self::$_oAutocorrect->correctLanguage($sLang);
-		}
+        if(!$bLanguage) {
+            $sLang = self::$_oAutocorrect->correctLanguage($sLang);
+        }
 
-		$bLanguage = self::$_oValidate->checkLanguage($sLang);
+        $bLanguage = self::$_oValidate->checkLanguage($sLang);
 
-		if(!$bLanguage) {
-			throw new ApiException( 'No valid language string given.');
-		}
+        if(!$bLanguage) {
+            throw new ApiException( 'No valid language string given.');
+        }
 
-		self::$sLanguage = $sLang;
-	}
+        self::$sLanguage = $sLang;
+    }
 
-	public static function getLanguage()
-	{
-		return self::$sLanguage;
-	}
+    public static function getLanguage()
+    {
+        return self::$sLanguage;
+    }
 
-	/**
-	 * translates the current string
-	 * @param string $sString
-	 * @param array $aParams
-	 */
-	public static function __T($sString, array $aParams)
-	{
+    /**
+     * translates the current string
+     * @param string $sString
+     * @param array $aParams
+     */
+    public static function __T($sString, array $aParams)
+    {
 
-	}
+    }
 }
