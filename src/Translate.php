@@ -21,7 +21,7 @@ class Translate
 	 * @param string $sString
 	 * @param array $aParams
 	 */
-	public static function __T($sString, $aParams)
+	public static function __T($sString, array $aParams)
 	{
 
 	}

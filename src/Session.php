@@ -5,14 +5,25 @@ class Session
 {
     const SESSION_NAME = "BARZAHLEN_SDK";
 
+    /**
+     * is session started
+     * @var bool
+     */
     private static $bSessionState = false;
 
+    /**
+     * checks if session was started
+     * @return bool
+     */
     public static function isSessionStarted()
     {
+        if(self::$bSessionState)
+            return true;
+
         if(session_status() !== PHP_SESSION_ACTIVE) {
-            self::$bSessionState = false;
             return false;
         } else {
+            self::$bSessionState = true;
             return true;
         }
     }
@@ -41,7 +52,7 @@ class Session
      * @param string $sName
      * @param mixed $mValue
      */
-    public function set($sName , $mValue )
+    public static function set($sName , $mValue )
     {
         $_SESSION[self::SESSION_NAME][$sName] = $mValue;
     }
@@ -53,7 +64,7 @@ class Session
      * @param string $sName
      * @return mixed
      */
-    public function get($sName)
+    public static function get($sName)
     {
         return $_SESSION[self::SESSION_NAME][$sName];
     }
@@ -63,7 +74,7 @@ class Session
      * destroy session instance
      * @return bool
      */
-    public function destroy()
+    public static function destroy()
     {
         if (self::$bSessionState == true)
         {
@@ -77,4 +88,7 @@ class Session
     }
 }
 
+/**
+ * start session automatically when loading this file
+ */
 Session::startSession();
