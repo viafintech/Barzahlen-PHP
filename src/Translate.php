@@ -6,9 +6,9 @@ class Translate
 
 	protected static $sLanguage = "de_DE";
 
-	public static function setLanguage($sIso3Lang)
+	public static function setLanguage($sLang)
 	{
-		self::$sLanguage = $sIso3Lang;
+		self::$sLanguage = $sLang;
 	}
 
 	public static function getLanguage()
@@ -21,7 +21,7 @@ class Translate
 	 * @param string $sString
 	 * @param array $aParams
 	 */
-	public static function __T($sString, array $aParams)
+	public static function __T($sString, $aParams)
 	{
 
 	}
