@@ -10,6 +10,12 @@ class Translate
     protected static $sLanguage = "en_GB";
     private static $_oValidate;
     private static $_oAutocorrect;
+    private static $bInitialized = false;
+
+    public static function init() {
+        self::autodetectLanguage();
+        self::$bInitialized = true;
+    }
 
     /**
      * @throws ApiException
@@ -29,16 +35,23 @@ class Translate
         self::$_oValidate = new Validate();
         self::$_oAutocorrect = new Autocorrect();
 
-        $bLanguage = self::$_oValidate->checkLanguage($sLang);
+        try
+        {
 
-        if(!$bLanguage) {
-            $sLang = self::$_oAutocorrect->correctLanguage($sLang);
-        }
+            $bLanguage = self::$_oValidate->checkLanguage($sLang);
 
-        $bLanguage = self::$_oValidate->checkLanguage($sLang);
+            if(!$bLanguage) {
+                $sLang = self::$_oAutocorrect->correctLanguage($sLang);
+            }
 
-        if(!$bLanguage) {
-            throw new ApiException( 'No valid language string given.');
+            $bLanguage = self::$_oValidate->checkLanguage($sLang);
+
+            if(!$bLanguage) {
+                throw new ApiException( 'No valid language string given.', 'N/A', );
+            }
+
+        } catch (ApiException $e) {
+
         }
 
         self::$sLanguage = $sLang;
