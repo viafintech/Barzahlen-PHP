@@ -127,7 +127,8 @@ class Translate
 
         try {
             if (!self::$_bInitialized) {
-                throw new ApiException('language not initialized', 'N/A', array(), true);
+                self::init();
+                //throw new ApiException('language not initialized', 'N/A', array(), true);
             }
 
             if (array_key_exists($sString, self::$_aTranslation)) {
