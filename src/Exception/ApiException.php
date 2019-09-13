@@ -14,7 +14,7 @@ class ApiException extends \Exception
      * @param string $message
      * @param string $requestId
      */
-    public function __construct($message, $requestId = 'N/A')
+    public function __construct($message, $requestId = 'N/A', $aParams = array())
     {
         parent::__construct($message);
         $this->requestId = $requestId;
