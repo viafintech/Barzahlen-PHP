@@ -69,7 +69,9 @@ class Translate
      */
     public static function autodetectLanguage()
     {
-        $sLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $sLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        }
         self::downloadTranslation();
         self::setLanguage($sLang);
     }
