@@ -6,7 +6,7 @@ use Barzahlen\Client;
 use Barzahlen\Request\CreateRequest;
 use Barzahlen\Request\InvalidateRequest;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Client

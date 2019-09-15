@@ -4,7 +4,7 @@ namespace Barzahlen\Tests\Request;
 
 use Barzahlen\Request\CreateRequest;
 
-class CreateRequestTest extends \PHPUnit_Framework_TestCase
+class CreateRequestTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CreateRequest

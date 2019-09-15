@@ -4,7 +4,7 @@ namespace Barzahlen\Tests\Request;
 
 use Barzahlen\Request\ResendRequest;
 
-class ResendRequestTest extends \PHPUnit_Framework_TestCase
+class ResendRequestTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ResendRequest

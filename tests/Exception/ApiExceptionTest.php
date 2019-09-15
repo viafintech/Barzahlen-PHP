@@ -4,7 +4,7 @@ namespace Barzahlen\Tests\Exception;
 
 use Barzahlen\Exception\ApiException;
 
-class ApiExceptionTest extends \PHPUnit_Framework_TestCase
+class ApiExceptionTest extends \PHPUnit\Framework\TestCase
 {
     public function testToString()
     {

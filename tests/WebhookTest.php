@@ -4,7 +4,7 @@ namespace Barzahlen\Tests;
 
 use Barzahlen\Webhook;
 
-class WebhookTest extends \PHPUnit_Framework_TestCase
+class WebhookTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Webhook

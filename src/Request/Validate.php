@@ -117,7 +117,7 @@ class Validate
      * @return bool
      * @throws ApiException
      */
-    public function checkLanguage($sLang, $throwException = false)
+    public function checkLanguage($sLang, $throwException = true)
     {
         if(mb_strlen($sLang) != 5) {
             if($throwException)
@@ -125,13 +125,13 @@ class Validate
             return false;
         }
 
-        if($sLang{2} == '_') {
+        if($sLang{2} != '_') {
             if($throwException)
                 throw new ApiException('%s. Not a valid language like de_DE or en_GB. Missing _.', 'N/A', array($sLang), true);
             return false;
         }
 
-        if(!file_exists(Translate::LANGUAGE_FOLDER . DIRECTORY_SEPARATOR . $sLang . '.csv')) {
+        if(!file_exists(getcwd() . DIRECTORY_SEPARATOR . Translate::LANGUAGE_FOLDER . DIRECTORY_SEPARATOR . $sLang . '.csv')) {
             if($throwException)
                 throw new ApiException('%s.Not a valid language like de_DE or en_GB. Missing language file.', 'N/A', array($sLang), true);
             return false;

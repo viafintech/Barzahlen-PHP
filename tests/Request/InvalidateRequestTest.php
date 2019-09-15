@@ -4,7 +4,7 @@ namespace Barzahlen\Tests\Request;
 
 use Barzahlen\Request\InvalidateRequest;
 
-class InvalidateRequestTest extends \PHPUnit_Framework_TestCase
+class InvalidateRequestTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var InvalidateRequest

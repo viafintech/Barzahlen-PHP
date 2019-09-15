@@ -3,8 +3,6 @@ namespace Barzahlen;
 
 use Barzahlen\Request\Autocorrect;
 use Barzahlen\Request\Validate;
-use Barzahlen\Exception\ApiException;
-use Exception;
 
 class Translate
 {
@@ -58,8 +56,9 @@ class Translate
      * initialize translation and language system
      */
     public static function init() {
-        if(!self::$_bInitialized)
+        if(!self::$_bInitialized) {
             self::autodetectLanguage();
+        }
 
         self::$_bInitialized = true;
     }
@@ -71,19 +70,22 @@ class Translate
     {
         $sLang = self::$sLanguage;
 
-        if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        if(isset($_SERVER) && isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $sLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         }
-        
+
         self::downloadTranslation();
-        self::setLanguage($sLang);
+
+        if($sLang != self::$sLanguage)
+            self::setLanguage($sLang);
     }
 
     /**
      * set or override language settings (use iso format e.g. de_DE, en_GB etc.)
      * @param $sLang
+     * @param bool $bThrowErrors
      */
-    public static function setLanguage($sLang)
+    public static function setLanguage($sLang, $bThrowErrors = false)
     {
         self::$_oValidate = new Validate();
         self::$_oAutoCorrect = new Autocorrect();
@@ -96,15 +98,16 @@ class Translate
                 $sLang = self::$_oAutoCorrect->correctLanguage($sLang);
             }
 
-            $bLanguage = self::$_oValidate->checkLanguage($sLang);
+            $bLanguage = self::$_oValidate->checkLanguage($sLang, true);
 
-            if(!$bLanguage) {
-                throw new ApiException( 'No valid language string given.', 'N/A', array($sLang));
+            if(!$bLanguage && $bThrowErrors) {
+                throw new \Exception( 'No valid language string given. Or file not found');
             }
 
-            self::loadTranslation();
+            if($bLanguage)
+                self::loadTranslation();
 
-        } catch (ApiException $e) {
+        } catch (\Exception $e) {
             trigger_error($e->getMessage());
         }
 
@@ -136,7 +139,7 @@ class Translate
                 //throw new ApiException('language not initialized', 'N/A', array(), true);
             }
 
-            if (array_key_exists($sString, self::$_aTranslation)) {
+            if (!empty(self::$_aTranslation) && array_key_exists($sString, self::$_aTranslation)) {
                 $sString = self::$_aTranslation[$sString];
             }
 
@@ -150,7 +153,7 @@ class Translate
             }
 
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             trigger_error($e->getMessage());
         }
 
@@ -223,7 +226,7 @@ class Translate
                 //@todo download new translation files
                 file_put_contents(self::LANG_CHECK, ' ');
             }
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             trigger_error($e->getMessage());
         }
 

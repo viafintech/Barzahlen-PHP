@@ -4,7 +4,7 @@ namespace Barzahlen\Tests\Request;
 
 use Barzahlen\Request\RetrieveRequest;
 
-class RetrieveRequestTest extends \PHPUnit_Framework_TestCase
+class RetrieveRequestTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var RetrieveRequest
