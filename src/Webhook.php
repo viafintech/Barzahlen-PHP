@@ -35,6 +35,8 @@ class Webhook
             $host = $header['HTTP_HOST'] . ':' . $header['SERVER_PORT'];
         }
 
+        var_dump($host);
+
         $signature = Middleware::generateSignature(
             $host,
             $header['REQUEST_METHOD'],

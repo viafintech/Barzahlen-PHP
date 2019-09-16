@@ -1,3 +1,5 @@
+"Test","Test OK"
+"Test %s of %s","Test %s of %s is OK"
 "No valid language string given.","No valid language string given."
 "%s. Not a valid language like de_DE or en_GB. Check string length.","%s. Not a valid language like de_DE or en_GB. Check string length."
 "%s. Not a valid language like de_DE or en_GB. Missing _.","%s. Not a valid language like de_DE or en_GB. Missing _."
