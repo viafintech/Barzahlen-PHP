@@ -27,6 +27,7 @@ class Validate
 
     /**
      * checks if customer key is in correct format
+     *
      * @param $sKey
      * @return bool
      */
@@ -37,7 +38,9 @@ class Validate
             return false;
         }
 
-        if(!preg_match('^[a-zA-Z0-9!"#$%&\'()*+,-./:;<=>?@\[\\\]\^_\{\|\}~]+$', $sKey))
+        $sPattern = '/^[a-zA-Z0-9!"#$%&\'()*+,-.\/:;<=>?@\[\]^_{|}~]+$/m';
+
+        if(!preg_match($sPattern, $sKey))
         {
             return false;
         }
@@ -46,6 +49,8 @@ class Validate
     }
 
     /**
+     * checks transaction amount and currency
+     *
      * @param $fAmount
      * @param $sIso3Currency
      * @param bool $bThrowException
@@ -57,7 +62,13 @@ class Validate
         //amount
         if(!preg_match('/^[0-9]+\.[0-9]{2}$/', $fAmount)) {
             if($bThrowException)
-                throw new ApiException('%s. Not a valid float format for the amount like 13.23', 'N/A', array($fAmount), true);
+                throw new ApiException('%s is not a valid float format for the amount like 13.23', 'N/A', array($fAmount), true);
+            return false;
+        }
+
+        if($fAmount > 1000.00) {
+            if($bThrowException)
+                throw new ApiException('%s is exceeding the amount limit of 999', 'N/A', array($fAmount), true);
             return false;
         }
 
@@ -71,6 +82,8 @@ class Validate
     }
 
     /**
+     * checks hook url
+     *
      * @param $sUrl
      * @param bool $bThrowException
      * @return bool
@@ -79,23 +92,39 @@ class Validate
     public function checkHookUrl($sUrl, $bThrowException = false)
     {
         //check if is https://
-        //check if valid URL
-        if(!preg_match('%^(?:(?:https)://)(?:\S+(?::\S*)?@|\d{1,3}(?:\.\d{1,3}){3}|(?:(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)(?:\.(?:[a-z\d\x{00a1}-\x{ffff}]+-?)*[a-z\d\x{00a1}-\x{ffff}]+)*(?:\.[a-z\x{00a1}-\x{ffff}]{2,6}))(?::\d+)?(?:[^\s]*)?$%iu', $sUrl)) {
+        if(mb_strpos($sUrl, 'https') === false) {
             if($bThrowException)
-                throw new ApiException('%s. Not a valid url format. A secure url (https) is essential.', 'N/A', array($sUrl), true);
+                throw new ApiException('%s. A secure url (https) is essential.', 'N/A', array($sUrl), true);
+            return false;
+        }
+
+        //check if valid URL
+        $sPattern = '_^(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$_iuS';
+        if(!preg_match($sPattern, $sUrl)) {
+            if($bThrowException)
+                throw new ApiException('%s is not a valid url format. ', 'N/A', array($sUrl), true);
             return false;
         }
 
         return true;
     }
 
-    public function checkExpiresAt($sDate)
+    /**
+     * checks expires date
+     *
+     * @param $sDate
+     * @param bool $bThrowException
+     * @return bool
+     */
+    public function checkExpiresAt($sDate, $bThrowException = false)
     {
         //check if date format is correct 'Y-m-d\TH:i:s\Z'
         //check if is in future
         try {
             $oDate = new \DateTime($sDate);
             if($oDate->format('Y-m-d\TH:i:s\Z') != $sDate) {
+                if($bThrowException)
+                    throw new ApiException("%s is not a valid date format. 'Y-m-d\TH:i:s\Z'", 'N/A', array($sDate), true);
                 return false;
             }
         } catch (\Exception $e) {

@@ -2,37 +2,85 @@
 
 namespace Barzahlen\Request;
 
+use Barzahlen\Exception\ApiException;
+
 class Sanitize
 {
-    public function sanitizeSlipType()
+    /**
+     *
+     *
+     * @param $sSlipType
+     * @return string|bool
+     * @throws ApiException
+     */
+    public function sanitizeSlipType($sSlipType)
     {
+        //Only payment, payout, refund
+        $aSlipTypes = array('payment', 'payout', 'refund');
+
+        if(in_array($sSlipType, $aSlipTypes)) {
+            return $sSlipType;
+        }
+
+        throw new ApiException('Invalid slip type %s.','N/A',array($sSlipType));
+
     }
 
 
-    public function sanitizeCustomerKey()
+    /**
+     * sainitizes customer key
+     * @param $sKey
+     * @return string
+     */
+    public function sanitizeCustomerKey($sKey)
     {
-        //sanitize length and only allowed characters, numbers and special chars
+        return trim(preg_replace('/\s/', '', $sKey));
     }
 
+    /**
+     * sanitizes transaction values amount and currency
+     * @param $fAmount
+     * @param $sIso3Currency
+     * @return array
+     */
     public function sanitizeTransaction($fAmount, $sIso3Currency)
     {
-
+        return array('amount' => floatval($fAmount), 'currency' => (string)$sIso3Currency);
     }
 
-    public function sanitizeHookUrl()
+    /**
+     * sanitize URL
+     *
+     * @param $sUrl
+     * @return mixed|string
+     */
+    public function sanitizeHookUrl($sUrl)
     {
+        //sanitize if valid URL, escape whitespaces
+        $sUrl = trim(preg_replace('/\s/', '%20', $sUrl));
+
         //sanitize if is https://
-        //sanitize if valid URL
+        $sUrl = str_replace('http://', 'https://', $sUrl);
+        return $sUrl;
     }
 
-    public function sanitizeExpiresAt()
+    public function sanitizeExpiresAt($sDate)
     {
         //sanitize if date format is correct 'Y-m-d\TH:i:s\Z'
         //sanitize if is in future
+        $oDate = new \DateTime(strtotime($sDate));
+        return $oDate->format('Y-m-d\TH:i:s\Z');
     }
 
-    public function sanitizeCustomer(array $aCustomerData)
+    public function sanitizeCustomer($aCustomerData)
     {
+        return $aCustomerData;
+
+    }
+
+    public function sanitizeAddress($aAddress)
+    {
+        return $aAddress;
 
     }
 
