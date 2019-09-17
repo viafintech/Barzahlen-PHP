@@ -42,8 +42,8 @@ class SanitizeTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testCheckHookUrl() {
-        $this->assertEquals($this->_oObject->sanitizeHookUrl('https://www.example.com'));
-        $this->assertEquals($this->_oObject->sanitizeHookUrl('https://aaa:bbb@www.example.com/fdfdf/fdf/?x=234&fgf=33d'));
+        $this->assertEquals('https://www.example.com', $this->_oObject->sanitizeHookUrl('https://www.example.com'));
+        $this->assertEquals('https://aaa:bbb@www.example.com/fdfdf/f%20df/?x=234&fgf=33d', $this->_oObject->sanitizeHookUrl('https://aaa:bbb@www.example.com/fdfdf/f df/?x=234&fgf=33d'));
     }
 
     public function sanitizeExpiresAt()
