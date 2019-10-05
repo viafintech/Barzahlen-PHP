@@ -136,22 +136,27 @@ class Translate
         try {
             if (!self::$_bInitialized) {
                 self::init();
-                //throw new ApiException('language not initialized', 'N/A', array(), true);
+                throw new \Exception('language not initialized', 'N/A', array(), true);
+            }
+
+            if(empty(self::$_aTranslation)) {
+                self::loadTranslation();
             }
 
             if (!empty(self::$_aTranslation) && array_key_exists($sString, self::$_aTranslation)) {
                 $sString = self::$_aTranslation[$sString];
+            } else {
+                if (self::$bShowTranslationWarnings) {
+                    $sLogMsg = 'No translation found for key "' . $sString . '"';
+                    trigger_error($sLogMsg);
+                }
             }
 
             if (!empty($aParams)) {
                 $aText = self::applyParams($sString, $aParams);
+            } else {
+                $aText = $sString;
             }
-
-            if (self::$bShowTranslationWarnings) {
-                $sLogMsg = 'No translation found for key "' . $sString;
-                trigger_error($sLogMsg);
-            }
-
         }
         catch (\Exception $e) {
             trigger_error($e->getMessage());
@@ -170,8 +175,12 @@ class Translate
         if(empty($sLocale))
             $sLocale = self::getLanguage();
 
-        // First read the __default.csv
-        $sFileName = self::LANGUAGE_FOLDER . DIRECTORY_SEPARATOR . $sLocale . '.csv';
+        $sVar = '';
+        if(basename(getcwd()) == "src" || basename(getcwd()) == "tests") {
+            $sVar = ".." .DIRECTORY_SEPARATOR;
+        }
+
+        $sFileName = $sVar . 'src' . DIRECTORY_SEPARATOR . self::LANGUAGE_FOLDER . DIRECTORY_SEPARATOR . $sLocale . '.csv';
         self::$_aTranslation = self::readTranslationFile($sFileName);
     }
 
@@ -183,11 +192,10 @@ class Translate
      */
     public static function readTranslationFile($sFileName)
     {
-        $sFileName = self::LANGUAGE_FOLDER . DIRECTORY_SEPARATOR . $sFileName;
-
         $aTranslation = array();
 
         if (!file_exists($sFileName) || !is_readable($sFileName)) {
+            trigger_error('no translation file found in ' . $sFileName);
             return $aTranslation;
         }
 
