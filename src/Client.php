@@ -172,4 +172,11 @@ class Client
             throw new Exception\ApiException($response->message, $response->request_id);
         }
     }
+
+    /**
+     * helper method, generates a unique id
+     */
+    public function generateUUID() {
+        return uniqid();
+    }
 }

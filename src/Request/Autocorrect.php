@@ -2,10 +2,13 @@
 
 namespace Barzahlen\Request;
 
+use Barzahlen\Exception\ApiException;
+
 class Autocorrect
 {
     /**
      * correct amount and currency
+     * 
      * @param $fAmount
      * @param $sIso3Currency
      * @return array
@@ -50,6 +53,7 @@ class Autocorrect
 
     /**
      * round to 2 decimals
+     *
      * @param $fAmount
      * @return float
      */
@@ -87,6 +91,7 @@ class Autocorrect
 
     /**
      * returns a url from a parsed url array
+     *
      * @param $aUrl
      * @return string
      */
@@ -104,17 +109,44 @@ class Autocorrect
         return $sScheme . $sUser . $sPass . $sHost . $sPort. $sPath . $sQuery . $sFragment;
     }
 
-    public function correctExpiresAt()
+    /**
+     * try to correct expires date
+     *
+     * @param string $sDate
+     * @return string
+     * @throws ApiException
+     */
+    public function correctExpiresAt($sDate)
     {
         //correct if date format is not correct 'Y-m-d\TH:i:s\Z'
+        try {
+            $oDate = new \DateTime(strtotime($sDate));
+            return $oDate->format('Y-m-d\TH:i:s\Z');
+        }  catch (\Exception $e) {
+            $oE = new ApiException($e->getMessage(),'N/A', array(), true);
+        }
     }
 
+    /**
+     * try to correct customer data
+     *
+     * @param array $aCustomerData
+     */
     public function correctCustomer(array $aCustomerData)
     {
         //correct language
+        $aCustomerData['language'] = $this->correctLanguage($aCustomerData['language']) ;
+
         //correct phone
+        $aCustomerData['cell_phone'] = filter_var($aCustomerData['cell_phone'],FILTER_SANITIZE_NUMBER_INT);
     }
 
+    /**
+     * try to correct language
+     *
+     * @param $sLang
+     * @return string
+     */
     public function correctLanguage($sLang) {
         switch ($sLang)
         {
