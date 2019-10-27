@@ -74,7 +74,7 @@ class Validate
 
         if(!preg_match('/^[a-zA-Z]{3}$/', $sIso3Currency)) {
             if($bThrowException)
-                throw new ApiException('%s. Not a valid float format for the currency setting like or EUR, USD', 'N/A', array($fAmount), true);
+                throw new ApiException('%s. Not a valid format for the currency setting like or EUR, USD', 'N/A', array($fAmount), true);
             return false;
         }
 
@@ -219,7 +219,7 @@ class Validate
 
         if(!file_exists(getcwd() . DIRECTORY_SEPARATOR . Translate::LANGUAGE_FOLDER . DIRECTORY_SEPARATOR . $sLang . '.csv')) {
             if($bThrowException)
-                throw new ApiException('%s.Not a valid language like de_DE or en_GB. Missing language file.', 'N/A', array($sLang), true);
+                throw new ApiException('%s. Not a valid language like de_DE or en_GB. Missing language file.', 'N/A', array($sLang), true);
             return false;
         }
 
