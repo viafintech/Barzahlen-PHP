@@ -11,7 +11,7 @@ class AutocorrectTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        $this->_oObject = new Validate();
+        $this->_oObject = new Autocorrect();
     }
 
     public function testCorrectTransaction()
@@ -49,5 +49,6 @@ class AutocorrectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($sUrl, $this->_oObject->correctHookUrl($sUrlWrong));
     }
 
-    
+
+
 }
