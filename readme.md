@@ -5,7 +5,7 @@
 [![License](https://poser.pugx.org/barzahlen/barzahlen-php/license)](https://packagist.org/packages/barzahlen/barzahlen-php)
 
 ## Copyright
-(c) 2019, Cash Payment Solutions GmbH  
+(c) 2016-2020, viafintech GmbH  
 https://www.barzahlen.de
 
 ## Preparation

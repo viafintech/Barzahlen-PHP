@@ -3,7 +3,7 @@
     "description": "Barzahlen PHP Library",
     "license": "MIT",
     "type": "library",
-    "keywords": ["payment", "Barzahlen", "Cash Payment Solutions"],
+    "keywords": ["payment", "Barzahlen", "viafintech"],
     "homepage": "https://www.barzahlen.de",
     "support": {
         "email": "support@barzahlen.de",
