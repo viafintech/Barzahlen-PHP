@@ -70,7 +70,7 @@ class Client
      * @throws Exception\ServerException
      * @throws Exception\TransportException
      */
-    public function handle($request)
+    public function handle($request, $bHeader = false, $bRaw = false)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->apiUrl . $request->getPath());
@@ -80,8 +80,17 @@ class Client
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        
+        if($bHeader) {
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_HEADER, 1);
+        }
 
         $response = curl_exec($curl);
+        
+        if($bRaw) {
+            return $response;
+        }
 
         $error = curl_error($curl);
         if ($error || false === $response) {
