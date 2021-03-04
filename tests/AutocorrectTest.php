@@ -41,11 +41,11 @@ class AutocorrectTest extends \PHPUnit\Framework\TestCase
     public function testCorrectHookUrl() {
 
         //check against correct value
-        $sUrl = "https://api.barzahlen.de";
+        $sUrl = "https://api.viafintech.com";
         $this->assertEquals($sUrl, $this->_oObject->correctHookUrl($sUrl));
 
         //check against incorrect value, which should have been corrected
-        $sUrlWrong = "http://api.barzahlen.de"; //missing https
+        $sUrlWrong = "http://api.viafintech.com"; //missing https
         $this->assertEquals($sUrl, $this->_oObject->correctHookUrl($sUrlWrong));
     }
 

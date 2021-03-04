@@ -5,13 +5,13 @@
 [![License](https://poser.pugx.org/barzahlen/barzahlen-php/license)](https://packagist.org/packages/barzahlen/barzahlen-php)
 
 ## Copyright
-(c) 2016-2020, viafintech GmbH  
-https://www.barzahlen.de
+(c) 2016-2021, viafintech GmbH  
+https://www.viafintech.com
 
 ## Preparation
 
 ### API Credentials
-The API credentials, which are necessary to use the Barzahlen API, can be received at [Barzahlen Control Center](https://controlcenter.barzahlen.de). After a successful registration a division ID is assigned to you as well as a payment key.
+The API credentials, which are necessary to use the Barzahlen API, can be received at [Barzahlen Control Center](https://controlcenter.viacash.com). After a successful registration a division ID is assigned to you as well as a payment key.
 
 ### Installation
 The Barzahlen PHP SDK can be installed using Composer.
@@ -121,7 +121,7 @@ $request->setTransaction('-14.95', 'EUR');
 ```
 
 #### More parameters
-You may set more parameters according to the [Barzahlen API v2 Documentation](https://docs.barzahlen.de/api/v2/).
+You may set more parameters according to the [Barzahlen API v2 Documentation](https://docs.viafintech.com/api/v2/).
 
 ```php
 $request->setReferenceKey('REFKEY123');
@@ -263,7 +263,7 @@ Representation of current slip status. (Content depends on sent parameters.)
 ```
 
 ### UpdateRequest
-To change slip parameters afterwards initiate a new UpdateRequest using the slip id. Use setters, an array or a json string to set your new or updated parameter(s). Only pending slips can be updated. For more information please read the [Barzahlen API v2 Documentation](https://docs.barzahlen.de/api/v2/).
+To change slip parameters afterwards initiate a new UpdateRequest using the slip id. Use setters, an array or a json string to set your new or updated parameter(s). Only pending slips can be updated. For more information please read the [Barzahlen API v2 Documentation](https://docs.viafintech.com/api/v2/).
 
 ```php
 use Barzahlen\Request\UpdateRequest;
@@ -338,4 +338,4 @@ if ($webhook->verify($header, $body)) {
 ## Support
 The Barzahlen Team will happily assist you with any problems or questions.
 
-Send us an email to support@barzahlen.de or use the contact form at https://integration.barzahlen.de/en/support.
+Send us an email to support@viafintech.com or use the contact form at https://integration.barzahlen.de/en/support.

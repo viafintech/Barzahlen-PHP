@@ -4,10 +4,10 @@
     "license": "MIT",
     "type": "library",
     "keywords": ["payment", "Barzahlen", "viafintech"],
-    "homepage": "https://www.barzahlen.de",
+    "homepage": "https://www.viafintech.com",
     "support": {
-        "email": "support@barzahlen.de",
-        "issues": "https://github.com/Barzahlen/Barzahlen-PHP/issues"
+        "email": "support@viafintech.com",
+        "issues": "https://github.com/viafintech/Barzahlen-PHP/issues"
     },
     "authors": [
         {

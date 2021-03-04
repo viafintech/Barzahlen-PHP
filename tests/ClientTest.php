@@ -43,7 +43,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $request->setTransaction('24.95', 'EUR');
 
         $header = $this->client->buildHeader($request);
-        $this->assertEquals('Host: api.barzahlen.de', $header[0]);
+        $this->assertEquals('Host: api.viafintech.com', $header[0]);
         $this->assertContains('Date: ', $header[1]);
         $this->assertEquals('User-Agent: '.$this->userAgent, $header[2]);
         $this->assertRegExp('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
@@ -56,7 +56,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $client = new Client(DIVISIONID, PAYMENTKEY, true);
 
         $header = $client->buildHeader($request);
-        $this->assertEquals('Host: api-sandbox.barzahlen.de', $header[0]);
+        $this->assertEquals('Host: api-sandbox.viafintech.com', $header[0]);
         $this->assertContains('Date: ', $header[1]);
         $this->assertEquals('User-Agent: '.$this->userAgent, $header[2]);
         $this->assertRegExp('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
