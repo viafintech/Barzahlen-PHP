@@ -7,9 +7,9 @@ use Barzahlen\Exception as Exception;
 
 class Client
 {
-    const API_URL = 'https://api.barzahlen.de:443/v2';
+    const API_URL = 'https://api.viafintech.com:443/v2';
 
-    const API_SANDBOX_URL = 'https://api-sandbox.barzahlen.de:443/v2';
+    const API_SANDBOX_URL = 'https://api-sandbox.viafintech.com:443/v2';
 
     /**
      * @var string
@@ -80,14 +80,14 @@ class Client
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-        
+
         if($bHeader) {
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_HEADER, 1);
         }
 
         $response = curl_exec($curl);
-        
+
         if($bRaw) {
             return $response;
         }
