@@ -24,7 +24,7 @@ class Middleware
             $query,
             $date,
             $idempotency,
-            hash('sha256', $body)
+            hash('sha256', ($body == null) ? "" : $body)
         );
         $signatureString = implode("\n", $signatureData);
 
