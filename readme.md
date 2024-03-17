@@ -1,11 +1,10 @@
-# Barzahlen Payment Module PHP SDK (v2.1.2)
+# viacash/Barzahlen Payment Module PHP SDK (v2.2.0)
 
-[![Build Status](https://travis-ci.org/Barzahlen/Barzahlen-PHP.svg?branch=master)](https://travis-ci.org/Barzahlen/Barzahlen-PHP)
 [![Total Downloads](https://poser.pugx.org/barzahlen/barzahlen-php/downloads)](https://packagist.org/packages/barzahlen/barzahlen-php)
 [![License](https://poser.pugx.org/barzahlen/barzahlen-php/license)](https://packagist.org/packages/barzahlen/barzahlen-php)
 
 ## Copyright
-(c) 2016-2021, viafintech GmbH  
+(c) 2016-2024, viafintech GmbH  
 https://www.viafintech.com
 
 ## Preparation
@@ -336,6 +335,6 @@ if ($webhook->verify($header, $body)) {
 ```
 
 ## Support
-The Barzahlen Team will happily assist you with any problems or questions.
+The viacash Team will happily assist you with any problems or questions.
 
-Send us an email to support@viafintech.com or use the contact form at https://integration.barzahlen.de/en/support.
+Send us an email to support@viafintech.com or check out our Solutions center at https://www.viafintech.com/overview-solutions/.
