@@ -16,7 +16,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     /**
      * @var string
      */
-    private $userAgent = 'PHP SDK v2.1.2';
+    private $userAgent = 'PHP SDK v2.2.0';
 
     public function setUp()
     {
@@ -30,9 +30,9 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 
     public function testSetUserAgent()
     {
-        $this->client->setUserAgent('Shopsystem v2.1.2');
+        $this->client->setUserAgent('Shopsystem v2.2.0');
 
-        $this->assertAttributeEquals('Shopsystem v2.1.2', 'userAgent', $this->client);
+        $this->assertAttributeEquals('Shopsystem v2.2.0', 'userAgent', $this->client);
     }
 
     public function testBuildHeaderWithIdempotency()
