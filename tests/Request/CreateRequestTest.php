@@ -12,7 +12,7 @@ class CreateRequestTest extends \PHPUnit\Framework\TestCase
     private $request;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new CreateRequest();
     }

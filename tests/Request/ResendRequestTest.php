@@ -17,7 +17,7 @@ class ResendRequestTest extends \PHPUnit\Framework\TestCase
     private $requestTextMessage;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->requestEmail = new ResendRequest('slp-d90ab05c-69f2-4e87-9972-97b3275a0ccd', 'email');
         $this->requestTextMessage = new ResendRequest('slp-d90ab05c-69f2-4e87-9972-97b3275a0ccd', 'text_message');

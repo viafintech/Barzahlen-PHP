@@ -6,6 +6,8 @@ use Barzahlen\Client;
 use Barzahlen\Request\CreateRequest;
 use Barzahlen\Request\InvalidateRequest;
 
+use ReflectionClass;
+
 class ClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -18,21 +20,31 @@ class ClientTest extends \PHPUnit\Framework\TestCase
      */
     private $userAgent = 'PHP SDK v2.2.0';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = new Client(DIVISIONID, PAYMENTKEY);
     }
 
     public function testDefaultUserAgent()
     {
-        $this->assertAttributeEquals($this->userAgent, 'userAgent', $this->client);
+        $reflection = new ReflectionClass($this->client);
+        $property = $reflection->getProperty('userAgent');
+        $property->setAccessible(true);
+        $actualUserAgent = $property->getValue($this->client);
+
+        $this->assertEquals($this->userAgent, $actualUserAgent);
     }
 
     public function testSetUserAgent()
     {
         $this->client->setUserAgent('Shopsystem v2.2.0');
 
-        $this->assertAttributeEquals('Shopsystem v2.2.0', 'userAgent', $this->client);
+        $reflection = new ReflectionClass($this->client);
+        $property = $reflection->getProperty('userAgent');
+        $property->setAccessible(true);
+        $actualUserAgent = $property->getValue($this->client);
+
+        $this->assertEquals('Shopsystem v2.2.0', $actualUserAgent);
     }
 
     public function testBuildHeaderWithIdempotency()
@@ -44,10 +56,10 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 
         $header = $this->client->buildHeader($request);
         $this->assertEquals('Host: api.viafintech.com', $header[0]);
-        $this->assertContains('Date: ', $header[1]);
+        $this->assertStringContainsString('Date: ', $header[1]);
         $this->assertEquals('User-Agent: '.$this->userAgent, $header[2]);
-        $this->assertRegExp('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
-        $this->assertRegExp('/^Idempotency-Key: [a-f0-9]{32}$/', $header[4]);
+        $this->assertMatchesRegularExpression('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
+        $this->assertMatchesRegularExpression('/^Idempotency-Key: [a-f0-9]{32}$/', $header[4]);
     }
 
     public function testBuildHeaderWithoutIdempotencyForSandbox()
@@ -57,9 +69,9 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 
         $header = $client->buildHeader($request);
         $this->assertEquals('Host: api-sandbox.viafintech.com', $header[0]);
-        $this->assertContains('Date: ', $header[1]);
+        $this->assertStringContainsString('Date: ', $header[1]);
         $this->assertEquals('User-Agent: '.$this->userAgent, $header[2]);
-        $this->assertRegExp('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
+        $this->assertMatchesRegularExpression('/^Authorization: BZ1-HMAC-SHA256 DivisionId=12345, Signature=[a-f0-9]{64}$/', $header[3]);
         $this->assertArrayNotHasKey(4, $header);
     }
 
@@ -69,92 +81,92 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->client->checkResponse($response, 'application/json;charset=utf-8'));
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\AuthException
-     */
     public function testAuthError()
     {
+        $this->expectException(\Barzahlen\Exception\AuthException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"auth","error_code":"invalid_signature","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\IdempotencyException
-     */
     public function testIdempotencyError()
     {
+        $this->expectException(\Barzahlen\Exception\IdempotencyException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"idempotency","error_code":"use_idempotency_key_twice","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\InvalidFormatException
-     */
     public function testInvalidFormatError()
     {
+        $this->expectException(\Barzahlen\Exception\InvalidFormatException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"invalid_format","error_code":"bad_json_format","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\InvalidParameterException
-     */
     public function testInvalidParameterError()
     {
+        $this->expectException(\Barzahlen\Exception\InvalidParameterException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"invalid_parameter","error_code":"invalid_slip_type","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\InvalidStateException
-     */
     public function testInvalidStateError()
     {
+        $this->expectException(\Barzahlen\Exception\InvalidStateException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"invalid_state","error_code":"invalid_slip_state","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\NotAllowedException
-     */
     public function testNotAllowedError()
     {
+        $this->expectException(\Barzahlen\Exception\NotAllowedException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"not_allowed","error_code":"method_not_allowed","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\RateLimitException
-     */
     public function testRateLimitError()
     {
+        $this->expectException(\Barzahlen\Exception\RateLimitException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"rate_limit","error_code":"rate_limit_exceeded","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\ServerException
-     */
     public function testServerError()
     {
+        $this->expectException(\Barzahlen\Exception\ServerException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"server_error","error_code":"internal_server_error","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\TransportException
-     */
     public function testTransportError()
     {
+        $this->expectException(\Barzahlen\Exception\TransportException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"transport","error_code":"invalid_host_header","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
 
-    /**
-     * @expectedException \Barzahlen\Exception\ApiException
-     */
     public function testUnknownError()
     {
+        $this->expectException(\Barzahlen\Exception\ApiException::class);
+        $this->expectExceptionMessage("error message");
+
         $response = '{"error_class":"unknown","error_code":"unknown_error","message":"error message","request_id":"r3qu3s71d"}';
         $this->client->checkResponse($response, 'application/json;charset=utf-8');
     }
