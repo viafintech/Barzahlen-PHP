@@ -8,8 +8,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: php-actions/composer@v6 # or alternative dependency management
-    - uses: php-actions/phpunit@v3
-      with:
-        configuration: "phpunit.xml.dist"
-        memory_limit: "256M"
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run tests
+      run: ./vendor/bin/phpunit
