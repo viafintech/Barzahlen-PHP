@@ -22,7 +22,7 @@ class WebhookTest extends \PHPUnit\Framework\TestCase
     private $body;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->webhook = new Webhook(PAYMENTKEY);
 

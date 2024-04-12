@@ -12,7 +12,7 @@ class UpdateRequestTest extends \PHPUnit\Framework\TestCase
     private $request;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new UpdateRequest('slp-d90ab05c-69f2-4e87-9972-97b3275a0ccd');
     }

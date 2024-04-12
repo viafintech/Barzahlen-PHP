@@ -9,7 +9,7 @@ class AutocorrectTest extends \PHPUnit\Framework\TestCase
 {
     private $_oObject;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_oObject = new Autocorrect();
     }
