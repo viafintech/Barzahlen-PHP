@@ -10,7 +10,7 @@ https://www.viafintech.com
 ## Preparation
 
 ### API Credentials
-The API credentials, which are necessary to use the Barzahlen API, can be received at [Barzahlen Control Center](https://controlcenter.viacash.com). After a successful registration a division ID is assigned to you as well as a payment key.
+The API credentials, which are necessary to use the Barzahlen API, can be received at [viafintech App](https://app.viafintech.com). After a successful registration a division ID is assigned to you as well as a payment key.
 
 ### Installation
 The Barzahlen PHP SDK can be installed using Composer.
